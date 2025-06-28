@@ -1,0 +1,913 @@
+2025-06-28 07:00:04,534 - database.connection - INFO - Creating database engine with URL: localhost:5432/flowdo_dev
+2025-06-28 07:00:34,336 - database.connection - INFO - Creating database engine with URL: localhost:5432/flowdo_dev
+2025-06-28 07:00:34,398 - __main__ - INFO - Running Alembic command: alembic revision --autogenerate -m Initial migration
+2025-06-28 07:00:34,765 - __main__ - ERROR - Alembic command failed: Command '['alembic', 'revision', '--autogenerate', '-m', 'Initial migration']' returned non-zero exit status 1.
+2025-06-28 07:00:35,081 - database.connection - INFO - Creating database engine with URL: localhost:5432/flowdo_dev
+2025-06-28 07:00:35,137 - __main__ - INFO - Running Alembic command: alembic upgrade head
+2025-06-28 07:00:35,426 - __main__ - ERROR - Alembic command failed: Command '['alembic', 'upgrade', 'head']' returned non-zero exit status 1.
+2025-06-28 07:03:23,222 - database.connection - INFO - Creating database engine with URL: localhost:5432/flowdo_dev
+2025-06-28 07:03:23,298 - __main__ - INFO - Running Alembic command: alembic revision --autogenerate -m Initial migration
+2025-06-28 07:03:23,640 - database.connection - INFO - Creating database engine with URL: localhost:5432/flowdo_dev
+2025-06-28 07:03:23,772 - __main__ - ERROR - Alembic command failed: Command '['alembic', 'revision', '--autogenerate', '-m', 'Initial migration']' returned non-zero exit status 1.
+2025-06-28 07:04:43,741 - database.connection - INFO - Creating database engine with URL: localhost:5432/flowdo_dev
+2025-06-28 07:04:43,799 - __main__ - INFO - Running Alembic command: alembic revision --autogenerate -m Initial migration
+2025-06-28 07:04:44,114 - database.connection - INFO - Creating database engine with URL: localhost:5432/flowdo_dev
+2025-06-28 07:04:44,257 - __main__ - ERROR - Alembic command failed: Command '['alembic', 'revision', '--autogenerate', '-m', 'Initial migration']' returned non-zero exit status 1.
+2025-06-28 07:05:18,075 - database.connection - INFO - Creating database engine with URL: localhost:5432/flowdo_dev
+2025-06-28 07:05:18,131 - __main__ - INFO - Running Alembic command: alembic revision --autogenerate -m Initial migration
+2025-06-28 07:05:18,428 - database.connection - INFO - Creating database engine with URL: localhost:5432/flowdo_dev
+2025-06-28 07:05:18,608 - __main__ - ERROR - Alembic command failed: Command '['alembic', 'revision', '--autogenerate', '-m', 'Initial migration']' returned non-zero exit status 1.
+2025-06-28 07:06:13,634 - database.connection - INFO - Creating database engine with URL: localhost:5432/flowdo_dev
+2025-06-28 07:06:13,694 - __main__ - INFO - Running Alembic command: alembic revision --autogenerate -m Initial migration
+2025-06-28 07:06:14,000 - database.connection - INFO - Creating database engine with URL: localhost:5432/flowdo_dev
+2025-06-28 07:06:14,599 - __main__ - INFO - Alembic command completed successfully
+2025-06-28 07:06:25,836 - database.connection - INFO - Creating database engine with URL: localhost:5432/flowdo_dev
+2025-06-28 07:06:25,892 - __main__ - INFO - Running Alembic command: alembic upgrade head
+2025-06-28 07:06:26,228 - database.connection - INFO - Creating database engine with URL: localhost:5432/flowdo_dev
+2025-06-28 07:06:26,440 - __main__ - INFO - Alembic command completed successfully
+2025-06-28 07:06:50,795 - database.connection - INFO - Creating database engine with URL: localhost:5432/flowdo_dev
+2025-06-28 07:06:50,827 - app - INFO - Creating Flask application...
+2025-06-28 07:06:50,829 - app - INFO - Initializing database...
+2025-06-28 07:06:50,842 - database.init_db - INFO - Running Alembic command: alembic upgrade head
+2025-06-28 07:06:51,157 - database.connection - INFO - Creating database engine with URL: localhost:5432/flowdo_dev
+2025-06-28 07:06:51,299 - database.init_db - INFO - Alembic command completed successfully
+2025-06-28 07:06:51,299 - database.init_db - INFO - Database migrations applied successfully
+2025-06-28 07:06:51,299 - app - INFO - Database initialization successful
+2025-06-28 07:06:51,674 - database.connection - INFO - Creating database engine with URL: localhost:5432/flowdo_db
+2025-06-28 07:06:51,703 - app - INFO - Creating Flask application...
+2025-06-28 07:06:51,706 - app - INFO - Initializing database...
+2025-06-28 07:06:51,716 - database.init_db - INFO - Running Alembic command: alembic upgrade head
+2025-06-28 07:06:52,020 - database.connection - INFO - Creating database engine with URL: localhost:5432/flowdo_db
+2025-06-28 07:06:52,185 - database.init_db - ERROR - Alembic command failed: Command '['alembic', 'upgrade', 'head']' returned non-zero exit status 1.
+2025-06-28 07:06:52,185 - database.init_db - ERROR - Failed to apply database migrations: Command '['alembic', 'upgrade', 'head']' returned non-zero exit status 1.
+2025-06-28 07:06:52,186 - app - ERROR - Database initialization failed: Command '['alembic', 'upgrade', 'head']' returned non-zero exit status 1.
+2025-06-28 07:14:05,622 - database.connection - INFO - Creating database engine with URL: localhost:5432/flowdo_dev
+2025-06-28 07:14:05,637 - app - INFO - Creating Flask application...
+2025-06-28 07:14:05,640 - app - INFO - Initializing database...
+2025-06-28 07:14:05,656 - database.init_db - INFO - Running Alembic command: alembic upgrade head
+2025-06-28 07:14:06,005 - database.connection - INFO - Creating database engine with URL: localhost:5432/flowdo_dev
+2025-06-28 07:14:06,115 - database.init_db - INFO - Alembic command completed successfully
+2025-06-28 07:14:06,115 - database.init_db - INFO - Database migrations applied successfully
+2025-06-28 07:14:06,115 - app - INFO - Database initialization successful
+2025-06-28 07:14:06,520 - database.connection - INFO - Creating database engine with URL: localhost:5432/flowdo_db
+2025-06-28 07:14:06,532 - app - INFO - Creating Flask application...
+2025-06-28 07:14:06,535 - app - INFO - Initializing database...
+2025-06-28 07:14:06,546 - database.init_db - INFO - Running Alembic command: alembic upgrade head
+2025-06-28 07:14:06,874 - database.connection - INFO - Creating database engine with URL: localhost:5432/flowdo_db
+2025-06-28 07:14:06,980 - database.init_db - ERROR - Alembic command failed: Command '['alembic', 'upgrade', 'head']' returned non-zero exit status 1.
+2025-06-28 07:14:06,980 - database.init_db - ERROR - Failed to apply database migrations: Command '['alembic', 'upgrade', 'head']' returned non-zero exit status 1.
+2025-06-28 07:14:06,980 - app - ERROR - Database initialization failed: Command '['alembic', 'upgrade', 'head']' returned non-zero exit status 1.
+2025-06-28 07:15:57,717 - database.connection - INFO - Creating database engine with URL: localhost:5432/flowdo_db
+2025-06-28 07:15:57,729 - app - INFO - Creating Flask application...
+2025-06-28 07:15:57,731 - app - INFO - Initializing database...
+2025-06-28 07:15:57,744 - database.init_db - INFO - Running Alembic command: alembic upgrade head
+2025-06-28 07:15:58,089 - database.connection - INFO - Creating database engine with URL: localhost:5432/flowdo_db
+2025-06-28 07:15:58,212 - database.init_db - ERROR - Alembic command failed: Command '['alembic', 'upgrade', 'head']' returned non-zero exit status 1.
+2025-06-28 07:15:58,212 - database.init_db - ERROR - Failed to apply database migrations: Command '['alembic', 'upgrade', 'head']' returned non-zero exit status 1.
+2025-06-28 07:15:58,212 - app - ERROR - Database initialization failed: Command '['alembic', 'upgrade', 'head']' returned non-zero exit status 1.
+2025-06-28 07:15:58,610 - database.connection - INFO - Creating database engine with URL: localhost:5432/flowdo_db
+2025-06-28 07:15:58,621 - app - INFO - Creating Flask application...
+2025-06-28 07:15:58,624 - app - INFO - Initializing database...
+2025-06-28 07:15:58,636 - database.init_db - INFO - Running Alembic command: alembic upgrade head
+2025-06-28 07:15:58,965 - database.connection - INFO - Creating database engine with URL: localhost:5432/flowdo_db
+2025-06-28 07:15:59,071 - database.init_db - ERROR - Alembic command failed: Command '['alembic', 'upgrade', 'head']' returned non-zero exit status 1.
+2025-06-28 07:15:59,071 - database.init_db - ERROR - Failed to apply database migrations: Command '['alembic', 'upgrade', 'head']' returned non-zero exit status 1.
+2025-06-28 07:15:59,071 - app - ERROR - Database initialization failed: Command '['alembic', 'upgrade', 'head']' returned non-zero exit status 1.
+2025-06-28 07:17:12,439 - database.connection - INFO - Creating database engine with URL: localhost:5432/flowdo_db
+2025-06-28 07:17:12,452 - app - INFO - Creating Flask application...
+2025-06-28 07:17:12,454 - app - INFO - Initializing database...
+2025-06-28 07:17:12,466 - database.init_db - INFO - Running Alembic command: alembic upgrade head
+2025-06-28 07:17:12,814 - database.connection - INFO - Creating database engine with URL: localhost:5432/flowdo_db
+2025-06-28 07:17:12,944 - database.init_db - ERROR - Alembic command failed: Command '['alembic', 'upgrade', 'head']' returned non-zero exit status 1.
+2025-06-28 07:17:12,944 - database.init_db - WARNING - Database migrations had issues but were ignored
+2025-06-28 07:17:12,950 - database.init_db - INFO - Database tables already exist, continuing...
+2025-06-28 07:17:12,950 - app - INFO - Database initialization successful
+2025-06-28 07:17:13,352 - database.connection - INFO - Creating database engine with URL: localhost:5432/flowdo_db
+2025-06-28 07:17:13,364 - app - INFO - Creating Flask application...
+2025-06-28 07:17:13,367 - app - INFO - Initializing database...
+2025-06-28 07:17:13,379 - database.init_db - INFO - Running Alembic command: alembic upgrade head
+2025-06-28 07:17:13,705 - database.connection - INFO - Creating database engine with URL: localhost:5432/flowdo_db
+2025-06-28 07:17:13,824 - database.init_db - ERROR - Alembic command failed: Command '['alembic', 'upgrade', 'head']' returned non-zero exit status 1.
+2025-06-28 07:17:13,824 - database.init_db - WARNING - Database migrations had issues but were ignored
+2025-06-28 07:17:13,829 - database.init_db - INFO - Database tables already exist, continuing...
+2025-06-28 07:17:13,829 - app - INFO - Database initialization successful
+2025-06-28 07:18:07,688 - database.connection - INFO - Creating database engine with URL: localhost:5432/flowdo_db
+2025-06-28 07:18:07,698 - app - INFO - Creating Flask application...
+2025-06-28 07:18:07,700 - app - INFO - Initializing database...
+2025-06-28 07:18:07,714 - database.init_db - INFO - Running Alembic command: alembic upgrade head
+2025-06-28 07:18:07,996 - database.connection - INFO - Creating database engine with URL: localhost:5432/flowdo_db
+2025-06-28 07:18:08,124 - database.init_db - ERROR - Alembic command failed: Command '['alembic', 'upgrade', 'head']' returned non-zero exit status 1.
+2025-06-28 07:18:08,124 - database.init_db - WARNING - Database migrations had issues but were ignored
+2025-06-28 07:18:08,128 - database.init_db - INFO - Database tables already exist, continuing...
+2025-06-28 07:18:08,128 - app - INFO - Database initialization successful
+2025-06-28 07:18:08,501 - database.connection - INFO - Creating database engine with URL: localhost:5432/flowdo_db
+2025-06-28 07:18:08,513 - app - INFO - Creating Flask application...
+2025-06-28 07:18:08,515 - app - INFO - Initializing database...
+2025-06-28 07:18:08,526 - database.init_db - INFO - Running Alembic command: alembic upgrade head
+2025-06-28 07:18:08,832 - database.connection - INFO - Creating database engine with URL: localhost:5432/flowdo_db
+2025-06-28 07:18:08,929 - database.init_db - ERROR - Alembic command failed: Command '['alembic', 'upgrade', 'head']' returned non-zero exit status 1.
+2025-06-28 07:18:08,930 - database.init_db - WARNING - Database migrations had issues but were ignored
+2025-06-28 07:18:08,934 - database.init_db - INFO - Database tables already exist, continuing...
+2025-06-28 07:18:08,934 - app - INFO - Database initialization successful
+2025-06-28 07:24:38,470 - database.connection - INFO - Creating database engine with URL: localhost:5432/flowdo_db
+2025-06-28 07:25:04,003 - database.connection - INFO - Creating database engine with URL: localhost:5432/flowdo_db
+2025-06-28 07:34:26 - database.db - INFO - Creating database engine with URL: localhost:5432/flowdo_db
+2025-06-28 07:34:26 - app - INFO - Creating Flask application...
+2025-06-28 07:34:26 - app.routers - INFO - All blueprints registered successfully
+2025-06-28 07:34:26 - app - INFO - Initializing database...
+2025-06-28 07:34:26 - sqlalchemy.engine.Engine - INFO - select pg_catalog.version()
+2025-06-28 07:34:26 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-06-28 07:34:26 - sqlalchemy.engine.Engine - INFO - select current_schema()
+2025-06-28 07:34:26 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-06-28 07:34:26 - sqlalchemy.engine.Engine - INFO - show standard_conforming_strings
+2025-06-28 07:34:26 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-06-28 07:34:26 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-06-28 07:34:26 - sqlalchemy.engine.Engine - INFO - SELECT 1
+2025-06-28 07:34:26 - sqlalchemy.engine.Engine - INFO - [generated in 0.00018s] {}
+2025-06-28 07:34:26 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-06-28 07:34:26 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-06-28 07:34:26 - sqlalchemy.engine.Engine - INFO - SELECT pg_catalog.pg_class.relname 
+FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
+WHERE pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s]) AND pg_catalog.pg_class.relpersistence != %(relpersistence_1)s AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
+2025-06-28 07:34:26 - sqlalchemy.engine.Engine - INFO - [generated in 0.00030s] {'param_1': 'r', 'param_2': 'p', 'relpersistence_1': 't', 'nspname_1': 'pg_catalog'}
+2025-06-28 07:34:26 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-06-28 07:34:26 - app - INFO - Database initialization successful
+2025-06-28 07:34:26 - __main__ - INFO - Starting Flask application on 0.0.0.0:5000
+2025-06-28 07:34:26 - __main__ - INFO - Environment: development
+2025-06-28 07:34:26 - __main__ - INFO - Debug mode: True
+2025-06-28 07:34:26 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.36:5000
+2025-06-28 07:34:26 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-06-28 07:34:26 - werkzeug - INFO -  * Restarting with stat
+2025-06-28 07:34:26 - database.db - INFO - Creating database engine with URL: localhost:5432/flowdo_db
+2025-06-28 07:34:26 - app - INFO - Creating Flask application...
+2025-06-28 07:34:26 - app.routers - INFO - All blueprints registered successfully
+2025-06-28 07:34:26 - app - INFO - Initializing database...
+2025-06-28 07:34:27 - sqlalchemy.engine.Engine - INFO - select pg_catalog.version()
+2025-06-28 07:34:27 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-06-28 07:34:27 - sqlalchemy.engine.Engine - INFO - select current_schema()
+2025-06-28 07:34:27 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-06-28 07:34:27 - sqlalchemy.engine.Engine - INFO - show standard_conforming_strings
+2025-06-28 07:34:27 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-06-28 07:34:27 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-06-28 07:34:27 - sqlalchemy.engine.Engine - INFO - SELECT 1
+2025-06-28 07:34:27 - sqlalchemy.engine.Engine - INFO - [generated in 0.00016s] {}
+2025-06-28 07:34:27 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-06-28 07:34:27 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-06-28 07:34:27 - sqlalchemy.engine.Engine - INFO - SELECT pg_catalog.pg_class.relname 
+FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
+WHERE pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s]) AND pg_catalog.pg_class.relpersistence != %(relpersistence_1)s AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
+2025-06-28 07:34:27 - sqlalchemy.engine.Engine - INFO - [generated in 0.00023s] {'param_1': 'r', 'param_2': 'p', 'relpersistence_1': 't', 'nspname_1': 'pg_catalog'}
+2025-06-28 07:34:27 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-06-28 07:34:27 - app - INFO - Database initialization successful
+2025-06-28 07:34:27 - __main__ - INFO - Starting Flask application on 0.0.0.0:5000
+2025-06-28 07:34:27 - __main__ - INFO - Environment: development
+2025-06-28 07:34:27 - __main__ - INFO - Debug mode: True
+2025-06-28 07:34:27 - werkzeug - WARNING -  * Debugger is active!
+2025-06-28 07:34:27 - werkzeug - INFO -  * Debugger PIN: 665-651-952
+2025-06-28 07:46:13 - database.db - INFO - Creating database engine with URL: localhost:5432/flowdo_dev
+2025-06-28 07:46:13 - __main__ - INFO - Starting database setup
+2025-06-28 07:46:13 - __main__ - INFO - PostgreSQL version: psql (PostgreSQL) 16.8
+2025-06-28 07:46:13 - __main__ - INFO - Database 'flowdo_dev' already exists
+2025-06-28 07:46:13 - sqlalchemy.engine.Engine - INFO - select pg_catalog.version()
+2025-06-28 07:46:13 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-06-28 07:46:13 - sqlalchemy.engine.Engine - INFO - select current_schema()
+2025-06-28 07:46:13 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-06-28 07:46:13 - sqlalchemy.engine.Engine - INFO - show standard_conforming_strings
+2025-06-28 07:46:13 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-06-28 07:46:13 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-06-28 07:46:13 - sqlalchemy.engine.Engine - INFO - SELECT 1
+2025-06-28 07:46:13 - sqlalchemy.engine.Engine - INFO - [generated in 0.00028s] {}
+2025-06-28 07:46:13 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-06-28 07:46:13 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-06-28 07:46:13 - sqlalchemy.engine.Engine - INFO - SELECT pg_catalog.pg_class.relname 
+FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
+WHERE pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s]) AND pg_catalog.pg_class.relpersistence != %(relpersistence_1)s AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
+2025-06-28 07:46:13 - sqlalchemy.engine.Engine - INFO - [generated in 0.00049s] {'param_1': 'r', 'param_2': 'p', 'relpersistence_1': 't', 'nspname_1': 'pg_catalog'}
+2025-06-28 07:46:13 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-06-28 07:46:14 - __main__ - INFO - Migrations completed successfully
+2025-06-28 07:46:14 - __main__ - INFO - Warning: Failed to check/create alembic_version table: 'Engine' object has no attribute '_operation_context'
+
+2025-06-28 07:46:14 - __main__ - INFO - Database setup completed successfully
+2025-06-28 07:46:30 - database.db - INFO - Creating database engine with URL: localhost:5432/flowdo_dev
+2025-06-28 07:46:30 - app - INFO - Creating Flask application...
+2025-06-28 07:46:30 - app.routers - INFO - All blueprints registered successfully
+2025-06-28 07:46:30 - app - INFO - Initializing database...
+2025-06-28 07:46:30 - sqlalchemy.engine.Engine - INFO - select pg_catalog.version()
+2025-06-28 07:46:30 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-06-28 07:46:30 - sqlalchemy.engine.Engine - INFO - select current_schema()
+2025-06-28 07:46:30 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-06-28 07:46:30 - sqlalchemy.engine.Engine - INFO - show standard_conforming_strings
+2025-06-28 07:46:30 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-06-28 07:46:30 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-06-28 07:46:30 - sqlalchemy.engine.Engine - INFO - SELECT 1
+2025-06-28 07:46:30 - sqlalchemy.engine.Engine - INFO - [generated in 0.00022s] {}
+2025-06-28 07:46:30 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-06-28 07:46:30 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-06-28 07:46:30 - sqlalchemy.engine.Engine - INFO - SELECT pg_catalog.pg_class.relname 
+FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
+WHERE pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s]) AND pg_catalog.pg_class.relpersistence != %(relpersistence_1)s AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
+2025-06-28 07:46:30 - sqlalchemy.engine.Engine - INFO - [generated in 0.00036s] {'param_1': 'r', 'param_2': 'p', 'relpersistence_1': 't', 'nspname_1': 'pg_catalog'}
+2025-06-28 07:46:30 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-06-28 07:46:30 - app - INFO - Database initialization successful
+2025-06-28 07:46:30 - __main__ - INFO - Starting Flask application on 0.0.0.0:5000
+2025-06-28 07:46:30 - __main__ - INFO - Environment: development
+2025-06-28 07:46:30 - __main__ - INFO - Debug mode: True
+2025-06-28 07:46:30 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.36:5000
+2025-06-28 07:46:30 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-06-28 07:46:30 - werkzeug - INFO -  * Restarting with stat
+2025-06-28 07:46:30 - database.db - INFO - Creating database engine with URL: localhost:5432/flowdo_dev
+2025-06-28 07:46:30 - app - INFO - Creating Flask application...
+2025-06-28 07:46:30 - app.routers - INFO - All blueprints registered successfully
+2025-06-28 07:46:30 - app - INFO - Initializing database...
+2025-06-28 07:46:30 - sqlalchemy.engine.Engine - INFO - select pg_catalog.version()
+2025-06-28 07:46:30 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-06-28 07:46:30 - sqlalchemy.engine.Engine - INFO - select current_schema()
+2025-06-28 07:46:30 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-06-28 07:46:30 - sqlalchemy.engine.Engine - INFO - show standard_conforming_strings
+2025-06-28 07:46:30 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-06-28 07:46:30 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-06-28 07:46:30 - sqlalchemy.engine.Engine - INFO - SELECT 1
+2025-06-28 07:46:30 - sqlalchemy.engine.Engine - INFO - [generated in 0.00021s] {}
+2025-06-28 07:46:30 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-06-28 07:46:30 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-06-28 07:46:30 - sqlalchemy.engine.Engine - INFO - SELECT pg_catalog.pg_class.relname 
+FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
+WHERE pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s]) AND pg_catalog.pg_class.relpersistence != %(relpersistence_1)s AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
+2025-06-28 07:46:30 - sqlalchemy.engine.Engine - INFO - [generated in 0.00030s] {'param_1': 'r', 'param_2': 'p', 'relpersistence_1': 't', 'nspname_1': 'pg_catalog'}
+2025-06-28 07:46:30 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-06-28 07:46:30 - app - INFO - Database initialization successful
+2025-06-28 07:46:30 - __main__ - INFO - Starting Flask application on 0.0.0.0:5000
+2025-06-28 07:46:30 - __main__ - INFO - Environment: development
+2025-06-28 07:46:30 - __main__ - INFO - Debug mode: True
+2025-06-28 07:46:30 - werkzeug - WARNING -  * Debugger is active!
+2025-06-28 07:46:30 - werkzeug - INFO -  * Debugger PIN: 665-651-952
+2025-06-28 07:50:39 - database.db - INFO - Creating database engine with URL: localhost:5432/flowdo_dev
+2025-06-28 07:50:39 - app - INFO - Creating Flask application...
+2025-06-28 07:50:39 - app.routers - INFO - All blueprints registered successfully
+2025-06-28 07:50:39 - app - INFO - Initializing database...
+2025-06-28 07:50:39 - sqlalchemy.engine.Engine - INFO - select pg_catalog.version()
+2025-06-28 07:50:39 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-06-28 07:50:39 - sqlalchemy.engine.Engine - INFO - select current_schema()
+2025-06-28 07:50:39 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-06-28 07:50:39 - sqlalchemy.engine.Engine - INFO - show standard_conforming_strings
+2025-06-28 07:50:39 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-06-28 07:50:39 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-06-28 07:50:39 - sqlalchemy.engine.Engine - INFO - SELECT 1
+2025-06-28 07:50:39 - sqlalchemy.engine.Engine - INFO - [generated in 0.00027s] {}
+2025-06-28 07:50:39 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-06-28 07:50:39 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-06-28 07:50:39 - sqlalchemy.engine.Engine - INFO - SELECT pg_catalog.pg_class.relname 
+FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
+WHERE pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s]) AND pg_catalog.pg_class.relpersistence != %(relpersistence_1)s AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
+2025-06-28 07:50:39 - sqlalchemy.engine.Engine - INFO - [generated in 0.00045s] {'param_1': 'r', 'param_2': 'p', 'relpersistence_1': 't', 'nspname_1': 'pg_catalog'}
+2025-06-28 07:50:39 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-06-28 07:50:39 - app - INFO - Database initialization successful
+2025-06-28 07:50:39 - __main__ - INFO - Starting Flask application on 0.0.0.0:5000
+2025-06-28 07:50:39 - __main__ - INFO - Environment: development
+2025-06-28 07:50:39 - __main__ - INFO - Debug mode: True
+2025-06-28 07:50:39 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.36:5000
+2025-06-28 07:50:39 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-06-28 07:50:39 - werkzeug - INFO -  * Restarting with stat
+2025-06-28 07:50:39 - database.db - INFO - Creating database engine with URL: localhost:5432/flowdo_dev
+2025-06-28 07:50:39 - app - INFO - Creating Flask application...
+2025-06-28 07:50:39 - app.routers - INFO - All blueprints registered successfully
+2025-06-28 07:50:39 - app - INFO - Initializing database...
+2025-06-28 07:50:39 - sqlalchemy.engine.Engine - INFO - select pg_catalog.version()
+2025-06-28 07:50:39 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-06-28 07:50:39 - sqlalchemy.engine.Engine - INFO - select current_schema()
+2025-06-28 07:50:39 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-06-28 07:50:39 - sqlalchemy.engine.Engine - INFO - show standard_conforming_strings
+2025-06-28 07:50:39 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-06-28 07:50:39 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-06-28 07:50:39 - sqlalchemy.engine.Engine - INFO - SELECT 1
+2025-06-28 07:50:39 - sqlalchemy.engine.Engine - INFO - [generated in 0.00027s] {}
+2025-06-28 07:50:39 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-06-28 07:50:39 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-06-28 07:50:39 - sqlalchemy.engine.Engine - INFO - SELECT pg_catalog.pg_class.relname 
+FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
+WHERE pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s]) AND pg_catalog.pg_class.relpersistence != %(relpersistence_1)s AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
+2025-06-28 07:50:39 - sqlalchemy.engine.Engine - INFO - [generated in 0.00030s] {'param_1': 'r', 'param_2': 'p', 'relpersistence_1': 't', 'nspname_1': 'pg_catalog'}
+2025-06-28 07:50:39 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-06-28 07:50:39 - app - INFO - Database initialization successful
+2025-06-28 07:50:39 - __main__ - INFO - Starting Flask application on 0.0.0.0:5000
+2025-06-28 07:50:39 - __main__ - INFO - Environment: development
+2025-06-28 07:50:39 - __main__ - INFO - Debug mode: True
+2025-06-28 07:50:39 - werkzeug - WARNING -  * Debugger is active!
+2025-06-28 07:50:39 - werkzeug - INFO -  * Debugger PIN: 665-651-952
+2025-06-28 07:52:05 - database.db - INFO - Creating database engine with URL: localhost:5432/flowdo_dev
+2025-06-28 07:52:05 - __main__ - INFO - Starting database test
+2025-06-28 07:52:05 - __main__ - INFO - Testing database connection...
+2025-06-28 07:52:05 - sqlalchemy.engine.Engine - INFO - select pg_catalog.version()
+2025-06-28 07:52:05 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-06-28 07:52:05 - sqlalchemy.engine.Engine - INFO - select current_schema()
+2025-06-28 07:52:05 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-06-28 07:52:05 - sqlalchemy.engine.Engine - INFO - show standard_conforming_strings
+2025-06-28 07:52:05 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-06-28 07:52:05 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-06-28 07:52:05 - sqlalchemy.engine.Engine - INFO - SELECT 1
+2025-06-28 07:52:05 - sqlalchemy.engine.Engine - INFO - [generated in 0.00024s] {}
+2025-06-28 07:52:05 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-06-28 07:52:05 - __main__ - INFO - Database connection successful
+2025-06-28 07:52:05 - __main__ - INFO - Testing CRUD operations...
+2025-06-28 07:52:05 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-06-28 07:52:05 - sqlalchemy.engine.Engine - INFO - INSERT INTO users (email, display_name, psw_hash, work_duration, short_break_duration, long_break_duration, session_count, sessions_until_long_break, created_at, updated_at) VALUES (%(email)s, %(display_name)s, %(psw_hash)s, %(work_duration)s, %(short_break_duration)s, %(long_break_duration)s, %(session_count)s, %(sessions_until_long_break)s, %(created_at)s, %(updated_at)s) RETURNING users.id
+2025-06-28 07:52:05 - sqlalchemy.engine.Engine - INFO - [generated in 0.00025s] {'email': 'test_20250628075205@example.com', 'display_name': 'Test User', 'psw_hash': 'test_hash', 'work_duration': 25, 'short_break_duration': 5, 'long_break_duration': 15, 'session_count': 0, 'sessions_until_long_break': 4, 'created_at': datetime.datetime(2025, 6, 28, 7, 52, 5, 617070), 'updated_at': datetime.datetime(2025, 6, 28, 7, 52, 5, 617076)}
+2025-06-28 07:52:05 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-06-28 07:52:05 - __main__ - ERROR - CRUD operations failed: (psycopg2.errors.StringDataRightTruncation) value too long for type character varying(30)
+
+[SQL: INSERT INTO users (email, display_name, psw_hash, work_duration, short_break_duration, long_break_duration, session_count, sessions_until_long_break, created_at, updated_at) VALUES (%(email)s, %(display_name)s, %(psw_hash)s, %(work_duration)s, %(short_break_duration)s, %(long_break_duration)s, %(session_count)s, %(sessions_until_long_break)s, %(created_at)s, %(updated_at)s) RETURNING users.id]
+[parameters: {'email': 'test_20250628075205@example.com', 'display_name': 'Test User', 'psw_hash': 'test_hash', 'work_duration': 25, 'short_break_duration': 5, 'long_break_duration': 15, 'session_count': 0, 'sessions_until_long_break': 4, 'created_at': datetime.datetime(2025, 6, 28, 7, 52, 5, 617070), 'updated_at': datetime.datetime(2025, 6, 28, 7, 52, 5, 617076)}]
+(Background on this error at: https://sqlalche.me/e/20/9h9h)
+2025-06-28 12:41:11 - database.db - INFO - Creating database engine with URL: localhost:5432/flowdo_dev
+2025-06-28 12:41:11 - __main__ - INFO - Starting database test
+2025-06-28 12:41:11 - __main__ - INFO - Testing database connection...
+2025-06-28 12:41:11 - sqlalchemy.engine.Engine - INFO - select pg_catalog.version()
+2025-06-28 12:41:11 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-06-28 12:41:11 - sqlalchemy.engine.Engine - INFO - select current_schema()
+2025-06-28 12:41:11 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-06-28 12:41:11 - sqlalchemy.engine.Engine - INFO - show standard_conforming_strings
+2025-06-28 12:41:11 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-06-28 12:41:11 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-06-28 12:41:11 - sqlalchemy.engine.Engine - INFO - SELECT 1
+2025-06-28 12:41:11 - sqlalchemy.engine.Engine - INFO - [generated in 0.00037s] {}
+2025-06-28 12:41:11 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-06-28 12:41:11 - __main__ - INFO - Database connection successful
+2025-06-28 12:41:11 - __main__ - INFO - Testing CRUD operations...
+2025-06-28 12:41:11 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-06-28 12:41:11 - sqlalchemy.engine.Engine - INFO - INSERT INTO users (email, display_name, psw_hash, work_duration, short_break_duration, long_break_duration, session_count, sessions_until_long_break, created_at, updated_at) VALUES (%(email)s, %(display_name)s, %(psw_hash)s, %(work_duration)s, %(short_break_duration)s, %(long_break_duration)s, %(session_count)s, %(sessions_until_long_break)s, %(created_at)s, %(updated_at)s) RETURNING users.id
+2025-06-28 12:41:11 - sqlalchemy.engine.Engine - INFO - [generated in 0.00037s] {'email': 'test_124111@test.com', 'display_name': 'Test User', 'psw_hash': 'test_hash', 'work_duration': 25, 'short_break_duration': 5, 'long_break_duration': 15, 'session_count': 0, 'sessions_until_long_break': 4, 'created_at': datetime.datetime(2025, 6, 28, 12, 41, 11, 517233), 'updated_at': datetime.datetime(2025, 6, 28, 12, 41, 11, 517243)}
+2025-06-28 12:41:11 - __main__ - INFO - Created test user with ID: 1
+2025-06-28 12:41:11 - sqlalchemy.engine.Engine - INFO - COMMIT
+2025-06-28 12:41:11 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-06-28 12:41:11 - sqlalchemy.engine.Engine - INFO - SELECT users.email AS users_email, users.display_name AS users_display_name, users.psw_hash AS users_psw_hash, users.work_duration AS users_work_duration, users.short_break_duration AS users_short_break_duration, users.long_break_duration AS users_long_break_duration, users.session_count AS users_session_count, users.sessions_until_long_break AS users_sessions_until_long_break, users.id AS users_id, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.id = %(id_1)s 
+ LIMIT %(param_1)s
+2025-06-28 12:41:11 - sqlalchemy.engine.Engine - INFO - [generated in 0.00018s] {'id_1': 1, 'param_1': 1}
+2025-06-28 12:41:11 - __main__ - INFO - Read test user: test_124111@test.com
+2025-06-28 12:41:11 - sqlalchemy.engine.Engine - INFO - COMMIT
+2025-06-28 12:41:11 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-06-28 12:41:11 - sqlalchemy.engine.Engine - INFO - SELECT users.email AS users_email, users.display_name AS users_display_name, users.psw_hash AS users_psw_hash, users.work_duration AS users_work_duration, users.short_break_duration AS users_short_break_duration, users.long_break_duration AS users_long_break_duration, users.session_count AS users_session_count, users.sessions_until_long_break AS users_sessions_until_long_break, users.id AS users_id, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.id = %(id_1)s 
+ LIMIT %(param_1)s
+2025-06-28 12:41:11 - sqlalchemy.engine.Engine - INFO - [cached since 0.002696s ago] {'id_1': 1, 'param_1': 1}
+2025-06-28 12:41:11 - sqlalchemy.engine.Engine - INFO - UPDATE users SET display_name=%(display_name)s, updated_at=%(updated_at)s WHERE users.id = %(users_id)s
+2025-06-28 12:41:11 - sqlalchemy.engine.Engine - INFO - [generated in 0.00027s] {'display_name': 'Updated Test User', 'updated_at': datetime.datetime(2025, 6, 28, 12, 41, 11, 540508), 'users_id': 1}
+2025-06-28 12:41:11 - __main__ - INFO - Updated test user: Updated Test User
+2025-06-28 12:41:11 - sqlalchemy.engine.Engine - INFO - COMMIT
+2025-06-28 12:41:11 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-06-28 12:41:11 - sqlalchemy.engine.Engine - INFO - SELECT users.email AS users_email, users.display_name AS users_display_name, users.psw_hash AS users_psw_hash, users.work_duration AS users_work_duration, users.short_break_duration AS users_short_break_duration, users.long_break_duration AS users_long_break_duration, users.session_count AS users_session_count, users.sessions_until_long_break AS users_sessions_until_long_break, users.id AS users_id, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.id = %(id_1)s 
+ LIMIT %(param_1)s
+2025-06-28 12:41:11 - sqlalchemy.engine.Engine - INFO - [cached since 0.009367s ago] {'id_1': 1, 'param_1': 1}
+2025-06-28 12:41:11 - __main__ - INFO - Deleted test user with ID: 1
+2025-06-28 12:41:11 - sqlalchemy.engine.Engine - INFO - SELECT tasks.title AS tasks_title, tasks.description AS tasks_description, tasks.priority AS tasks_priority, tasks.status AS tasks_status, tasks.due_date AS tasks_due_date, tasks.completed_at AS tasks_completed_at, tasks.estimated_pomodoros AS tasks_estimated_pomodoros, tasks.completed_pomodoros AS tasks_completed_pomodoros, tasks.user_id AS tasks_user_id, tasks.group_id AS tasks_group_id, tasks.id AS tasks_id, tasks.created_at AS tasks_created_at, tasks.updated_at AS tasks_updated_at 
+FROM tasks 
+WHERE %(param_1)s = tasks.user_id
+2025-06-28 12:41:11 - sqlalchemy.engine.Engine - INFO - [generated in 0.00028s] {'param_1': 1}
+2025-06-28 12:41:11 - sqlalchemy.engine.Engine - INFO - SELECT groups.name AS groups_name, groups.description AS groups_description, groups.color AS groups_color, groups.user_id AS groups_user_id, groups.id AS groups_id, groups.created_at AS groups_created_at, groups.updated_at AS groups_updated_at 
+FROM groups 
+WHERE %(param_1)s = groups.user_id
+2025-06-28 12:41:11 - sqlalchemy.engine.Engine - INFO - [generated in 0.00024s] {'param_1': 1}
+2025-06-28 12:41:11 - sqlalchemy.engine.Engine - INFO - SELECT pomodoro_sessions.session_id AS pomodoro_sessions_session_id, pomodoro_sessions.user_id AS pomodoro_sessions_user_id, pomodoro_sessions.task_id AS pomodoro_sessions_task_id, pomodoro_sessions.session_type AS pomodoro_sessions_session_type, pomodoro_sessions.status AS pomodoro_sessions_status, pomodoro_sessions.duration AS pomodoro_sessions_duration, pomodoro_sessions.start_time AS pomodoro_sessions_start_time, pomodoro_sessions.paused_at AS pomodoro_sessions_paused_at, pomodoro_sessions.end_time AS pomodoro_sessions_end_time, pomodoro_sessions.completed_at AS pomodoro_sessions_completed_at, pomodoro_sessions.id AS pomodoro_sessions_id, pomodoro_sessions.created_at AS pomodoro_sessions_created_at, pomodoro_sessions.updated_at AS pomodoro_sessions_updated_at 
+FROM pomodoro_sessions 
+WHERE %(param_1)s = pomodoro_sessions.user_id
+2025-06-28 12:41:11 - sqlalchemy.engine.Engine - INFO - [generated in 0.00045s] {'param_1': 1}
+2025-06-28 12:41:11 - sqlalchemy.engine.Engine - INFO - DELETE FROM users WHERE users.id = %(id)s
+2025-06-28 12:41:11 - sqlalchemy.engine.Engine - INFO - [generated in 0.00036s] {'id': 1}
+2025-06-28 12:41:11 - sqlalchemy.engine.Engine - INFO - COMMIT
+2025-06-28 12:41:11 - __main__ - INFO - CRUD operations successful
+2025-06-28 12:41:11 - __main__ - INFO - All tests passed
+2025-06-28 12:48:16 - database.db - INFO - Creating database engine with URL: localhost:5432/flowdo_dev
+2025-06-28 12:48:16 - __main__ - INFO - Starting database test
+2025-06-28 12:48:16 - __main__ - INFO - Testing database connection...
+2025-06-28 12:48:16 - sqlalchemy.engine.Engine - INFO - select pg_catalog.version()
+2025-06-28 12:48:16 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-06-28 12:48:16 - sqlalchemy.engine.Engine - INFO - select current_schema()
+2025-06-28 12:48:16 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-06-28 12:48:16 - sqlalchemy.engine.Engine - INFO - show standard_conforming_strings
+2025-06-28 12:48:16 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-06-28 12:48:16 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-06-28 12:48:16 - sqlalchemy.engine.Engine - INFO - SELECT 1
+2025-06-28 12:48:16 - sqlalchemy.engine.Engine - INFO - [generated in 0.00021s] {}
+2025-06-28 12:48:16 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-06-28 12:48:16 - __main__ - INFO - Database connection successful
+2025-06-28 12:48:16 - __main__ - INFO - Testing CRUD operations...
+2025-06-28 12:48:16 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-06-28 12:48:16 - sqlalchemy.engine.Engine - INFO - INSERT INTO users (email, display_name, psw_hash, work_duration, short_break_duration, long_break_duration, session_count, sessions_until_long_break, created_at, updated_at) VALUES (%(email)s, %(display_name)s, %(psw_hash)s, %(work_duration)s, %(short_break_duration)s, %(long_break_duration)s, %(session_count)s, %(sessions_until_long_break)s, %(created_at)s, %(updated_at)s) RETURNING users.id
+2025-06-28 12:48:16 - sqlalchemy.engine.Engine - INFO - [generated in 0.00020s] {'email': 'test_124816@test.com', 'display_name': 'Test User', 'psw_hash': 'test_hash', 'work_duration': 25, 'short_break_duration': 5, 'long_break_duration': 15, 'session_count': 0, 'sessions_until_long_break': 4, 'created_at': datetime.datetime(2025, 6, 28, 12, 48, 16, 978033), 'updated_at': datetime.datetime(2025, 6, 28, 12, 48, 16, 978037)}
+2025-06-28 12:48:16 - __main__ - INFO - Created test user with ID: 2
+2025-06-28 12:48:16 - sqlalchemy.engine.Engine - INFO - COMMIT
+2025-06-28 12:48:16 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-06-28 12:48:16 - sqlalchemy.engine.Engine - INFO - SELECT users.email AS users_email, users.display_name AS users_display_name, users.psw_hash AS users_psw_hash, users.work_duration AS users_work_duration, users.short_break_duration AS users_short_break_duration, users.long_break_duration AS users_long_break_duration, users.session_count AS users_session_count, users.sessions_until_long_break AS users_sessions_until_long_break, users.id AS users_id, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.id = %(id_1)s 
+ LIMIT %(param_1)s
+2025-06-28 12:48:16 - sqlalchemy.engine.Engine - INFO - [generated in 0.00015s] {'id_1': 2, 'param_1': 1}
+2025-06-28 12:48:16 - __main__ - INFO - Read test user: test_124816@test.com
+2025-06-28 12:48:16 - sqlalchemy.engine.Engine - INFO - COMMIT
+2025-06-28 12:48:16 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-06-28 12:48:16 - sqlalchemy.engine.Engine - INFO - SELECT users.email AS users_email, users.display_name AS users_display_name, users.psw_hash AS users_psw_hash, users.work_duration AS users_work_duration, users.short_break_duration AS users_short_break_duration, users.long_break_duration AS users_long_break_duration, users.session_count AS users_session_count, users.sessions_until_long_break AS users_sessions_until_long_break, users.id AS users_id, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.id = %(id_1)s 
+ LIMIT %(param_1)s
+2025-06-28 12:48:16 - sqlalchemy.engine.Engine - INFO - [cached since 0.002254s ago] {'id_1': 2, 'param_1': 1}
+2025-06-28 12:48:16 - sqlalchemy.engine.Engine - INFO - UPDATE users SET display_name=%(display_name)s, updated_at=%(updated_at)s WHERE users.id = %(users_id)s
+2025-06-28 12:48:16 - sqlalchemy.engine.Engine - INFO - [generated in 0.00026s] {'display_name': 'Updated Test User', 'updated_at': datetime.datetime(2025, 6, 28, 12, 48, 16, 997600), 'users_id': 2}
+2025-06-28 12:48:16 - __main__ - INFO - Updated test user: Updated Test User
+2025-06-28 12:48:16 - sqlalchemy.engine.Engine - INFO - COMMIT
+2025-06-28 12:48:17 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-06-28 12:48:17 - sqlalchemy.engine.Engine - INFO - SELECT users.email AS users_email, users.display_name AS users_display_name, users.psw_hash AS users_psw_hash, users.work_duration AS users_work_duration, users.short_break_duration AS users_short_break_duration, users.long_break_duration AS users_long_break_duration, users.session_count AS users_session_count, users.sessions_until_long_break AS users_sessions_until_long_break, users.id AS users_id, users.created_at AS users_created_at, users.updated_at AS users_updated_at 
+FROM users 
+WHERE users.id = %(id_1)s 
+ LIMIT %(param_1)s
+2025-06-28 12:48:17 - sqlalchemy.engine.Engine - INFO - [cached since 0.006709s ago] {'id_1': 2, 'param_1': 1}
+2025-06-28 12:48:17 - __main__ - INFO - Deleted test user with ID: 2
+2025-06-28 12:48:17 - sqlalchemy.engine.Engine - INFO - SELECT tasks.title AS tasks_title, tasks.description AS tasks_description, tasks.priority AS tasks_priority, tasks.status AS tasks_status, tasks.due_date AS tasks_due_date, tasks.completed_at AS tasks_completed_at, tasks.estimated_pomodoros AS tasks_estimated_pomodoros, tasks.completed_pomodoros AS tasks_completed_pomodoros, tasks.user_id AS tasks_user_id, tasks.group_id AS tasks_group_id, tasks.id AS tasks_id, tasks.created_at AS tasks_created_at, tasks.updated_at AS tasks_updated_at 
+FROM tasks 
+WHERE %(param_1)s = tasks.user_id
+2025-06-28 12:48:17 - sqlalchemy.engine.Engine - INFO - [generated in 0.00014s] {'param_1': 2}
+2025-06-28 12:48:17 - sqlalchemy.engine.Engine - INFO - SELECT groups.name AS groups_name, groups.description AS groups_description, groups.color AS groups_color, groups.user_id AS groups_user_id, groups.id AS groups_id, groups.created_at AS groups_created_at, groups.updated_at AS groups_updated_at 
+FROM groups 
+WHERE %(param_1)s = groups.user_id
+2025-06-28 12:48:17 - sqlalchemy.engine.Engine - INFO - [generated in 0.00015s] {'param_1': 2}
+2025-06-28 12:48:17 - sqlalchemy.engine.Engine - INFO - SELECT pomodoro_sessions.session_id AS pomodoro_sessions_session_id, pomodoro_sessions.user_id AS pomodoro_sessions_user_id, pomodoro_sessions.task_id AS pomodoro_sessions_task_id, pomodoro_sessions.session_type AS pomodoro_sessions_session_type, pomodoro_sessions.status AS pomodoro_sessions_status, pomodoro_sessions.duration AS pomodoro_sessions_duration, pomodoro_sessions.start_time AS pomodoro_sessions_start_time, pomodoro_sessions.paused_at AS pomodoro_sessions_paused_at, pomodoro_sessions.end_time AS pomodoro_sessions_end_time, pomodoro_sessions.completed_at AS pomodoro_sessions_completed_at, pomodoro_sessions.id AS pomodoro_sessions_id, pomodoro_sessions.created_at AS pomodoro_sessions_created_at, pomodoro_sessions.updated_at AS pomodoro_sessions_updated_at 
+FROM pomodoro_sessions 
+WHERE %(param_1)s = pomodoro_sessions.user_id
+2025-06-28 12:48:17 - sqlalchemy.engine.Engine - INFO - [generated in 0.00026s] {'param_1': 2}
+2025-06-28 12:48:17 - sqlalchemy.engine.Engine - INFO - DELETE FROM users WHERE users.id = %(id)s
+2025-06-28 12:48:17 - sqlalchemy.engine.Engine - INFO - [generated in 0.00010s] {'id': 2}
+2025-06-28 12:48:17 - sqlalchemy.engine.Engine - INFO - COMMIT
+2025-06-28 12:48:17 - __main__ - INFO - CRUD operations successful
+2025-06-28 12:48:17 - __main__ - INFO - All tests passed
+2025-06-28 12:48:47 - database.db - INFO - Creating database engine with URL: localhost:5432/flowdo_dev
+2025-06-28 12:48:47 - app - INFO - Creating Flask application...
+2025-06-28 12:48:47 - app.routers - INFO - All blueprints registered successfully
+2025-06-28 12:48:47 - app - INFO - Initializing database...
+2025-06-28 12:48:47 - sqlalchemy.engine.Engine - INFO - select pg_catalog.version()
+2025-06-28 12:48:47 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-06-28 12:48:47 - sqlalchemy.engine.Engine - INFO - select current_schema()
+2025-06-28 12:48:47 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-06-28 12:48:47 - sqlalchemy.engine.Engine - INFO - show standard_conforming_strings
+2025-06-28 12:48:47 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-06-28 12:48:47 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-06-28 12:48:47 - sqlalchemy.engine.Engine - INFO - SELECT 1
+2025-06-28 12:48:47 - sqlalchemy.engine.Engine - INFO - [generated in 0.00033s] {}
+2025-06-28 12:48:47 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-06-28 12:48:47 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-06-28 12:48:47 - sqlalchemy.engine.Engine - INFO - SELECT pg_catalog.pg_class.relname 
+FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
+WHERE pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s]) AND pg_catalog.pg_class.relpersistence != %(relpersistence_1)s AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
+2025-06-28 12:48:47 - sqlalchemy.engine.Engine - INFO - [generated in 0.00036s] {'param_1': 'r', 'param_2': 'p', 'relpersistence_1': 't', 'nspname_1': 'pg_catalog'}
+2025-06-28 12:48:47 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-06-28 12:48:47 - app - INFO - Database initialization successful
+2025-06-28 12:48:47 - __main__ - INFO - Starting Flask application on 0.0.0.0:5000
+2025-06-28 12:48:47 - __main__ - INFO - Environment: development
+2025-06-28 12:48:47 - __main__ - INFO - Debug mode: True
+2025-06-28 12:48:47 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.41:5000
+2025-06-28 12:48:47 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-06-28 12:48:47 - werkzeug - INFO -  * Restarting with stat
+2025-06-28 12:48:48 - database.db - INFO - Creating database engine with URL: localhost:5432/flowdo_dev
+2025-06-28 12:48:48 - app - INFO - Creating Flask application...
+2025-06-28 12:48:48 - app.routers - INFO - All blueprints registered successfully
+2025-06-28 12:48:48 - app - INFO - Initializing database...
+2025-06-28 12:48:48 - sqlalchemy.engine.Engine - INFO - select pg_catalog.version()
+2025-06-28 12:48:48 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-06-28 12:48:48 - sqlalchemy.engine.Engine - INFO - select current_schema()
+2025-06-28 12:48:48 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-06-28 12:48:48 - sqlalchemy.engine.Engine - INFO - show standard_conforming_strings
+2025-06-28 12:48:48 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-06-28 12:48:48 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-06-28 12:48:48 - sqlalchemy.engine.Engine - INFO - SELECT 1
+2025-06-28 12:48:48 - sqlalchemy.engine.Engine - INFO - [generated in 0.00027s] {}
+2025-06-28 12:48:48 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-06-28 12:48:48 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-06-28 12:48:48 - sqlalchemy.engine.Engine - INFO - SELECT pg_catalog.pg_class.relname 
+FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
+WHERE pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s]) AND pg_catalog.pg_class.relpersistence != %(relpersistence_1)s AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
+2025-06-28 12:48:48 - sqlalchemy.engine.Engine - INFO - [generated in 0.00041s] {'param_1': 'r', 'param_2': 'p', 'relpersistence_1': 't', 'nspname_1': 'pg_catalog'}
+2025-06-28 12:48:48 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-06-28 12:48:48 - app - INFO - Database initialization successful
+2025-06-28 12:48:48 - __main__ - INFO - Starting Flask application on 0.0.0.0:5000
+2025-06-28 12:48:48 - __main__ - INFO - Environment: development
+2025-06-28 12:48:48 - __main__ - INFO - Debug mode: True
+2025-06-28 12:48:48 - werkzeug - WARNING -  * Debugger is active!
+2025-06-28 12:48:48 - werkzeug - INFO -  * Debugger PIN: 665-651-952
+2025-06-28 13:50:48 - database.db - INFO - Creating database engine with URL: localhost:5432/flowdo_dev
+2025-06-28 13:50:48 - app - INFO - Creating Flask application...
+2025-06-28 13:50:48 - app - INFO - Configuring CORS...
+2025-06-28 13:50:48 - app - INFO - Registering blueprints...
+2025-06-28 13:53:04 - database.db - INFO - Creating database engine with URL: localhost:5432/flowdo_dev
+2025-06-28 13:53:04 - app - INFO - Creating Flask application...
+2025-06-28 13:53:04 - app - INFO - Configuring CORS...
+2025-06-28 13:53:04 - app - INFO - Registering blueprints...
+2025-06-28 13:53:05 - app - INFO - Initializing database...
+2025-06-28 13:53:05 - sqlalchemy.engine.Engine - INFO - select pg_catalog.version()
+2025-06-28 13:53:05 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-06-28 13:53:05 - sqlalchemy.engine.Engine - INFO - select current_schema()
+2025-06-28 13:53:05 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-06-28 13:53:05 - sqlalchemy.engine.Engine - INFO - show standard_conforming_strings
+2025-06-28 13:53:05 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-06-28 13:53:05 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-06-28 13:53:05 - sqlalchemy.engine.Engine - INFO - SELECT 1
+2025-06-28 13:53:05 - sqlalchemy.engine.Engine - INFO - [generated in 0.00018s] {}
+2025-06-28 13:53:05 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-06-28 13:53:05 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-06-28 13:53:05 - sqlalchemy.engine.Engine - INFO - SELECT pg_catalog.pg_class.relname 
+FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
+WHERE pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s]) AND pg_catalog.pg_class.relpersistence != %(relpersistence_1)s AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
+2025-06-28 13:53:05 - sqlalchemy.engine.Engine - INFO - [generated in 0.00025s] {'param_1': 'r', 'param_2': 'p', 'relpersistence_1': 't', 'nspname_1': 'pg_catalog'}
+2025-06-28 13:53:05 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-06-28 13:53:05 - app - INFO - Database initialization successful
+2025-06-28 13:53:05 - __main__ - INFO - Starting Flask application on 0.0.0.0:5000
+2025-06-28 13:53:05 - __main__ - INFO - Environment: development
+2025-06-28 13:53:05 - __main__ - INFO - Debug mode: True
+2025-06-28 13:53:05 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.43:5000
+2025-06-28 13:53:05 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-06-28 13:53:05 - werkzeug - INFO -  * Restarting with stat
+2025-06-28 13:53:05 - database.db - INFO - Creating database engine with URL: localhost:5432/flowdo_dev
+2025-06-28 13:53:05 - app - INFO - Creating Flask application...
+2025-06-28 13:53:05 - app - INFO - Configuring CORS...
+2025-06-28 13:53:05 - app - INFO - Registering blueprints...
+2025-06-28 13:53:05 - app - INFO - Initializing database...
+2025-06-28 13:53:05 - sqlalchemy.engine.Engine - INFO - select pg_catalog.version()
+2025-06-28 13:53:05 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-06-28 13:53:05 - sqlalchemy.engine.Engine - INFO - select current_schema()
+2025-06-28 13:53:05 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-06-28 13:53:05 - sqlalchemy.engine.Engine - INFO - show standard_conforming_strings
+2025-06-28 13:53:05 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-06-28 13:53:05 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-06-28 13:53:05 - sqlalchemy.engine.Engine - INFO - SELECT 1
+2025-06-28 13:53:05 - sqlalchemy.engine.Engine - INFO - [generated in 0.00023s] {}
+2025-06-28 13:53:05 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-06-28 13:53:05 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-06-28 13:53:05 - sqlalchemy.engine.Engine - INFO - SELECT pg_catalog.pg_class.relname 
+FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
+WHERE pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s]) AND pg_catalog.pg_class.relpersistence != %(relpersistence_1)s AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
+2025-06-28 13:53:05 - sqlalchemy.engine.Engine - INFO - [generated in 0.00027s] {'param_1': 'r', 'param_2': 'p', 'relpersistence_1': 't', 'nspname_1': 'pg_catalog'}
+2025-06-28 13:53:05 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-06-28 13:53:05 - app - INFO - Database initialization successful
+2025-06-28 13:53:05 - __main__ - INFO - Starting Flask application on 0.0.0.0:5000
+2025-06-28 13:53:05 - __main__ - INFO - Environment: development
+2025-06-28 13:53:05 - __main__ - INFO - Debug mode: True
+2025-06-28 13:53:05 - werkzeug - WARNING -  * Debugger is active!
+2025-06-28 13:53:05 - werkzeug - INFO -  * Debugger PIN: 665-651-952
+2025-06-28 13:57:02 - werkzeug - INFO - 127.0.0.1 - - [28/Jun/2025 13:57:02] "OPTIONS /api/auth/register HTTP/1.1" 200 -
+2025-06-28 13:57:02 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-06-28 13:57:02 - sqlalchemy.engine.Engine - INFO - SELECT users.email, users.display_name, users.psw_hash, users.work_duration, users.short_break_duration, users.long_break_duration, users.session_count, users.sessions_until_long_break, users.id, users.created_at, users.updated_at 
+FROM users 
+WHERE users.email = %(email_1)s
+2025-06-28 13:57:02 - sqlalchemy.engine.Engine - INFO - [generated in 0.00020s] {'email_1': 'user@gmail.com'}
+2025-06-28 13:57:02 - sqlalchemy.engine.Engine - INFO - COMMIT
+2025-06-28 13:57:02 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-06-28 13:57:02 - sqlalchemy.engine.Engine - INFO - INSERT INTO users (email, display_name, psw_hash, work_duration, short_break_duration, long_break_duration, session_count, sessions_until_long_break, created_at, updated_at) VALUES (%(email)s, %(display_name)s, %(psw_hash)s, %(work_duration)s, %(short_break_duration)s, %(long_break_duration)s, %(session_count)s, %(sessions_until_long_break)s, %(created_at)s, %(updated_at)s) RETURNING users.id
+2025-06-28 13:57:02 - sqlalchemy.engine.Engine - INFO - [generated in 0.00017s] {'email': 'user@gmail.com', 'display_name': 'rishi', 'psw_hash': '$2b$12$RRB8ZD4BqpL6H//aRe..fOSkxliv7WZIgBVmbVWVWn0Z9cl/KMSkK', 'work_duration': 25, 'short_break_duration': 5, 'long_break_duration': 15, 'session_count': 0, 'sessions_until_long_break': 4, 'created_at': datetime.datetime(2025, 6, 28, 13, 57, 2, 263595), 'updated_at': datetime.datetime(2025, 6, 28, 13, 57, 2, 263599)}
+2025-06-28 13:57:02 - sqlalchemy.engine.Engine - INFO - SELECT users.email, users.display_name, users.psw_hash, users.work_duration, users.short_break_duration, users.long_break_duration, users.session_count, users.sessions_until_long_break, users.id, users.created_at, users.updated_at 
+FROM users 
+WHERE users.id = %(pk_1)s
+2025-06-28 13:57:02 - sqlalchemy.engine.Engine - INFO - [generated in 0.00014s] {'pk_1': 3}
+2025-06-28 13:57:02 - sqlalchemy.engine.Engine - INFO - COMMIT
+2025-06-28 13:57:02 - app.services.auth_service - ERROR - Database error during user registration: Instance <User at 0x7f08957db950> is not bound to a Session; attribute refresh operation cannot proceed (Background on this error at: https://sqlalche.me/e/20/bhk3)
+2025-06-28 13:57:02 - app.routers.auth - WARNING - Value error during registration: Failed to register user
+2025-06-28 13:57:02 - werkzeug - INFO - 127.0.0.1 - - [28/Jun/2025 13:57:02] "[31m[1mPOST /api/auth/register HTTP/1.1[0m" 400 -
+2025-06-28 13:58:33 - werkzeug - INFO -  * Detected change in '/home/thecoderbee/Documents/my_projects/flowdo/backend/database/models/user_token.py', reloading
+2025-06-28 13:58:33 - werkzeug - INFO -  * Restarting with stat
+2025-06-28 13:58:34 - database.db - INFO - Creating database engine with URL: localhost:5432/flowdo_dev
+2025-06-28 13:58:34 - app - INFO - Creating Flask application...
+2025-06-28 13:58:34 - app - INFO - Configuring CORS...
+2025-06-28 13:58:34 - app - INFO - Registering blueprints...
+2025-06-28 13:58:34 - app - INFO - Initializing database...
+2025-06-28 13:58:34 - sqlalchemy.engine.Engine - INFO - select pg_catalog.version()
+2025-06-28 13:58:34 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-06-28 13:58:34 - sqlalchemy.engine.Engine - INFO - select current_schema()
+2025-06-28 13:58:34 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-06-28 13:58:34 - sqlalchemy.engine.Engine - INFO - show standard_conforming_strings
+2025-06-28 13:58:34 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-06-28 13:58:34 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-06-28 13:58:34 - sqlalchemy.engine.Engine - INFO - SELECT 1
+2025-06-28 13:58:34 - sqlalchemy.engine.Engine - INFO - [generated in 0.00024s] {}
+2025-06-28 13:58:34 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-06-28 13:58:34 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-06-28 13:58:34 - sqlalchemy.engine.Engine - INFO - SELECT pg_catalog.pg_class.relname 
+FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
+WHERE pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s]) AND pg_catalog.pg_class.relpersistence != %(relpersistence_1)s AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
+2025-06-28 13:58:34 - sqlalchemy.engine.Engine - INFO - [generated in 0.00041s] {'param_1': 'r', 'param_2': 'p', 'relpersistence_1': 't', 'nspname_1': 'pg_catalog'}
+2025-06-28 13:58:34 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-06-28 13:58:34 - app - INFO - Database initialization successful
+2025-06-28 13:58:34 - __main__ - INFO - Starting Flask application on 0.0.0.0:5000
+2025-06-28 13:58:34 - __main__ - INFO - Environment: development
+2025-06-28 13:58:34 - __main__ - INFO - Debug mode: True
+2025-06-28 13:58:34 - werkzeug - WARNING -  * Debugger is active!
+2025-06-28 13:58:34 - werkzeug - INFO -  * Debugger PIN: 665-651-952
+2025-06-28 13:58:44 - werkzeug - INFO -  * Detected change in '/home/thecoderbee/Documents/my_projects/flowdo/backend/database/models/user_token.py', reloading
+2025-06-28 13:58:44 - werkzeug - INFO -  * Restarting with stat
+2025-06-28 13:58:44 - database.db - INFO - Creating database engine with URL: localhost:5432/flowdo_dev
+2025-06-28 13:58:44 - app - INFO - Creating Flask application...
+2025-06-28 13:58:44 - app - INFO - Configuring CORS...
+2025-06-28 13:58:44 - app - INFO - Registering blueprints...
+2025-06-28 13:58:44 - app - INFO - Initializing database...
+2025-06-28 13:58:44 - sqlalchemy.engine.Engine - INFO - select pg_catalog.version()
+2025-06-28 13:58:44 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-06-28 13:58:44 - sqlalchemy.engine.Engine - INFO - select current_schema()
+2025-06-28 13:58:44 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-06-28 13:58:44 - sqlalchemy.engine.Engine - INFO - show standard_conforming_strings
+2025-06-28 13:58:44 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-06-28 13:58:44 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-06-28 13:58:44 - sqlalchemy.engine.Engine - INFO - SELECT 1
+2025-06-28 13:58:44 - sqlalchemy.engine.Engine - INFO - [generated in 0.00029s] {}
+2025-06-28 13:58:44 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-06-28 13:58:44 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-06-28 13:58:44 - sqlalchemy.engine.Engine - INFO - SELECT pg_catalog.pg_class.relname 
+FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
+WHERE pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s]) AND pg_catalog.pg_class.relpersistence != %(relpersistence_1)s AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
+2025-06-28 13:58:44 - sqlalchemy.engine.Engine - INFO - [generated in 0.00031s] {'param_1': 'r', 'param_2': 'p', 'relpersistence_1': 't', 'nspname_1': 'pg_catalog'}
+2025-06-28 13:58:44 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-06-28 13:58:44 - app - INFO - Database initialization successful
+2025-06-28 13:58:44 - __main__ - INFO - Starting Flask application on 0.0.0.0:5000
+2025-06-28 13:58:44 - __main__ - INFO - Environment: development
+2025-06-28 13:58:44 - __main__ - INFO - Debug mode: True
+2025-06-28 13:58:44 - werkzeug - WARNING -  * Debugger is active!
+2025-06-28 13:58:44 - werkzeug - INFO -  * Debugger PIN: 665-651-952
+2025-06-28 13:59:55 - database.db - INFO - Creating database engine with URL: localhost:5432/flowdo_dev
+2025-06-28 13:59:55 - app - INFO - Creating Flask application...
+2025-06-28 13:59:55 - app - INFO - Configuring CORS...
+2025-06-28 13:59:55 - app - INFO - Registering blueprints...
+2025-06-28 13:59:55 - app - INFO - Initializing database...
+2025-06-28 13:59:55 - sqlalchemy.engine.Engine - INFO - select pg_catalog.version()
+2025-06-28 13:59:55 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-06-28 13:59:55 - sqlalchemy.engine.Engine - INFO - select current_schema()
+2025-06-28 13:59:55 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-06-28 13:59:55 - sqlalchemy.engine.Engine - INFO - show standard_conforming_strings
+2025-06-28 13:59:55 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-06-28 13:59:55 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-06-28 13:59:55 - sqlalchemy.engine.Engine - INFO - SELECT 1
+2025-06-28 13:59:55 - sqlalchemy.engine.Engine - INFO - [generated in 0.00031s] {}
+2025-06-28 13:59:55 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-06-28 13:59:55 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-06-28 13:59:55 - sqlalchemy.engine.Engine - INFO - SELECT pg_catalog.pg_class.relname 
+FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
+WHERE pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s]) AND pg_catalog.pg_class.relpersistence != %(relpersistence_1)s AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
+2025-06-28 13:59:55 - sqlalchemy.engine.Engine - INFO - [generated in 0.00027s] {'param_1': 'r', 'param_2': 'p', 'relpersistence_1': 't', 'nspname_1': 'pg_catalog'}
+2025-06-28 13:59:55 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-06-28 13:59:55 - app - INFO - Database initialization successful
+2025-06-28 13:59:55 - flask_migrate - ERROR - Error: Path doesn't exist: '/home/thecoderbee/Documents/my_projects/flowdo/backend/migrations'.  Please use the 'init' command to create a new scripts folder.
+2025-06-28 14:00:32 - database.db - INFO - Creating database engine with URL: localhost:5432/flowdo_dev
+2025-06-28 14:00:32 - app - INFO - Creating Flask application...
+2025-06-28 14:00:32 - app - INFO - Configuring CORS...
+2025-06-28 14:00:32 - app - INFO - Registering blueprints...
+2025-06-28 14:00:32 - app - INFO - Initializing database...
+2025-06-28 14:00:32 - sqlalchemy.engine.Engine - INFO - select pg_catalog.version()
+2025-06-28 14:00:32 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-06-28 14:00:32 - sqlalchemy.engine.Engine - INFO - select current_schema()
+2025-06-28 14:00:32 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-06-28 14:00:32 - sqlalchemy.engine.Engine - INFO - show standard_conforming_strings
+2025-06-28 14:00:32 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-06-28 14:00:32 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-06-28 14:00:32 - sqlalchemy.engine.Engine - INFO - SELECT 1
+2025-06-28 14:00:32 - sqlalchemy.engine.Engine - INFO - [generated in 0.00020s] {}
+2025-06-28 14:00:32 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-06-28 14:00:32 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-06-28 14:00:32 - sqlalchemy.engine.Engine - INFO - SELECT pg_catalog.pg_class.relname 
+FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
+WHERE pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s]) AND pg_catalog.pg_class.relpersistence != %(relpersistence_1)s AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
+2025-06-28 14:00:32 - sqlalchemy.engine.Engine - INFO - [generated in 0.00036s] {'param_1': 'r', 'param_2': 'p', 'relpersistence_1': 't', 'nspname_1': 'pg_catalog'}
+2025-06-28 14:00:32 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-06-28 14:00:32 - app - INFO - Database initialization successful
+2025-06-28 14:00:41 - database.db - INFO - Creating database engine with URL: localhost:5432/flowdo_dev
+2025-06-28 14:00:41 - app - INFO - Creating Flask application...
+2025-06-28 14:00:41 - app - INFO - Configuring CORS...
+2025-06-28 14:00:41 - app - INFO - Registering blueprints...
+2025-06-28 14:00:41 - app - INFO - Initializing database...
+2025-06-28 14:00:41 - sqlalchemy.engine.Engine - INFO - select pg_catalog.version()
+2025-06-28 14:00:41 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-06-28 14:00:41 - sqlalchemy.engine.Engine - INFO - select current_schema()
+2025-06-28 14:00:41 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-06-28 14:00:41 - sqlalchemy.engine.Engine - INFO - show standard_conforming_strings
+2025-06-28 14:00:41 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-06-28 14:00:41 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-06-28 14:00:41 - sqlalchemy.engine.Engine - INFO - SELECT 1
+2025-06-28 14:00:41 - sqlalchemy.engine.Engine - INFO - [generated in 0.00037s] {}
+2025-06-28 14:00:41 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-06-28 14:00:41 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-06-28 14:00:41 - sqlalchemy.engine.Engine - INFO - SELECT pg_catalog.pg_class.relname 
+FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
+WHERE pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s]) AND pg_catalog.pg_class.relpersistence != %(relpersistence_1)s AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
+2025-06-28 14:00:41 - sqlalchemy.engine.Engine - INFO - [generated in 0.00024s] {'param_1': 'r', 'param_2': 'p', 'relpersistence_1': 't', 'nspname_1': 'pg_catalog'}
+2025-06-28 14:00:41 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-06-28 14:00:41 - app - INFO - Database initialization successful
+2025-06-28 14:01:06 - werkzeug - INFO -  * Detected change in '/home/thecoderbee/Documents/my_projects/flowdo/backend/migrations/env.py', reloading
+2025-06-28 14:01:06 - werkzeug - INFO -  * Restarting with stat
+2025-06-28 14:01:06 - database.db - INFO - Creating database engine with URL: localhost:5432/flowdo_dev
+2025-06-28 14:01:06 - app - INFO - Creating Flask application...
+2025-06-28 14:01:06 - app - INFO - Configuring CORS...
+2025-06-28 14:01:06 - app - INFO - Registering blueprints...
+2025-06-28 14:01:07 - app - INFO - Initializing database...
+2025-06-28 14:01:07 - sqlalchemy.engine.Engine - INFO - select pg_catalog.version()
+2025-06-28 14:01:07 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-06-28 14:01:07 - sqlalchemy.engine.Engine - INFO - select current_schema()
+2025-06-28 14:01:07 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-06-28 14:01:07 - sqlalchemy.engine.Engine - INFO - show standard_conforming_strings
+2025-06-28 14:01:07 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-06-28 14:01:07 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-06-28 14:01:07 - sqlalchemy.engine.Engine - INFO - SELECT 1
+2025-06-28 14:01:07 - sqlalchemy.engine.Engine - INFO - [generated in 0.00026s] {}
+2025-06-28 14:01:07 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-06-28 14:01:07 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-06-28 14:01:07 - sqlalchemy.engine.Engine - INFO - SELECT pg_catalog.pg_class.relname 
+FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
+WHERE pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s]) AND pg_catalog.pg_class.relpersistence != %(relpersistence_1)s AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
+2025-06-28 14:01:07 - sqlalchemy.engine.Engine - INFO - [generated in 0.00036s] {'param_1': 'r', 'param_2': 'p', 'relpersistence_1': 't', 'nspname_1': 'pg_catalog'}
+2025-06-28 14:01:07 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-06-28 14:01:07 - app - INFO - Database initialization successful
+2025-06-28 14:01:07 - __main__ - INFO - Starting Flask application on 0.0.0.0:5000
+2025-06-28 14:01:07 - __main__ - INFO - Environment: development
+2025-06-28 14:01:07 - __main__ - INFO - Debug mode: True
+2025-06-28 14:01:07 - werkzeug - WARNING -  * Debugger is active!
+2025-06-28 14:01:07 - werkzeug - INFO -  * Debugger PIN: 665-651-952
+2025-06-28 14:01:53 - database.db - INFO - Creating database engine with URL: localhost:5432/flowdo_dev
+2025-06-28 14:01:53 - app - INFO - Creating Flask application...
+2025-06-28 14:01:53 - app - INFO - Configuring CORS...
+2025-06-28 14:01:53 - app - INFO - Registering blueprints...
+2025-06-28 14:01:53 - app - INFO - Initializing database...
+2025-06-28 14:01:53 - sqlalchemy.engine.Engine - INFO - select pg_catalog.version()
+2025-06-28 14:01:53 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-06-28 14:01:53 - sqlalchemy.engine.Engine - INFO - select current_schema()
+2025-06-28 14:01:53 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-06-28 14:01:53 - sqlalchemy.engine.Engine - INFO - show standard_conforming_strings
+2025-06-28 14:01:53 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-06-28 14:01:53 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-06-28 14:01:53 - sqlalchemy.engine.Engine - INFO - SELECT 1
+2025-06-28 14:01:53 - sqlalchemy.engine.Engine - INFO - [generated in 0.00025s] {}
+2025-06-28 14:01:53 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-06-28 14:01:53 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-06-28 14:01:53 - sqlalchemy.engine.Engine - INFO - SELECT pg_catalog.pg_class.relname 
+FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
+WHERE pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s]) AND pg_catalog.pg_class.relpersistence != %(relpersistence_1)s AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
+2025-06-28 14:01:53 - sqlalchemy.engine.Engine - INFO - [generated in 0.00055s] {'param_1': 'r', 'param_2': 'p', 'relpersistence_1': 't', 'nspname_1': 'pg_catalog'}
+2025-06-28 14:01:53 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-06-28 14:01:53 - app - INFO - Database initialization successful
+2025-06-28 14:02:14 - database.db - INFO - Creating database engine with URL: localhost:5432/flowdo_dev
+2025-06-28 14:02:14 - app - INFO - Creating Flask application...
+2025-06-28 14:02:14 - app - INFO - Configuring CORS...
+2025-06-28 14:02:14 - app - INFO - Registering blueprints...
+2025-06-28 14:02:14 - app - INFO - Initializing database...
+2025-06-28 14:02:14 - sqlalchemy.engine.Engine - INFO - select pg_catalog.version()
+2025-06-28 14:02:14 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-06-28 14:02:14 - sqlalchemy.engine.Engine - INFO - select current_schema()
+2025-06-28 14:02:14 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-06-28 14:02:14 - sqlalchemy.engine.Engine - INFO - show standard_conforming_strings
+2025-06-28 14:02:14 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-06-28 14:02:14 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-06-28 14:02:14 - sqlalchemy.engine.Engine - INFO - SELECT 1
+2025-06-28 14:02:14 - sqlalchemy.engine.Engine - INFO - [generated in 0.00035s] {}
+2025-06-28 14:02:14 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-06-28 14:02:14 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-06-28 14:02:14 - sqlalchemy.engine.Engine - INFO - SELECT pg_catalog.pg_class.relname 
+FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
+WHERE pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s]) AND pg_catalog.pg_class.relpersistence != %(relpersistence_1)s AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
+2025-06-28 14:02:14 - sqlalchemy.engine.Engine - INFO - [generated in 0.00027s] {'param_1': 'r', 'param_2': 'p', 'relpersistence_1': 't', 'nspname_1': 'pg_catalog'}
+2025-06-28 14:02:14 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-06-28 14:02:14 - app - INFO - Database initialization successful
+2025-06-28 14:03:30 - werkzeug - INFO -  * Detected change in '/home/thecoderbee/Documents/my_projects/flowdo/backend/app/services/auth_service.py', reloading
+2025-06-28 14:03:30 - werkzeug - INFO -  * Restarting with stat
+2025-06-28 14:03:31 - database.db - INFO - Creating database engine with URL: localhost:5432/flowdo_dev
+2025-06-28 14:03:31 - app - INFO - Creating Flask application...
+2025-06-28 14:03:31 - app - INFO - Configuring CORS...
+2025-06-28 14:03:31 - app - INFO - Registering blueprints...
+2025-06-28 14:03:31 - app - INFO - Initializing database...
+2025-06-28 14:03:31 - sqlalchemy.engine.Engine - INFO - select pg_catalog.version()
+2025-06-28 14:03:31 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-06-28 14:03:31 - sqlalchemy.engine.Engine - INFO - select current_schema()
+2025-06-28 14:03:31 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-06-28 14:03:31 - sqlalchemy.engine.Engine - INFO - show standard_conforming_strings
+2025-06-28 14:03:31 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-06-28 14:03:31 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-06-28 14:03:31 - sqlalchemy.engine.Engine - INFO - SELECT 1
+2025-06-28 14:03:31 - sqlalchemy.engine.Engine - INFO - [generated in 0.00028s] {}
+2025-06-28 14:03:31 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-06-28 14:03:31 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-06-28 14:03:31 - sqlalchemy.engine.Engine - INFO - SELECT pg_catalog.pg_class.relname 
+FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
+WHERE pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s]) AND pg_catalog.pg_class.relpersistence != %(relpersistence_1)s AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
+2025-06-28 14:03:31 - sqlalchemy.engine.Engine - INFO - [generated in 0.00049s] {'param_1': 'r', 'param_2': 'p', 'relpersistence_1': 't', 'nspname_1': 'pg_catalog'}
+2025-06-28 14:03:31 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-06-28 14:03:31 - app - INFO - Database initialization successful
+2025-06-28 14:03:31 - __main__ - INFO - Starting Flask application on 0.0.0.0:5000
+2025-06-28 14:03:31 - __main__ - INFO - Environment: development
+2025-06-28 14:03:31 - __main__ - INFO - Debug mode: True
+2025-06-28 14:03:31 - werkzeug - WARNING -  * Debugger is active!
+2025-06-28 14:03:31 - werkzeug - INFO -  * Debugger PIN: 665-651-952
+2025-06-28 16:01:46 - database.db - INFO - Creating database engine with URL: localhost:5432/flowdo_dev
+2025-06-28 16:01:46 - app - INFO - Creating Flask application...
+2025-06-28 16:01:46 - app - INFO - Configuring CORS...
+2025-06-28 16:01:46 - app - INFO - Registering blueprints...
+2025-06-28 16:01:46 - app - INFO - Initializing database...
+2025-06-28 16:01:46 - sqlalchemy.engine.Engine - INFO - select pg_catalog.version()
+2025-06-28 16:01:46 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-06-28 16:01:46 - sqlalchemy.engine.Engine - INFO - select current_schema()
+2025-06-28 16:01:46 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-06-28 16:01:46 - sqlalchemy.engine.Engine - INFO - show standard_conforming_strings
+2025-06-28 16:01:46 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-06-28 16:01:46 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-06-28 16:01:46 - sqlalchemy.engine.Engine - INFO - SELECT 1
+2025-06-28 16:01:46 - sqlalchemy.engine.Engine - INFO - [generated in 0.00028s] {}
+2025-06-28 16:01:46 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-06-28 16:01:46 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-06-28 16:01:46 - sqlalchemy.engine.Engine - INFO - SELECT pg_catalog.pg_class.relname 
+FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
+WHERE pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s]) AND pg_catalog.pg_class.relpersistence != %(relpersistence_1)s AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
+2025-06-28 16:01:46 - sqlalchemy.engine.Engine - INFO - [generated in 0.00035s] {'param_1': 'r', 'param_2': 'p', 'relpersistence_1': 't', 'nspname_1': 'pg_catalog'}
+2025-06-28 16:01:46 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-06-28 16:01:46 - app - INFO - Database initialization successful
+2025-06-28 16:01:46 - __main__ - INFO - Starting Flask application on 0.0.0.0:5000
+2025-06-28 16:01:46 - __main__ - INFO - Environment: development
+2025-06-28 16:01:46 - __main__ - INFO - Debug mode: True
+2025-06-28 16:01:46 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.45:5000
+2025-06-28 16:01:46 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-06-28 16:01:46 - werkzeug - INFO -  * Restarting with stat
+2025-06-28 16:01:47 - database.db - INFO - Creating database engine with URL: localhost:5432/flowdo_dev
+2025-06-28 16:01:47 - app - INFO - Creating Flask application...
+2025-06-28 16:01:47 - app - INFO - Configuring CORS...
+2025-06-28 16:01:47 - app - INFO - Registering blueprints...
+2025-06-28 16:01:47 - app - INFO - Initializing database...
+2025-06-28 16:01:47 - sqlalchemy.engine.Engine - INFO - select pg_catalog.version()
+2025-06-28 16:01:47 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-06-28 16:01:47 - sqlalchemy.engine.Engine - INFO - select current_schema()
+2025-06-28 16:01:47 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-06-28 16:01:47 - sqlalchemy.engine.Engine - INFO - show standard_conforming_strings
+2025-06-28 16:01:47 - sqlalchemy.engine.Engine - INFO - [raw sql] {}
+2025-06-28 16:01:47 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-06-28 16:01:47 - sqlalchemy.engine.Engine - INFO - SELECT 1
+2025-06-28 16:01:47 - sqlalchemy.engine.Engine - INFO - [generated in 0.00024s] {}
+2025-06-28 16:01:47 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-06-28 16:01:47 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-06-28 16:01:47 - sqlalchemy.engine.Engine - INFO - SELECT pg_catalog.pg_class.relname 
+FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
+WHERE pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s]) AND pg_catalog.pg_class.relpersistence != %(relpersistence_1)s AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
+2025-06-28 16:01:47 - sqlalchemy.engine.Engine - INFO - [generated in 0.00031s] {'param_1': 'r', 'param_2': 'p', 'relpersistence_1': 't', 'nspname_1': 'pg_catalog'}
+2025-06-28 16:01:47 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-06-28 16:01:47 - app - INFO - Database initialization successful
+2025-06-28 16:01:47 - __main__ - INFO - Starting Flask application on 0.0.0.0:5000
+2025-06-28 16:01:47 - __main__ - INFO - Environment: development
+2025-06-28 16:01:47 - __main__ - INFO - Debug mode: True
+2025-06-28 16:01:47 - werkzeug - WARNING -  * Debugger is active!
+2025-06-28 16:01:47 - werkzeug - INFO -  * Debugger PIN: 665-651-952
+2025-06-28 16:02:30 - werkzeug - INFO - 127.0.0.1 - - [28/Jun/2025 16:02:30] "OPTIONS /api/auth/register HTTP/1.1" 200 -
+2025-06-28 16:02:30 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-06-28 16:02:30 - sqlalchemy.engine.Engine - INFO - SELECT users.email, users.display_name, users.psw_hash, users.work_duration, users.short_break_duration, users.long_break_duration, users.session_count, users.sessions_until_long_break, users.id, users.created_at, users.updated_at 
+FROM users 
+WHERE users.email = %(email_1)s
+2025-06-28 16:02:30 - sqlalchemy.engine.Engine - INFO - [generated in 0.00023s] {'email_1': 'user@gmail.com'}
+2025-06-28 16:02:30 - sqlalchemy.engine.Engine - INFO - COMMIT
+2025-06-28 16:02:30 - app.routers.auth - WARNING - Value error during registration: Email already registered
+2025-06-28 16:02:30 - werkzeug - INFO - 127.0.0.1 - - [28/Jun/2025 16:02:30] "[31m[1mPOST /api/auth/register HTTP/1.1[0m" 400 -
+2025-06-28 16:02:48 - werkzeug - INFO - 127.0.0.1 - - [28/Jun/2025 16:02:48] "OPTIONS /api/auth/register HTTP/1.1" 200 -
+2025-06-28 16:02:48 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-06-28 16:02:48 - sqlalchemy.engine.Engine - INFO - SELECT users.email, users.display_name, users.psw_hash, users.work_duration, users.short_break_duration, users.long_break_duration, users.session_count, users.sessions_until_long_break, users.id, users.created_at, users.updated_at 
+FROM users 
+WHERE users.email = %(email_1)s
+2025-06-28 16:02:48 - sqlalchemy.engine.Engine - INFO - [cached since 17.6s ago] {'email_1': 'user1@gmail.com'}
+2025-06-28 16:02:48 - sqlalchemy.engine.Engine - INFO - COMMIT
+2025-06-28 16:02:48 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-06-28 16:02:48 - sqlalchemy.engine.Engine - INFO - INSERT INTO users (email, display_name, psw_hash, work_duration, short_break_duration, long_break_duration, session_count, sessions_until_long_break, created_at, updated_at) VALUES (%(email)s, %(display_name)s, %(psw_hash)s, %(work_duration)s, %(short_break_duration)s, %(long_break_duration)s, %(session_count)s, %(sessions_until_long_break)s, %(created_at)s, %(updated_at)s) RETURNING users.id
+2025-06-28 16:02:48 - sqlalchemy.engine.Engine - INFO - [generated in 0.00015s] {'email': 'user1@gmail.com', 'display_name': 'rishi', 'psw_hash': '$2b$12$BhswlYAoiRlYwl/BDOk63Ox./QVL6qFMap5cWxJ1JJzNBubtN9Dqq', 'work_duration': 25, 'short_break_duration': 5, 'long_break_duration': 15, 'session_count': 0, 'sessions_until_long_break': 4, 'created_at': datetime.datetime(2025, 6, 28, 16, 2, 48, 703125), 'updated_at': datetime.datetime(2025, 6, 28, 16, 2, 48, 703129)}
+2025-06-28 16:02:48 - sqlalchemy.engine.Engine - INFO - COMMIT
+2025-06-28 16:02:48 - sqlalchemy.engine.Engine - INFO - BEGIN (implicit)
+2025-06-28 16:02:48 - sqlalchemy.engine.Engine - INFO - INSERT INTO user_tokens (user_id, token, expires_at, token_type, created_at, updated_at) VALUES (%(user_id)s, %(token)s, %(expires_at)s, %(token_type)s, %(created_at)s, %(updated_at)s) RETURNING user_tokens.id
+2025-06-28 16:02:48 - sqlalchemy.engine.Engine - INFO - [generated in 0.00013s] {'user_id': 4, 'token': 'b1bd7942-ac16-4815-9170-4c19827538eb', 'expires_at': datetime.datetime(2025, 7, 5, 10, 32, 48, 745914), 'token_type': 'refresh', 'created_at': datetime.datetime(2025, 6, 28, 16, 2, 48, 747050), 'updated_at': datetime.datetime(2025, 6, 28, 16, 2, 48, 747053)}
+2025-06-28 16:02:48 - sqlalchemy.engine.Engine - INFO - ROLLBACK
+2025-06-28 16:02:48 - app.services.auth_service - ERROR - Database error during user registration: (psycopg2.errors.UndefinedColumn) column "token" of relation "user_tokens" does not exist
+LINE 1: INSERT INTO user_tokens (user_id, token, expires_at, token_t...
+                                          ^
+
+[SQL: INSERT INTO user_tokens (user_id, token, expires_at, token_type, created_at, updated_at) VALUES (%(user_id)s, %(token)s, %(expires_at)s, %(token_type)s, %(created_at)s, %(updated_at)s) RETURNING user_tokens.id]
+[parameters: {'user_id': 4, 'token': 'b1bd7942-ac16-4815-9170-4c19827538eb', 'expires_at': datetime.datetime(2025, 7, 5, 10, 32, 48, 745914), 'token_type': 'refresh', 'created_at': datetime.datetime(2025, 6, 28, 16, 2, 48, 747050), 'updated_at': datetime.datetime(2025, 6, 28, 16, 2, 48, 747053)}]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+2025-06-28 16:02:48 - app.routers.auth - WARNING - Value error during registration: Failed to register user
+2025-06-28 16:02:48 - werkzeug - INFO - 127.0.0.1 - - [28/Jun/2025 16:02:48] "[31m[1mPOST /api/auth/register HTTP/1.1[0m" 400 -
+2025-06-28 16:08:18 - werkzeug - INFO -  * Detected change in '/home/thecoderbee/Documents/my_projects/flowdo/backend/database/models/user_token.py', reloading
+2025-06-28 16:08:18 - werkzeug - INFO -  * Restarting with stat
+2025-06-28 16:08:19 - database.db - INFO - Creating database engine with URL: localhost:5432/flowdo_dev
+2025-06-28 16:08:19 - app - INFO - Creating Flask application...
+2025-06-28 16:08:19 - app - INFO - Configuring CORS...
+2025-06-28 16:08:19 - app - INFO - Registering blueprints...
