@@ -13,6 +13,24 @@ from .auth import (
     RefreshTokenRequest
 )
 
+from .task import (
+    TaskCreateRequest,
+    TaskUpdateRequest,
+    TaskResponse
+)
+
+from .tag import (
+    TagCreateRequest,
+    TagUpdateRequest,
+    TagResponse
+)
+
+from .group import (
+    GroupCreateRequest,
+    GroupUpdateRequest,
+    GroupResponse
+)
+
 __all__ = [
     'UserRegisterRequest',
     'UserLoginRequest',
@@ -22,4 +40,13 @@ __all__ = [
     'PasswordResetRequest',
     'PasswordResetConfirmRequest',
     'RefreshTokenRequest',
+    'TaskCreateRequest',
+    'TaskUpdateRequest',
+    'TaskResponse',
+    'TagCreateRequest',
+    'TagUpdateRequest',
+    'TagResponse',
+    'GroupCreateRequest',
+    'GroupUpdateRequest',
+    'GroupResponse',
 ]

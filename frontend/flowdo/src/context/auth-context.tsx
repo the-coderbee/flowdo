@@ -26,7 +26,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setLoading(true)
       
       try {
-        if (isAuthenticated()) {
+        const isUserAuthenticated = isAuthenticated()
+        
+        if (isUserAuthenticated) {
           const currentUser = await getCurrentUser()
           setUser(currentUser)
         } else {
@@ -49,7 +51,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const { user } = await loginApi(credentials)
       setUser(user)
       toast.success('Login successful')
-      router.push('/dashboard')
+      router.push('/tasks')
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Failed to login'
       toast.error(errorMessage)
@@ -65,7 +67,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const { user } = await registerApi(credentials)
       setUser(user)
       toast.success('Registration successful')
-      router.push('/dashboard')
+      router.push('/tasks')
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Failed to register'
       toast.error(errorMessage)

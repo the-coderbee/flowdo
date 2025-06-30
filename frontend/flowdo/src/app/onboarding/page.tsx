@@ -25,8 +25,14 @@ export default function OnboardingPage() {
               The smart way to manage tasks and boost productivity with seamless Pomodoro integration.
             </p>
             <div className="flex flex-wrap gap-4">
-              <Button size="lg" className="text-base px-8 py-6">
-                Get Started
+              <Button 
+                size="lg" 
+                className="text-base px-8 py-6"
+                asChild
+              >
+                <Link href="/register">
+                  Get Started
+                </Link>
               </Button>
               <Button 
                 size="lg" 
@@ -34,8 +40,8 @@ export default function OnboardingPage() {
                 className="text-base px-8 py-6"
                 asChild
               >
-                <Link href="/dashboard">
-                  Explore Dashboard
+                <Link href="/login">
+                  Login
                 </Link>
               </Button>
             </div>
@@ -44,7 +50,7 @@ export default function OnboardingPage() {
       </section>
 
       {/* Features Section */}
-      <section className="py-20 bg-accent/10">
+      <section className="py-20 bg-accent/10" id="features">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-16">Powerful Features</h2>
           
@@ -153,7 +159,7 @@ export default function OnboardingPage() {
       </section>
       
       {/* CTA Section */}
-      <section className="py-16 bg-secondary">
+      <section className="py-16 bg-secondary" id="pricing">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold text-secondary-foreground mb-6">
             Ready to boost your productivity?
@@ -161,8 +167,14 @@ export default function OnboardingPage() {
           <p className="text-xl text-secondary-foreground/80 mb-8 max-w-2xl mx-auto">
             Join thousands of users who have transformed their workflow with FlowDo.
           </p>
-          <Button size="lg" className="text-base px-8 py-6 bg-background text-foreground hover:bg-background/90">
-            Get Started Now
+          <Button 
+            size="lg" 
+            className="text-base px-8 py-6 bg-background text-foreground hover:bg-background/90"
+            asChild
+          >
+            <Link href="/register">
+              Get Started Now
+            </Link>
           </Button>
         </div>
       </section>

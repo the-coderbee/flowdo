@@ -13,6 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { User, LogOut, Settings } from 'lucide-react';
 
 export function AuthButtons() {
   const { user, logout, isAuthenticated, loading } = useAuth();
@@ -45,14 +46,21 @@ export function AuthButtons() {
             {user.email}
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <Link href="/dashboard">
-            <DropdownMenuItem>Dashboard</DropdownMenuItem>
+          <Link href="/tasks">
+            <DropdownMenuItem>
+              <User className="mr-2 h-4 w-4" />
+              Tasks
+            </DropdownMenuItem>
           </Link>
           <Link href="/profile">
-            <DropdownMenuItem>Profile Settings</DropdownMenuItem>
+            <DropdownMenuItem>
+              <Settings className="mr-2 h-4 w-4" />
+              Profile Settings
+            </DropdownMenuItem>
           </Link>
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={() => logout()}>
+            <LogOut className="mr-2 h-4 w-4" />
             Logout
           </DropdownMenuItem>
         </DropdownMenuContent>

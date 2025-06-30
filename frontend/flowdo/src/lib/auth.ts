@@ -26,7 +26,7 @@ export interface RegisterCredentials extends LoginCredentials {
 }
 
 // API URL
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
 
 // Cookie options
 const COOKIE_OPTIONS = {
@@ -65,7 +65,7 @@ function clearAuth(): void {
  * Register a new user
  */
 export async function register(credentials: RegisterCredentials): Promise<AuthResponse> {
-  const response = await fetch(`${API_URL}/api/auth/register`, {
+  const response = await fetch(`${API_URL}/auth/register`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -90,7 +90,7 @@ export async function register(credentials: RegisterCredentials): Promise<AuthRe
  * Login user
  */
 export async function login(credentials: LoginCredentials): Promise<AuthResponse> {
-  const response = await fetch(`${API_URL}/api/auth/login`, {
+  const response = await fetch(`${API_URL}/auth/login`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -119,7 +119,7 @@ export async function logout(): Promise<void> {
     const auth = getAuthFromStorage();
     if (auth) {
       // Call logout endpoint
-      await fetch(`${API_URL}/api/auth/logout`, {
+      await fetch(`${API_URL}/auth/logout`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${auth.token.access_token}`,
@@ -145,7 +145,7 @@ export async function getCurrentUser(): Promise<User | null> {
   }
 
   try {
-    const response = await fetch(`${API_URL}/api/auth/me`, {
+    const response = await fetch(`${API_URL}/auth/me`, {
       headers: {
         'Authorization': `Bearer ${auth.token.access_token}`,
       },
@@ -207,7 +207,7 @@ export function getToken(): string | null {
  * Request password reset
  */
 export async function requestPasswordReset(email: string): Promise<void> {
-  const response = await fetch(`${API_URL}/api/auth/password-reset/request`, {
+  const response = await fetch(`${API_URL}/auth/password-reset/request`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -225,7 +225,7 @@ export async function requestPasswordReset(email: string): Promise<void> {
  * Reset password with token
  */
 export async function resetPassword(token: string, new_password: string): Promise<void> {
-  const response = await fetch(`${API_URL}/api/auth/password-reset/confirm`, {
+  const response = await fetch(`${API_URL}/auth/password-reset/confirm`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

@@ -11,11 +11,11 @@ class User(BaseModel):
     display_name: Mapped[str] = mapped_column(String(30), index=True)
     psw_hash: Mapped[str] = mapped_column(String(255))
     # pomodoro settings
-    work_duration: Mapped[int] = mapped_column(Integer)
-    short_break_duration: Mapped[int] = mapped_column(Integer)
-    long_break_duration: Mapped[int] = mapped_column(Integer)
-    session_count: Mapped[int] = mapped_column(Integer)
-    sessions_until_long_break: Mapped[int] = mapped_column(Integer)
+    work_duration: Mapped[int] = mapped_column(Integer, nullable=True)
+    short_break_duration: Mapped[int] = mapped_column(Integer, nullable=True)
+    long_break_duration: Mapped[int] = mapped_column(Integer, nullable=True)
+    session_count: Mapped[int] = mapped_column(Integer, nullable=True)
+    sessions_until_long_break: Mapped[int] = mapped_column(Integer, nullable=True)
 
     tasks: Mapped[List["Task"]] = relationship("Task", back_populates="user")
     groups: Mapped[List["Group"]] = relationship("Group", back_populates="user")

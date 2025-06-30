@@ -7,12 +7,12 @@ This package contains SQLAlchemy models representing database tables.
 # Import all models here to ensure they are registered with SQLAlchemy
 from .base import BaseModel
 from .user import User
-from .tasks import Task
-from .groups import Group
-from .pomodoro_sessions import PomodoroSession
-from .subtasks import Subtask
-from .tags import Tag
-from .tasktags import TaskTag
+from .task import Task
+from .group import Group
+from .pomodoro_session import PomodoroSession
+from .subtask import Subtask
+from .tag import Tag
+from .tasktag import TaskTag
 from .user_token import UserToken
 
 __all__ = [

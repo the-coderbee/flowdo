@@ -2,7 +2,7 @@ from sqlalchemy import String, Integer, Boolean
 from sqlalchemy.orm import mapped_column, relationship, Mapped
 from sqlalchemy.sql.schema import ForeignKey
 from .base import BaseModel
-from .tasks import Task
+from .task import Task
 
 class Subtask(BaseModel):
     __tablename__ = "subtasks"

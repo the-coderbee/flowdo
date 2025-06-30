@@ -35,10 +35,10 @@ class AuthService:
     @staticmethod
     def hash_password(password: str) -> str:
         """Hash a password."""
-        return bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+        return bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
     
 
-    def register_user(self, email: str, password: str, display_name: str) -> Tuple[bool, str, Optional[User]]:
+    def register_user(self, email: str, password: str, display_name: str) -> Tuple[bool, str, Optional[Dict]]:
         """Register a user."""
         try:
             if not self.validate_email(email):
@@ -72,20 +72,20 @@ class AuthService:
         except Exception as e:
             return False, f"Failed to create user: {str(e)}", None
     
-    def login_user(self, email: str, password: str) -> Tuple[bool, str, Optional[User]]:
+    def login_user(self, email: str, password: str) -> Tuple[bool, str, Optional[Dict]]:
         """Login a user."""
         try:
             user = self.user_repo.get_user_by_email(email)
             if not user:
                 return False, "Invalid email or password", None
             
-            if not self.hash_password(password) == user.psw_hash:
+            if not bcrypt.checkpw(password.encode('utf-8'), user.psw_hash.encode('utf-8')):
                 return False, "Invalid email or password", None
             
             self.token_repo.revoke_all_tokens(user.id, "access")
             self.token_repo.revoke_all_tokens(user.id, "refresh")
 
-            access_token = self.token_repo.create_access_token(user.id, AuthService.token_expire_minutes)
+            access_token = self.token_repo.create_access_token(user.id, 30)
             refresh_token = self.token_repo.create_refresh_token(user.id, 60)
             
             return True, "Login successful", {
@@ -109,26 +109,23 @@ class AuthService:
         except Exception as e:
             return False, f"Logout failed: {str(e)}"
     
-    def refresh_token(self, refresh_token: str) -> Tuple[bool, str, Optional[User]]:
+    def refresh_token(self, refresh_token: str) -> str:
         """Refresh a token."""
         try:
             token = self.token_repo.get_user_token(refresh_token)
             if not token or not token.is_valid():
-                return False, "Invalid refresh token", None
+                return None
             
             user = self.user_repo.get_user_by_id(token.user_id)
             
             if not user:
-                return False, "User not found with this access token", None
-
+                return None
+            
             new_access_token = self.token_repo.create_access_token(user.id, AuthService.token_expire_minutes)
             
-            return True, "Token refreshed", {
-                'access_token': new_access_token,
-                'user': user
-            }
+            return new_access_token
         except Exception as e:
-            return False, f"Token refresh failed: {str(e)}", None
+            return None
         
     def verify_access_token(self, token: str) -> Tuple[bool, str, Optional[User]]:
         """Verify an access token."""

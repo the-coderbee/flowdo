@@ -1,28 +1,74 @@
 'use client';
 
-import React, { useState } from 'react';
-import { Task } from '@/sample/tasks';
+import React, { useState, useRef, useEffect } from 'react';
 import { TaskItem } from './task-item';
 import { TaskDialog } from './task-dialog';
 import { TaskForm } from './task-form';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Plus, Search } from 'lucide-react';
+import { Plus, Search, ClipboardList } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+
+// Define Task interface locally
+interface Tag {
+  id: string;
+  name: string;
+  color: string;
+}
+
+interface Task {
+  id: string;
+  title: string;
+  description: string;
+  completed: boolean;
+  createdAt: string;
+  dueDate: string | null;
+  priority: string;
+  tags: Tag[];
+  estimatedPomodoros: number;
+  completedPomodoros: number;
+  groupId?: string;
+}
 
 interface TaskListProps {
   tasks: Task[];
   onTaskUpdate: (task: Task) => void;
   onTaskCreate: (task: Partial<Task>) => void;
+  onTaskDelete?: (taskId: string) => void;
+  onToggleComplete?: (taskId: string, completed: boolean) => void;
+  isFormOpen?: boolean;
+  setIsFormOpen?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export function TaskList({ tasks, onTaskUpdate, onTaskCreate }: TaskListProps) {
+export function TaskList({ 
+  tasks, 
+  onTaskUpdate, 
+  onTaskCreate, 
+  onTaskDelete, 
+  onToggleComplete,
+  isFormOpen,
+  setIsFormOpen
+}: TaskListProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
   const [isTaskDialogOpen, setIsTaskDialogOpen] = useState(false);
   const [isTaskFormOpen, setIsTaskFormOpen] = useState(false);
   const [taskToEdit, setTaskToEdit] = useState<Task | undefined>(undefined);
   const router = useRouter();
+
+  // Sync local and parent form state
+  useEffect(() => {
+    if (isFormOpen !== undefined) {
+      setIsTaskFormOpen(isFormOpen);
+    }
+  }, [isFormOpen]);
+
+  // Sync back to parent when local state changes
+  useEffect(() => {
+    if (setIsFormOpen && isTaskFormOpen !== isFormOpen) {
+      setIsFormOpen(isTaskFormOpen);
+    }
+  }, [isTaskFormOpen, setIsFormOpen, isFormOpen]);
   
   // Handle search input change
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -32,10 +78,10 @@ export function TaskList({ tasks, onTaskUpdate, onTaskCreate }: TaskListProps) {
   // Filter tasks based on search query
   const filteredTasks = tasks.filter(task => 
     task.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    task.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    task.tags.some(tag => 
+    (task.description && task.description.toLowerCase().includes(searchQuery.toLowerCase())) ||
+    (task.tags && task.tags.some(tag => 
       tag.name.toLowerCase().includes(searchQuery.toLowerCase())
-    )
+    ))
   );
   
   // Handle task click
@@ -52,10 +98,9 @@ export function TaskList({ tasks, onTaskUpdate, onTaskCreate }: TaskListProps) {
   
   // Handle task deletion
   const handleDeleteTask = (taskId: string) => {
-    // In a real app, you would call an API to delete the task
-    // For now, we'll just remove it from the local state
-    const updatedTasks = tasks.filter(task => task.id !== taskId);
-    // Update the parent component
+    if (onTaskDelete) {
+      onTaskDelete(taskId);
+    }
   };
   
   // Handle task edit
@@ -66,12 +111,16 @@ export function TaskList({ tasks, onTaskUpdate, onTaskCreate }: TaskListProps) {
   
   // Toggle task completion
   const handleToggleComplete = (taskId: string, completed: boolean) => {
-    const task = tasks.find(t => t.id === taskId);
-    if (task) {
-      onTaskUpdate({
-        ...task,
-        completed
-      });
+    if (onToggleComplete) {
+      onToggleComplete(taskId, completed);
+    } else {
+      const task = tasks.find(t => t.id === taskId);
+      if (task) {
+        onTaskUpdate({
+          ...task,
+          completed
+        });
+      }
     }
   };
   
@@ -94,6 +143,42 @@ export function TaskList({ tasks, onTaskUpdate, onTaskCreate }: TaskListProps) {
   const handleStartPomodoro = (taskId: string) => {
     router.push(`/pomodoro?taskId=${taskId}`);
   };
+
+  // Create a new task button handler
+  const handleCreateNewTask = () => {
+    setTaskToEdit(undefined);
+    setIsTaskFormOpen(true);
+  };
+  
+  // Render empty state
+  const renderEmptyState = () => {
+    if (searchQuery) {
+      return (
+        <div className="text-center py-10">
+          <h3 className="text-lg font-semibold mb-2">No tasks found</h3>
+          <p className="text-muted-foreground">
+            Try a different search query
+          </p>
+        </div>
+      );
+    }
+    
+    return (
+      <div className="flex flex-col items-center justify-center py-16">
+        <div className="bg-muted/30 p-6 rounded-full mb-4">
+          <ClipboardList className="h-12 w-12 text-muted-foreground" />
+        </div>
+        <h3 className="text-xl font-semibold mb-2">No tasks yet</h3>
+        <p className="text-muted-foreground mb-6 text-center max-w-md">
+          Create your first task to get started with organizing your work
+        </p>
+        <Button onClick={handleCreateNewTask} className="gap-2">
+          <Plus className="h-4 w-4" /> 
+          Create your first task
+        </Button>
+      </div>
+    );
+  };
   
   return (
     <div className="flex flex-col">
@@ -109,10 +194,7 @@ export function TaskList({ tasks, onTaskUpdate, onTaskCreate }: TaskListProps) {
           />
         </div>
         <Button 
-          onClick={() => {
-            setTaskToEdit(undefined);
-            setIsTaskFormOpen(true);
-          }}
+          onClick={handleCreateNewTask}
           className="gap-1"
         >
           <Plus className="h-4 w-4" /> 
@@ -122,12 +204,7 @@ export function TaskList({ tasks, onTaskUpdate, onTaskCreate }: TaskListProps) {
       
       {/* Task List */}
       {filteredTasks.length === 0 ? (
-        <div className="text-center py-10">
-          <h3 className="text-lg font-semibold mb-2">No tasks found</h3>
-          <p className="text-muted-foreground">
-            {searchQuery ? 'Try a different search query' : 'Click "Add Task" to create a new task'}
-          </p>
-        </div>
+        renderEmptyState()
       ) : (
         <div className="space-y-2">
           {filteredTasks.map(task => (

@@ -8,7 +8,7 @@ import { useAuth } from '@/context/auth-context';
 
 export function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, loading } = useAuth();
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -17,22 +17,21 @@ export function Navbar() {
   // Define links based on authentication status
   const navLinks = isAuthenticated 
     ? [
-    { text: 'Dashboard', href: '/dashboard' },
-    { text: 'Tasks', href: '/tasks' },
-    { text: 'Pomodoro', href: '/pomodoro' },
+        { text: 'Tasks', href: '/tasks' },
+        { text: 'Pomodoro', href: '/pomodoro' },
       ]
     : [
         { text: 'Home', href: '/' },
         { text: 'Features', href: '/#features' },
         { text: 'Pricing', href: '/#pricing' },
-  ];
+      ];
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background border-b border-border">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
-            <Link href="/" className="flex-shrink-0 flex items-center">
+            <Link href={isAuthenticated ? '/tasks' : '/'} className="flex-shrink-0 flex items-center">
               <Image src="/images/brand/logo-nobg.png" alt="FlowDo Logo" width={220} height={100} />
             </Link>
           </div>

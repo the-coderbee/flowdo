@@ -2,8 +2,8 @@ from sqlalchemy import String, Integer
 from sqlalchemy.orm import mapped_column, relationship, Mapped
 from sqlalchemy.sql.schema import ForeignKey
 from .base import BaseModel
-from .tasks import Task
-from .tags import Tag
+from .task import Task
+from .tag import Tag
 
 class TaskTag(BaseModel):
     __tablename__ = "task_tags"

@@ -49,12 +49,9 @@ export function Sidebar({ className, onCollapsedChange, defaultCollapsed = false
   };
 
   const menuItems: SidebarItem[] = [
-    { icon: <Home size={22} />, label: 'Dashboard', href: '/dashboard' },
     { icon: <ListTodo size={22} />, label: 'Tasks', href: '/tasks' },
     { icon: <Timer size={22} />, label: 'Pomodoro', href: '/pomodoro' },
-    { icon: <Calendar size={22} />, label: 'Calendar', href: '/calendar' },
-    { icon: <Star size={22} />, label: 'Favorites', href: '/favorites' },
-    { icon: <FolderClosed size={22} />, label: 'Projects', href: '/projects' },
+    { icon: <FolderClosed size={22} />, label: 'Groups', href: '/groups' },
   ];
 
   return (

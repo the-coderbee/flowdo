@@ -7,6 +7,7 @@ from typing import Optional, Dict, Any
 from config import get_config
 from logger import get_logger
 from database.db import init_app, Base, engine
+from app.utils.json_provider import AlchemyJSONProvider
 
 logger = get_logger(__name__)
 
@@ -22,7 +23,7 @@ def create_app(config_override: Optional[Dict[str, Any]] = None) -> Flask:
     """
     logger.info("Creating Flask application...")
     app = Flask(__name__)
-    
+    app.json = AlchemyJSONProvider(app) # TODO: this is not working right now needs to be fixed
     # Load config
     config = get_config()
     app.config.from_object(config)
@@ -44,9 +45,11 @@ def create_app(config_override: Optional[Dict[str, Any]] = None) -> Flask:
     
     # Register blueprints
     logger.info("Registering blueprints...")
-    from app.routers import auth_bp
+    from app.routers import auth_bp, task_bp, health_bp
     
     app.register_blueprint(auth_bp)
+    app.register_blueprint(task_bp)
+    app.register_blueprint(health_bp)
     
     # Initialize the database
     try:

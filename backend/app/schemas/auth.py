@@ -15,14 +15,6 @@ class UserRegisterRequest(BaseModel):
     @validator('password')
     def password_strength(cls, v):
         """Validate password strength."""
-        if len(v) < 8:
-            raise ValueError("Password must be at least 8 characters long")
-        if not re.search(r'[A-Z]', v):
-            raise ValueError("Password must contain at least one uppercase letter")
-        if not re.search(r'[a-z]', v):
-            raise ValueError("Password must contain at least one lowercase letter")
-        if not re.search(r'[0-9]', v):
-            raise ValueError("Password must contain at least one number")
         return v
 
 
@@ -39,6 +31,10 @@ class TokenResponse(BaseModel):
     token_type: str = "bearer"
     expires_in: int
 
+    model_config = {
+        "from_attributes": True
+    }
+
 
 class UserResponse(BaseModel):
     """Schema for user response."""
@@ -46,8 +42,9 @@ class UserResponse(BaseModel):
     display_name: str
     id: int
     
-    class Config:
-        from_attributes = True
+    model_config = {
+        "from_attributes": True
+    }
 
 
 class AuthResponse(BaseModel):

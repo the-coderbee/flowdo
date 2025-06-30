@@ -8,9 +8,15 @@ Each repository provides a standardized interface for CRUD operations on a speci
 from .base_repository import BaseRepository
 from .user_repository import UserRepository
 from .user_token_repository import UserTokenRepository
+from .task_repository import TaskRepository
+from .tag_repository import TagRepository
+from .group_repository import GroupRepository
 
 __all__ = [
     "BaseRepository",
     "UserRepository",
-    "UserTokenRepository"
+    "UserTokenRepository",
+    "TaskRepository",
+    "TagRepository",
+    "GroupRepository"
 ] 

@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
-import { Task, TaskPriority, Tag, sampleTags, sampleGroups } from '@/sample/tasks';
+import React, { useState, useEffect } from 'react';
+import { TaskPriority, TaskStatus } from '@/lib/task';
 import {
   Dialog,
   DialogContent,
@@ -11,6 +11,43 @@ import {
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { X, Plus } from 'lucide-react';
+
+// Define interfaces locally since sample/tasks.ts was removed
+interface Tag {
+  id: string;
+  name: string;
+  color: string;
+}
+
+interface Task {
+  id: string;
+  title: string;
+  description: string;
+  completed: boolean;
+  createdAt: string;
+  dueDate: string | null;
+  priority: string;
+  tags: Tag[];
+  estimatedPomodoros: number;
+  completedPomodoros: number;
+  groupId?: string;
+}
+
+// Sample data for now, can be replaced with API data later
+const sampleTags: Tag[] = [
+  { id: 'tag1', name: 'Work', color: '#51557E' },
+  { id: 'tag2', name: 'Personal', color: '#816797' },
+  { id: 'tag3', name: 'Urgent', color: '#D14343' },
+  { id: 'tag4', name: 'Learning', color: '#43A047' },
+  { id: 'tag5', name: 'Project', color: '#1565C0' },
+  { id: 'tag6', name: 'Meeting', color: '#FFA000' },
+];
+
+const sampleGroups = [
+  { id: 'group1', name: 'Frontend Tasks' },
+  { id: 'group2', name: 'Backend Tasks' },
+  { id: 'group3', name: 'Personal Projects' },
+];
 
 interface TaskFormProps {
   initialTask?: Task;
@@ -24,7 +61,7 @@ export function TaskForm({ initialTask, open, onOpenChange, onSubmit, mode }: Ta
   const defaultTask = {
     title: '',
     description: '',
-    priority: 'medium' as TaskPriority,
+    priority: TaskPriority.MEDIUM,
     dueDate: '',
     tags: [],
     estimatedPomodoros: 1,
@@ -33,6 +70,17 @@ export function TaskForm({ initialTask, open, onOpenChange, onSubmit, mode }: Ta
   const [formData, setFormData] = useState<Partial<Task>>(initialTask || defaultTask);
   const [selectedTags, setSelectedTags] = useState<Tag[]>(initialTask?.tags || []);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  // Update form when initialTask changes
+  useEffect(() => {
+    if (initialTask) {
+      setFormData(initialTask);
+      setSelectedTags(initialTask.tags || []);
+    } else {
+      setFormData(defaultTask);
+      setSelectedTags([]);
+    }
+  }, [initialTask, open]);
   
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -94,7 +142,7 @@ export function TaskForm({ initialTask, open, onOpenChange, onSubmit, mode }: Ta
               id="title"
               name="title"
               type="text"
-              value={formData.title}
+              value={formData.title || ''}
               onChange={handleChange}
               required
               className="w-full rounded-md border border-border px-3 py-2.5 text-base focus:outline-none focus:ring-1 focus:ring-primary"
@@ -110,7 +158,7 @@ export function TaskForm({ initialTask, open, onOpenChange, onSubmit, mode }: Ta
             <textarea
               id="description"
               name="description"
-              value={formData.description}
+              value={formData.description || ''}
               onChange={handleChange}
               rows={3}
               className="w-full rounded-md border border-border px-3 py-2.5 text-base focus:outline-none focus:ring-1 focus:ring-primary"
@@ -127,14 +175,14 @@ export function TaskForm({ initialTask, open, onOpenChange, onSubmit, mode }: Ta
               <select
                 id="priority"
                 name="priority"
-                value={formData.priority}
+                value={formData.priority || TaskPriority.MEDIUM}
                 onChange={handleChange}
                 className="w-full rounded-md border border-border px-3 py-2.5 text-base focus:outline-none focus:ring-1 focus:ring-primary bg-background"
               >
-                <option value="low">Low</option>
-                <option value="medium">Medium</option>
-                <option value="high">High</option>
-                <option value="urgent">Urgent</option>
+                <option value={TaskPriority.LOW}>Low</option>
+                <option value={TaskPriority.MEDIUM}>Medium</option>
+                <option value={TaskPriority.HIGH}>High</option>
+                <option value={TaskPriority.URGENT}>Urgent</option>
               </select>
             </div>
             
@@ -183,7 +231,7 @@ export function TaskForm({ initialTask, open, onOpenChange, onSubmit, mode }: Ta
                 type="number"
                 min="1"
                 max="10"
-                value={formData.estimatedPomodoros}
+                value={formData.estimatedPomodoros || 1}
                 onChange={handleChange}
                 className="w-full rounded-md border border-border px-3 py-2.5 text-base focus:outline-none focus:ring-1 focus:ring-primary"
               />

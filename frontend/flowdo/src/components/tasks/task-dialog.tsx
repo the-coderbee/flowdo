@@ -3,11 +3,32 @@
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { Task, TaskPriority, Tag } from '@/sample/tasks';
+import { TaskPriority } from '@/lib/task';
 import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Clock, Edit, Timer, Calendar, Tag as TagIcon, CheckCircle } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
+
+// Define interfaces locally since sample/tasks.ts was removed
+interface Tag {
+  id: string;
+  name: string;
+  color: string;
+}
+
+interface Task {
+  id: string;
+  title: string;
+  description: string;
+  completed: boolean;
+  createdAt: string;
+  dueDate: string | null;
+  priority: string;
+  tags: Tag[];
+  estimatedPomodoros: number;
+  completedPomodoros: number;
+  groupId?: string;
+}
 
 interface TaskDialogProps {
   task: Task | null;
@@ -39,18 +60,33 @@ export function TaskDialog({ task, isOpen, onClose, onEdit, onDelete, onStartPom
     }
   };
   
-  const formatDate = (dateString: string) => {
+  const formatDate = (dateString: string | null) => {
+    if (!dateString) return null;
+    
     const date = new Date(dateString);
     return formatDistanceToNow(date, { addSuffix: true });
   };
   
   if (!task) return null;
 
-  const priorityColors: Record<TaskPriority, string> = {
-    high: 'bg-red-500/10 text-red-700 dark:text-red-400',
-    medium: 'bg-yellow-500/10 text-yellow-700 dark:text-yellow-400',
-    low: 'bg-green-500/10 text-green-700 dark:text-green-400',
-    urgent: 'bg-red-700/10 text-red-800 dark:text-red-300',
+  // Helper to get the right color based on priority
+  const getPriorityColor = (priority: string): string => {
+    switch(priority.toLowerCase()) {
+      case TaskPriority.HIGH:
+      case 'high':
+        return 'bg-red-500/10 text-red-700 dark:text-red-400';
+      case TaskPriority.MEDIUM:
+      case 'medium':
+        return 'bg-yellow-500/10 text-yellow-700 dark:text-yellow-400';
+      case TaskPriority.LOW:
+      case 'low':
+        return 'bg-green-500/10 text-green-700 dark:text-green-400';
+      case TaskPriority.URGENT:
+      case 'urgent':
+        return 'bg-red-700/10 text-red-800 dark:text-red-300';
+      default:
+        return 'bg-gray-500/10 text-gray-700 dark:text-gray-400';
+    }
   };
   
   // Sample subtasks - in a real app this would be part of the Task interface
@@ -69,9 +105,11 @@ export function TaskDialog({ task, isOpen, onClose, onEdit, onDelete, onStartPom
             </div>
             {task.title}
           </DialogTitle>
-          <DialogDescription className="text-sm flex items-center gap-1 mt-1">
-            <Clock className="h-3.5 w-3.5" /> Created {formatDate(task.createdAt)}
-          </DialogDescription>
+          {task.createdAt && (
+            <DialogDescription className="text-sm flex items-center gap-1 mt-1">
+              <Clock className="h-3.5 w-3.5" /> Created {formatDate(task.createdAt)}
+            </DialogDescription>
+          )}
         </DialogHeader>
         
         <div className="space-y-4 py-2">
@@ -79,7 +117,7 @@ export function TaskDialog({ task, isOpen, onClose, onEdit, onDelete, onStartPom
           <div className="flex flex-wrap gap-4 items-center">
             {task.priority && (
               <div className="flex items-center gap-2">
-                <Badge variant="outline" className={`px-2 py-1 ${priorityColors[task.priority]}`}>
+                <Badge variant="outline" className={`px-2 py-1 ${getPriorityColor(task.priority)}`}>
                   {task.priority.charAt(0).toUpperCase() + task.priority.slice(1)} Priority
                 </Badge>
               </div>

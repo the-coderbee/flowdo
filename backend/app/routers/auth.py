@@ -7,7 +7,7 @@ from typing import Dict, Any
 import logging
 from datetime import datetime, timedelta
 
-from flask import Blueprint, request, jsonify, current_app, g
+from flask import Blueprint, request, jsonify, current_app
 from pydantic import ValidationError
 from functools import wraps
 from flask_jwt_extended import get_jwt, get_jwt_identity, jwt_required
@@ -37,7 +37,7 @@ def register():
     """Register a new user and issue tokens."""
     try:
         auth_service = AuthService(db_session)
-        payload = request.get_json()
+        payload = request.get_json(force=True)
         if not payload:
             return jsonify({'error': 'Invalid request'}), 400
         
@@ -50,6 +50,7 @@ def register():
         )
         
         if not success:
+            logger.warning(f"Failed to register user: {message}")
             return jsonify({'error': message}), 400
 
 
@@ -68,7 +69,7 @@ def register():
 
     except ValidationError as e:
         logger.warning(f"Validation error during registration: {str(e)}")
-        return jsonify({'error': str(e)}), 400
+        return jsonify({'error': e.errors()}), 400
     except Exception as e:
         logger.error(f"Unexpected error during registration: {str(e)}")
         return jsonify({'error': 'An unexpected error occurred'}), 500
@@ -78,7 +79,7 @@ def login():
     """Login a user."""
     try:
         auth_service = AuthService(db_session)
-        payload = request.get_json()
+        payload = request.get_json(force=True)
         if not payload:
             return jsonify({'error': 'Invalid request'}), 400
         
@@ -90,6 +91,7 @@ def login():
         )
 
         if not success:
+            logger.warning(f"Failed to login user: {message}")
             return jsonify({'error': message}), 400
         
         token_dto = TokenResponse(

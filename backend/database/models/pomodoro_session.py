@@ -7,7 +7,7 @@ from sqlalchemy.sql.schema import ForeignKey
 from enum import Enum
 from .base import BaseModel
 from .user import User
-from .tasks import Task, TaskStatus
+from .task import Task, TaskStatus
 
 
 class PomodoroSessionType(str, Enum):

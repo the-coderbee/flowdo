@@ -22,7 +22,7 @@ class UserTokenRepository(BaseRepository[UserToken]):
         """Create an access token."""
         # delete any existing token for user
         self.delete_token_by_user_id(user_id)
-        token = create_access_token(identity=user_id, expires_delta=timedelta(minutes=expires_delta))
+        token = create_access_token(identity=str(user_id), expires_delta=timedelta(minutes=expires_delta))
 
         jti = get_jti(token)
 
@@ -37,7 +37,7 @@ class UserTokenRepository(BaseRepository[UserToken]):
 
     def create_refresh_token(self, user_id: int, expires_delta: int) -> str:
         """Create a refresh token."""
-        token = create_refresh_token(identity=user_id, expires_delta=timedelta(minutes=expires_delta))
+        token = create_refresh_token(identity=str(user_id), expires_delta=timedelta(minutes=expires_delta))
 
         jti = get_jti(token)
 
@@ -60,7 +60,7 @@ class UserTokenRepository(BaseRepository[UserToken]):
             return True
         return False
     
-    def revoke_all_tokens(self, user_id: int, token_type: str) -> none:
+    def revoke_all_tokens(self, user_id: int, token_type: str) -> None:
         """Revoke all tokens for a user."""
         user_tokens = self.db_session.query(UserToken).filter(UserToken.user_id == user_id).all()
         for user_token in user_tokens:
@@ -87,3 +87,17 @@ class UserTokenRepository(BaseRepository[UserToken]):
         """Get an access token by its value."""
         jti = get_jti(token_value)
         return self.db_session.query(UserToken).filter(UserToken.jti == jti, UserToken.token_type == "access").one_or_none()
+
+    def get_user_token(self, token_value: str) -> Optional[UserToken]:
+        """Get a token by its value."""
+        jti = get_jti(token_value)
+        return self.db_session.query(UserToken).filter(UserToken.jti == jti).one_or_none()
+
+    def delete_token_by_user_id(self, user_id: int) -> None:
+        """Delete a token by user ID."""
+        try:
+            self.db_session.query(UserToken).filter(UserToken.user_id == user_id).delete()
+            self.db_session.commit()
+        except Exception as e:
+            self.db_session.rollback()
+            print(f"Failed to delete token by user ID: {str(e)}")

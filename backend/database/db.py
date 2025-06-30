@@ -77,12 +77,12 @@ def init_db():
     from database.models.base import BaseModel
     # Import all models here
     import database.models.user
-    import database.models.tasks
-    import database.models.groups
-    import database.models.pomodoro_sessions
-    import database.models.subtasks
-    import database.models.tags
-    import database.models.tasktags
+    import backend.database.models.task
+    import database.models.group
+    import backend.database.models.pomodoro_session
+    import backend.database.models.subtask
+    import backend.database.models.tag
+    import backend.database.models.tasktag
     import database.models.user_token
     
     # Create tables

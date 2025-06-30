@@ -22,6 +22,10 @@ class UserRepository(BaseRepository[User]):
         """Get a user by email."""
         return self.db_session.query(User).filter(User.email == email).first()
     
+    def get_user_by_id(self, user_id: int) -> Optional[User]:
+        """Get a user by ID."""
+        return self.db_session.query(User).filter(User.id == user_id).first()
+
     def create_user(self, email: str, display_name: str, password_hash: str) -> Tuple[bool, User]:
         """Create a new user."""
         try:
@@ -31,6 +35,8 @@ class UserRepository(BaseRepository[User]):
             self.db_session.refresh(user)
             return True, user
         except Exception as e:
+            self.db_session.rollback()
+            print(f"Failed to create user: {str(e)}")
             return False, None
 
     def verify_password(self, email: str, password: str) -> bool:

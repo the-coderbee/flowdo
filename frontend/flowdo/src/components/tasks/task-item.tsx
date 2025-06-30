@@ -1,12 +1,32 @@
 'use client';
 
 import React from 'react';
-import { Task, Tag } from '@/sample/tasks';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Badge } from '@/components/ui/badge';
 import { X, Calendar, Timer } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 import { cn } from '@/lib/utils';
+
+// Define interfaces locally
+interface Tag {
+  id: string;
+  name: string;
+  color: string;
+}
+
+interface Task {
+  id: string;
+  title: string;
+  description: string;
+  completed: boolean;
+  createdAt: string;
+  dueDate: string | null;
+  priority: string;
+  tags: Tag[];
+  estimatedPomodoros: number;
+  completedPomodoros: number;
+  groupId?: string;
+}
 
 export interface TaskItemProps {
   task: Task;
@@ -41,11 +61,11 @@ export function TaskItem({
   };
   
   // Task priority colors
-  const priorityColors = {
-    low: 'bg-green-100 dark:bg-green-950',
-    medium: 'bg-yellow-100 dark:bg-yellow-950',
-    high: 'bg-red-100 dark:bg-red-950',
-    urgent: 'bg-red-200 dark:bg-red-900',
+  const priorityColors: Record<string, string> = {
+    'low': 'bg-green-100 dark:bg-green-950',
+    'medium': 'bg-yellow-100 dark:bg-yellow-950',
+    'high': 'bg-red-100 dark:bg-red-950',
+    'urgent': 'bg-red-200 dark:bg-red-900',
   };
   
   return (
