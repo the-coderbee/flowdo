@@ -44,9 +44,15 @@ class Config:
     JWT_ACCESS_TOKEN_EXPIRES = int(os.environ.get("JWT_ACCESS_TOKEN_EXPIRES", 60))  # 60 minutes
     JWT_REFRESH_TOKEN_EXPIRES = int(os.environ.get("JWT_REFRESH_TOKEN_EXPIRES", 30 * 24 * 60))  # 30 days in minutes
     JWT_ALGORITHM = "HS256"
-    JWT_TOKEN_LOCATION = ['headers']
+    JWT_TOKEN_LOCATION = ['cookies', 'headers']
     JWT_HEADER_NAME = 'Authorization'
     JWT_HEADER_TYPE = 'Bearer'
+    JWT_COOKIE_SECURE = os.environ.get("JWT_COOKIE_SECURE", "False").lower() == "true"
+    JWT_COOKIE_SAMESITE = 'Strict'
+    JWT_ACCESS_COOKIE_NAME = 'access_token'
+    JWT_REFRESH_COOKIE_NAME = 'refresh_token'
+    JWT_COOKIE_CSRF_PROTECT = True
+    JWT_CSRF_IN_COOKIES = True
     
     # CORS settings
     CORS_ORIGINS = os.environ.get("CORS_ORIGINS", "http://localhost:3000").split(",")
@@ -92,6 +98,7 @@ class ProductionConfig(Config):
     
     # JWT settings
     JWT_SECRET_KEY = os.environ.get("JWT_SECRET_KEY") or SECRET_KEY
+    JWT_COOKIE_SECURE = True  # Always secure in production
     
     # CORS settings in production
     CORS_ORIGINS = os.environ.get("CORS_ORIGINS", "").split(",")

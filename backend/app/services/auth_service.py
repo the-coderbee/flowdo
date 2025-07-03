@@ -126,6 +126,24 @@ class AuthService:
             return new_access_token
         except Exception as e:
             return None
+
+    def refresh_access_token(self, user_id: int, refresh_jti: str) -> str:
+        """Refresh access token using refresh token JTI."""
+        try:
+            # Check if refresh token is valid
+            if self.token_repo.is_token_revoked(refresh_jti):
+                return None
+            
+            user = self.user_repo.get_user_by_id(user_id)
+            if not user:
+                return None
+            
+            # Create new access token
+            new_access_token = self.token_repo.create_access_token(user.id, AuthService.token_expire_minutes)
+            
+            return new_access_token
+        except Exception as e:
+            return None
         
     def verify_access_token(self, token: str) -> Tuple[bool, str, Optional[User]]:
         """Verify an access token."""

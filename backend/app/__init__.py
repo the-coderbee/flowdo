@@ -35,6 +35,16 @@ def create_app(config_override: Optional[Dict[str, Any]] = None) -> Flask:
     # Initialize extensions
     jwt = JWTManager(app)
     
+    # Configure JWT token blocklist checking
+    @jwt.token_in_blocklist_loader
+    def check_if_token_revoked(jwt_header, jwt_payload):
+        from app.services.auth_service import AuthService
+        from database.db import db_session
+        
+        jti = jwt_payload['jti']
+        auth_service = AuthService(db_session)
+        return auth_service.token_repo.is_token_revoked(jti)
+    
     # Set up CORS
     logger.info("Configuring CORS...")
     cors_origins = app.config.get("CORS_ORIGINS", ["http://localhost:3000"])

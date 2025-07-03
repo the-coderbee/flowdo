@@ -7,10 +7,10 @@ from typing import Dict, Any
 import logging
 from datetime import datetime, timedelta
 
-from flask import Blueprint, request, jsonify, current_app
+from flask import Blueprint, request, jsonify, current_app, make_response
 from pydantic import ValidationError
 from functools import wraps
-from flask_jwt_extended import get_jwt, get_jwt_identity, jwt_required
+from flask_jwt_extended import get_jwt, get_jwt_identity, jwt_required, set_access_cookies, set_refresh_cookies, unset_jwt_cookies
 from app.schemas import (
     UserRegisterRequest,
     UserLoginRequest,
@@ -54,18 +54,27 @@ def register():
             return jsonify({'error': message}), 400
 
 
-        token_dto = TokenResponse(
-            access_token=data['access_token'],
-            refresh_token=data['refresh_token'],
-            token_type="bearer",
-            expires_in=current_app.config.get('JWT_ACCESS_TOKEN_EXPIRES', 60) * 60  # Convert minutes to seconds
-        )
-
         user: User = data['user']
-
         user_dto = UserResponse.model_validate(user)
 
-        return jsonify(AuthResponse(user=user_dto, token=token_dto).model_dump()), 201
+        # Create response without tokens in JSON
+        auth_response = AuthResponse(
+            user=user_dto, 
+            token=TokenResponse(
+                access_token="",  # Don't expose in JSON
+                refresh_token="", # Don't expose in JSON
+                token_type="bearer",
+                expires_in=current_app.config.get('JWT_ACCESS_TOKEN_EXPIRES', 60) * 60
+            )
+        )
+
+        response = make_response(jsonify(auth_response.model_dump()), 201)
+        
+        # Set HTTP-only cookies
+        set_access_cookies(response, data['access_token'])
+        set_refresh_cookies(response, data['refresh_token'])
+        
+        return response
 
     except ValidationError as e:
         logger.warning(f"Validation error during registration: {str(e)}")
@@ -94,17 +103,27 @@ def login():
             logger.warning(f"Failed to login user: {message}")
             return jsonify({'error': message}), 400
         
-        token_dto = TokenResponse(
-            access_token=data['access_token'],
-            refresh_token=data['refresh_token'],
-            token_type="bearer",
-            expires_in=current_app.config.get('JWT_ACCESS_TOKEN_EXPIRES', 60) * 60  # Convert minutes to seconds
-        )
-        
         user: User = data['user']
-        
         user_dto = UserResponse.model_validate(user)
-        return jsonify(AuthResponse(user=user_dto, token=token_dto).model_dump()), 200
+
+        # Create response without tokens in JSON
+        auth_response = AuthResponse(
+            user=user_dto, 
+            token=TokenResponse(
+                access_token="",  # Don't expose in JSON
+                refresh_token="", # Don't expose in JSON
+                token_type="bearer",
+                expires_in=current_app.config.get('JWT_ACCESS_TOKEN_EXPIRES', 60) * 60
+            )
+        )
+
+        response = make_response(jsonify(auth_response.model_dump()), 200)
+        
+        # Set HTTP-only cookies
+        set_access_cookies(response, data['access_token'])
+        set_refresh_cookies(response, data['refresh_token'])
+        
+        return response
         
     except ValidationError as e:
         logger.warning(f"Validation error during login: {str(e)}")
@@ -122,24 +141,32 @@ def refresh():
     """Refresh a user's access token."""
     try:
         auth_service = AuthService(db_session)
-        payload = request.get_json()
-        if not payload:
-            return jsonify({'error': 'Invalid request'}), 400
         
-        refresh_data = RefreshTokenRequest(**payload)
+        # Get the refresh token from the JWT identity
+        current_user_id = get_jwt_identity()
+        current_jwt = get_jwt()
+        jti = current_jwt['jti']
         
-        new_access_token = auth_service.refresh_token(refresh_data.refresh_token)
+        # Get the new access token
+        new_access_token = auth_service.refresh_access_token(current_user_id, jti)
 
         if not new_access_token:
             return jsonify({'error': 'Invalid refresh token'}), 401
         
-        token_dto = TokenResponse(
-            access_token=new_access_token,
-            refresh_token=refresh_data.refresh_token,
+        # Create response without tokens in JSON
+        token_response = TokenResponse(
+            access_token="",  # Don't expose in JSON
+            refresh_token="", # Don't expose in JSON
             token_type="bearer",
-            expires_in=current_app.config.get('JWT_ACCESS_TOKEN_EXPIRES', 60) * 60  # Convert minutes to seconds
+            expires_in=current_app.config.get('JWT_ACCESS_TOKEN_EXPIRES', 60) * 60
         )
-        return jsonify(token_dto.model_dump()), 200
+
+        response = make_response(jsonify(token_response.model_dump()), 200)
+        
+        # Set new access token cookie (refresh token stays the same)
+        set_access_cookies(response, new_access_token)
+        
+        return response
     
     except ValidationError as e:
         logger.warning(f"Validation error during refresh: {str(e)}")
@@ -163,7 +190,12 @@ def logout():
         
         auth_service.logout_user(user_id, jti)
         
-        return jsonify({'message': 'Successfully logged out'}), 200
+        response = make_response(jsonify({'message': 'Successfully logged out'}), 200)
+        
+        # Clear HTTP-only cookies
+        unset_jwt_cookies(response)
+        
+        return response
         
     except Exception as e:
         logger.error(f"Unexpected error during logout: {str(e)}")

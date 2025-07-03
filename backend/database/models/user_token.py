@@ -1,5 +1,5 @@
 from datetime import datetime
-from sqlalchemy import String, Integer, DateTime
+from sqlalchemy import String, Integer, DateTime, Boolean
 from sqlalchemy.orm import mapped_column, Mapped
 from sqlalchemy.sql.schema import ForeignKey
 from sqlalchemy.orm import relationship
@@ -16,6 +16,7 @@ class UserToken(BaseModel):
     
     expires_at: Mapped[datetime] = mapped_column(DateTime)
     token_type: Mapped[str] = mapped_column(String(50), default="refresh")
+    revoked: Mapped[bool] = mapped_column(Boolean, default=False)
 
     user: Mapped["User"] = relationship("User", back_populates="tokens")
 
@@ -28,5 +29,5 @@ class UserToken(BaseModel):
     
     @property
     def is_valid(self) -> bool:
-        return not self.is_expired
+        return not self.is_expired and not self.revoked
     
