@@ -48,7 +48,12 @@ def create_app(config_override: Optional[Dict[str, Any]] = None) -> Flask:
     # Set up CORS
     logger.info("Configuring CORS...")
     cors_origins = app.config.get("CORS_ORIGINS", ["http://localhost:3000"])
-    CORS(app, resources={r"/api/*": {"origins": cors_origins}})
+    CORS(app, 
+         resources={r"/api/*": {"origins": cors_origins}},
+         allow_headers=["Content-Type", "Authorization", "X-CSRF-TOKEN"],
+         supports_credentials=True,
+         methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+        )
     
     # Initialize migrations
     migrate = Migrate(app, Base)

@@ -4738,3 +4738,214 @@ WHERE user_tokens.user_id = %(user_id_1)s]
 2025-07-03 08:31:58 - werkzeug - INFO -  * Debugger PIN: 752-025-481
 2025-07-03 08:32:17 - werkzeug - INFO - 127.0.0.1 - - [03/Jul/2025 08:32:17] "OPTIONS /api/auth/login HTTP/1.1" 200 -
 2025-07-03 08:32:17 - werkzeug - INFO - 127.0.0.1 - - [03/Jul/2025 08:32:17] "POST /api/auth/login HTTP/1.1" 200 -
+2025-07-03 12:42:52 - database.db - INFO - Creating database engine with URL: localhost:5432/flowdo_dev
+2025-07-03 12:42:52 - app - INFO - Creating Flask application...
+2025-07-03 12:42:52 - app - INFO - Configuring CORS...
+2025-07-03 12:42:52 - app - INFO - Registering blueprints...
+2025-07-03 12:42:52 - app - INFO - Initializing database...
+2025-07-03 12:42:52 - app - INFO - Database initialization successful
+2025-07-03 12:42:52 - __main__ - INFO - Starting Flask application on 0.0.0.0:5000
+2025-07-03 12:42:52 - __main__ - INFO - Environment: development
+2025-07-03 12:42:52 - __main__ - INFO - Debug mode: True
+2025-07-03 12:42:52 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.84:5000
+2025-07-03 12:42:52 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-07-03 12:42:52 - werkzeug - INFO -  * Restarting with stat
+2025-07-03 12:42:53 - database.db - INFO - Creating database engine with URL: localhost:5432/flowdo_dev
+2025-07-03 12:42:53 - app - INFO - Creating Flask application...
+2025-07-03 12:42:53 - app - INFO - Configuring CORS...
+2025-07-03 12:42:53 - app - INFO - Registering blueprints...
+2025-07-03 12:42:53 - app - INFO - Initializing database...
+2025-07-03 12:42:53 - app - INFO - Database initialization successful
+2025-07-03 12:42:53 - __main__ - INFO - Starting Flask application on 0.0.0.0:5000
+2025-07-03 12:42:53 - __main__ - INFO - Environment: development
+2025-07-03 12:42:53 - __main__ - INFO - Debug mode: True
+2025-07-03 12:42:53 - werkzeug - WARNING -  * Debugger is active!
+2025-07-03 12:42:53 - werkzeug - INFO -  * Debugger PIN: 752-025-481
+2025-07-03 12:42:58 - werkzeug - INFO - 127.0.0.1 - - [03/Jul/2025 12:42:58] "OPTIONS /api/auth/me HTTP/1.1" 200 -
+2025-07-03 12:43:26 - werkzeug - INFO - 127.0.0.1 - - [03/Jul/2025 12:43:26] "OPTIONS /api/auth/login HTTP/1.1" 200 -
+2025-07-03 12:48:01 - werkzeug - INFO - 127.0.0.1 - - [03/Jul/2025 12:48:01] "[31m[1mGET /api/auth/me HTTP/1.1[0m" 401 -
+2025-07-03 12:48:27 - app.routers.auth - WARNING - Failed to login user: Invalid email or password
+2025-07-03 12:48:27 - werkzeug - INFO - 127.0.0.1 - - [03/Jul/2025 12:48:27] "[31m[1mPOST /api/auth/login HTTP/1.1[0m" 400 -
+2025-07-03 12:48:57 - werkzeug - INFO - 127.0.0.1 - - [03/Jul/2025 12:48:57] "[35m[1mPOST /api/auth/register HTTP/1.1[0m" 201 -
+2025-07-03 12:49:07 - werkzeug - INFO - 127.0.0.1 - - [03/Jul/2025 12:49:07] "POST /api/auth/login HTTP/1.1" 200 -
+2025-07-03 12:49:52 - werkzeug - INFO - 127.0.0.1 - - [03/Jul/2025 12:49:52] "GET /api/auth/me HTTP/1.1" 200 -
+2025-07-03 12:50:06 - werkzeug - INFO - 127.0.0.1 - - [03/Jul/2025 12:50:06] "OPTIONS /api/auth/me HTTP/1.1" 200 -
+2025-07-03 12:50:30 - werkzeug - INFO - 127.0.0.1 - - [03/Jul/2025 12:50:30] "GET /api/auth/me HTTP/1.1" 200 -
+2025-07-03 12:50:51 - werkzeug - INFO - 127.0.0.1 - - [03/Jul/2025 12:50:51] "[31m[1mPOST /api/auth/logout HTTP/1.1[0m" 401 -
+2025-07-03 12:51:17 - werkzeug - INFO - 127.0.0.1 - - [03/Jul/2025 12:51:17] "[31m[1mPOST /api/auth/refresh HTTP/1.1[0m" 401 -
+2025-07-03 12:51:27 - werkzeug - INFO - 127.0.0.1 - - [03/Jul/2025 12:51:27] "OPTIONS /api/auth/me HTTP/1.1" 200 -
+2025-07-03 12:51:37 - werkzeug - INFO - 127.0.0.1 - - [03/Jul/2025 12:51:37] "OPTIONS /api/auth/me HTTP/1.1" 200 -
+2025-07-03 12:51:50 - werkzeug - INFO - 127.0.0.1 - - [03/Jul/2025 12:51:50] "OPTIONS /api/auth/me HTTP/1.1" 200 -
+2025-07-03 12:51:56 - werkzeug - INFO - 127.0.0.1 - - [03/Jul/2025 12:51:56] "OPTIONS /api/auth/me HTTP/1.1" 200 -
+2025-07-03 12:52:22 - werkzeug - INFO - 127.0.0.1 - - [03/Jul/2025 12:52:22] "OPTIONS /api/auth/me HTTP/1.1" 200 -
+2025-07-03 12:52:33 - werkzeug - INFO - 127.0.0.1 - - [03/Jul/2025 12:52:33] "OPTIONS /api/auth/me HTTP/1.1" 200 -
+2025-07-03 13:04:37 - database.db - INFO - Creating database engine with URL: localhost:5432/flowdo_dev
+2025-07-03 13:04:37 - app - INFO - Creating Flask application...
+2025-07-03 13:04:37 - app - INFO - Configuring CORS...
+2025-07-03 13:04:37 - app - INFO - Registering blueprints...
+2025-07-03 13:04:38 - app - INFO - Initializing database...
+2025-07-03 13:04:38 - app - INFO - Database initialization successful
+2025-07-03 13:04:38 - __main__ - INFO - Starting Flask application on 0.0.0.0:5000
+2025-07-03 13:04:38 - __main__ - INFO - Environment: development
+2025-07-03 13:04:38 - __main__ - INFO - Debug mode: True
+2025-07-03 13:04:38 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.84:5000
+2025-07-03 13:04:38 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-07-03 13:04:38 - werkzeug - INFO -  * Restarting with stat
+2025-07-03 13:04:38 - database.db - INFO - Creating database engine with URL: localhost:5432/flowdo_dev
+2025-07-03 13:04:38 - app - INFO - Creating Flask application...
+2025-07-03 13:04:38 - app - INFO - Configuring CORS...
+2025-07-03 13:04:38 - app - INFO - Registering blueprints...
+2025-07-03 13:04:38 - app - INFO - Initializing database...
+2025-07-03 13:04:38 - app - INFO - Database initialization successful
+2025-07-03 13:04:38 - __main__ - INFO - Starting Flask application on 0.0.0.0:5000
+2025-07-03 13:04:38 - __main__ - INFO - Environment: development
+2025-07-03 13:04:38 - __main__ - INFO - Debug mode: True
+2025-07-03 13:04:38 - werkzeug - WARNING -  * Debugger is active!
+2025-07-03 13:04:38 - werkzeug - INFO -  * Debugger PIN: 752-025-481
+2025-07-03 13:04:46 - werkzeug - INFO - 127.0.0.1 - - [03/Jul/2025 13:04:46] "OPTIONS /api/auth/me HTTP/1.1" 200 -
+2025-07-03 13:04:55 - werkzeug - INFO - 127.0.0.1 - - [03/Jul/2025 13:04:55] "OPTIONS /api/auth/login HTTP/1.1" 200 -
+2025-07-03 13:05:20 - werkzeug - INFO - 127.0.0.1 - - [03/Jul/2025 13:05:20] "OPTIONS /api/auth/me HTTP/1.1" 200 -
+2025-07-03 13:05:21 - werkzeug - INFO - 127.0.0.1 - - [03/Jul/2025 13:05:21] "OPTIONS /api/auth/me HTTP/1.1" 200 -
+2025-07-03 13:05:51 - werkzeug - INFO - 127.0.0.1 - - [03/Jul/2025 13:05:51] "OPTIONS /api/auth/register HTTP/1.1" 200 -
+2025-07-03 13:35:45 - werkzeug - INFO - 127.0.0.1 - - [03/Jul/2025 13:35:45] "[35m[1mPOST /api/auth/register HTTP/1.1[0m" 201 -
+2025-07-03 13:36:22 - werkzeug - INFO - 127.0.0.1 - - [03/Jul/2025 13:36:22] "OPTIONS /api/auth/me HTTP/1.1" 200 -
+2025-07-03 13:36:31 - werkzeug - INFO - 127.0.0.1 - - [03/Jul/2025 13:36:31] "OPTIONS /api/auth/me HTTP/1.1" 200 -
+2025-07-03 13:37:28 - werkzeug - INFO - 127.0.0.1 - - [03/Jul/2025 13:37:28] "OPTIONS /api/auth/me HTTP/1.1" 200 -
+2025-07-03 13:37:38 - werkzeug - INFO - 127.0.0.1 - - [03/Jul/2025 13:37:38] "OPTIONS /api/auth/login HTTP/1.1" 200 -
+2025-07-03 13:39:45 - database.db - INFO - Creating database engine with URL: localhost:5432/flowdo_dev
+2025-07-03 13:39:45 - app - INFO - Creating Flask application...
+2025-07-03 13:39:45 - app - INFO - Configuring CORS...
+2025-07-03 13:39:45 - app - INFO - Registering blueprints...
+2025-07-03 13:39:45 - app - INFO - Initializing database...
+2025-07-03 13:39:45 - app - INFO - Database initialization successful
+2025-07-03 13:39:45 - __main__ - INFO - Starting Flask application on 0.0.0.0:5000
+2025-07-03 13:39:45 - __main__ - INFO - Environment: development
+2025-07-03 13:39:45 - __main__ - INFO - Debug mode: True
+2025-07-03 13:39:45 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.84:5000
+2025-07-03 13:39:45 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-07-03 13:39:45 - werkzeug - INFO -  * Restarting with stat
+2025-07-03 13:39:46 - database.db - INFO - Creating database engine with URL: localhost:5432/flowdo_dev
+2025-07-03 13:39:46 - app - INFO - Creating Flask application...
+2025-07-03 13:39:46 - app - INFO - Configuring CORS...
+2025-07-03 13:39:46 - app - INFO - Registering blueprints...
+2025-07-03 13:39:46 - app - INFO - Initializing database...
+2025-07-03 13:39:46 - app - INFO - Database initialization successful
+2025-07-03 13:39:46 - __main__ - INFO - Starting Flask application on 0.0.0.0:5000
+2025-07-03 13:39:46 - __main__ - INFO - Environment: development
+2025-07-03 13:39:46 - __main__ - INFO - Debug mode: True
+2025-07-03 13:39:46 - werkzeug - WARNING -  * Debugger is active!
+2025-07-03 13:39:46 - werkzeug - INFO -  * Debugger PIN: 752-025-481
+2025-07-03 13:40:47 - werkzeug - INFO -  * Detected change in '/home/thecoderbee/Documents/my_projects/flowdo/backend/app/__init__.py', reloading
+2025-07-03 13:40:47 - werkzeug - INFO -  * Restarting with stat
+2025-07-03 13:40:47 - database.db - INFO - Creating database engine with URL: localhost:5432/flowdo_dev
+2025-07-03 13:40:47 - app - INFO - Creating Flask application...
+2025-07-03 13:40:47 - app - INFO - Configuring CORS...
+2025-07-03 13:41:00 - database.db - INFO - Creating database engine with URL: localhost:5432/flowdo_dev
+2025-07-03 13:41:00 - app - INFO - Creating Flask application...
+2025-07-03 13:41:00 - app - INFO - Configuring CORS...
+2025-07-03 13:44:02 - database.db - INFO - Creating database engine with URL: localhost:5432/flowdo_dev
+2025-07-03 13:44:02 - app - INFO - Creating Flask application...
+2025-07-03 13:44:02 - app - INFO - Configuring CORS...
+2025-07-03 13:44:14 - database.db - INFO - Creating database engine with URL: localhost:5432/flowdo_dev
+2025-07-03 13:44:14 - app - INFO - Creating Flask application...
+2025-07-03 13:44:14 - app - INFO - Configuring CORS...
+2025-07-03 13:44:14 - app - INFO - Registering blueprints...
+2025-07-03 13:44:14 - app - INFO - Initializing database...
+2025-07-03 13:44:14 - app - INFO - Database initialization successful
+2025-07-03 13:44:14 - __main__ - INFO - Starting Flask application on 0.0.0.0:5000
+2025-07-03 13:44:14 - __main__ - INFO - Environment: development
+2025-07-03 13:44:14 - __main__ - INFO - Debug mode: True
+2025-07-03 13:44:14 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.84:5000
+2025-07-03 13:44:14 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-07-03 13:44:14 - werkzeug - INFO -  * Restarting with stat
+2025-07-03 13:44:15 - database.db - INFO - Creating database engine with URL: localhost:5432/flowdo_dev
+2025-07-03 13:44:15 - app - INFO - Creating Flask application...
+2025-07-03 13:44:15 - app - INFO - Configuring CORS...
+2025-07-03 13:44:15 - app - INFO - Registering blueprints...
+2025-07-03 13:44:15 - app - INFO - Initializing database...
+2025-07-03 13:44:15 - app - INFO - Database initialization successful
+2025-07-03 13:44:15 - __main__ - INFO - Starting Flask application on 0.0.0.0:5000
+2025-07-03 13:44:15 - __main__ - INFO - Environment: development
+2025-07-03 13:44:15 - __main__ - INFO - Debug mode: True
+2025-07-03 13:44:15 - werkzeug - WARNING -  * Debugger is active!
+2025-07-03 13:44:15 - werkzeug - INFO -  * Debugger PIN: 752-025-481
+2025-07-03 13:44:20 - werkzeug - INFO - 127.0.0.1 - - [03/Jul/2025 13:44:20] "OPTIONS /api/auth/me HTTP/1.1" 200 -
+2025-07-03 13:44:20 - werkzeug - INFO - 127.0.0.1 - - [03/Jul/2025 13:44:20] "[31m[1mGET /api/auth/me HTTP/1.1[0m" 401 -
+2025-07-03 13:44:29 - werkzeug - INFO - 127.0.0.1 - - [03/Jul/2025 13:44:29] "OPTIONS /api/auth/login HTTP/1.1" 200 -
+2025-07-03 13:44:29 - werkzeug - INFO - 127.0.0.1 - - [03/Jul/2025 13:44:29] "POST /api/auth/login HTTP/1.1" 200 -
+2025-07-03 13:44:45 - werkzeug - INFO - 127.0.0.1 - - [03/Jul/2025 13:44:45] "OPTIONS /api/auth/me HTTP/1.1" 200 -
+2025-07-03 13:44:45 - werkzeug - INFO - 127.0.0.1 - - [03/Jul/2025 13:44:45] "GET /api/auth/me HTTP/1.1" 200 -
+2025-07-03 13:44:49 - werkzeug - INFO - 127.0.0.1 - - [03/Jul/2025 13:44:49] "OPTIONS /api/auth/logout HTTP/1.1" 200 -
+2025-07-03 13:46:37 - werkzeug - INFO -  * Detected change in '/home/thecoderbee/Documents/my_projects/flowdo/backend/app/__init__.py', reloading
+2025-07-03 13:46:38 - werkzeug - INFO -  * Restarting with stat
+2025-07-03 13:46:38 - database.db - INFO - Creating database engine with URL: localhost:5432/flowdo_dev
+2025-07-03 13:46:38 - app - INFO - Creating Flask application...
+2025-07-03 13:46:38 - app - INFO - Configuring CORS...
+2025-07-03 13:46:38 - app - INFO - Registering blueprints...
+2025-07-03 13:46:38 - app - INFO - Initializing database...
+2025-07-03 13:46:38 - app - INFO - Database initialization successful
+2025-07-03 13:46:38 - __main__ - INFO - Starting Flask application on 0.0.0.0:5000
+2025-07-03 13:46:38 - __main__ - INFO - Environment: development
+2025-07-03 13:46:38 - __main__ - INFO - Debug mode: True
+2025-07-03 13:46:38 - werkzeug - WARNING -  * Debugger is active!
+2025-07-03 13:46:38 - werkzeug - INFO -  * Debugger PIN: 752-025-481
+2025-07-03 13:46:48 - database.db - INFO - Creating database engine with URL: localhost:5432/flowdo_dev
+2025-07-03 13:46:48 - app - INFO - Creating Flask application...
+2025-07-03 13:46:48 - app - INFO - Configuring CORS...
+2025-07-03 13:46:48 - app - INFO - Registering blueprints...
+2025-07-03 13:46:48 - app - INFO - Initializing database...
+2025-07-03 13:46:48 - app - INFO - Database initialization successful
+2025-07-03 13:46:48 - __main__ - INFO - Starting Flask application on 0.0.0.0:5000
+2025-07-03 13:46:48 - __main__ - INFO - Environment: development
+2025-07-03 13:46:48 - __main__ - INFO - Debug mode: True
+2025-07-03 13:46:48 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.84:5000
+2025-07-03 13:46:48 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-07-03 13:46:48 - werkzeug - INFO -  * Restarting with stat
+2025-07-03 13:46:48 - database.db - INFO - Creating database engine with URL: localhost:5432/flowdo_dev
+2025-07-03 13:46:48 - app - INFO - Creating Flask application...
+2025-07-03 13:46:48 - app - INFO - Configuring CORS...
+2025-07-03 13:46:48 - app - INFO - Registering blueprints...
+2025-07-03 13:46:49 - app - INFO - Initializing database...
+2025-07-03 13:46:49 - app - INFO - Database initialization successful
+2025-07-03 13:46:49 - __main__ - INFO - Starting Flask application on 0.0.0.0:5000
+2025-07-03 13:46:49 - __main__ - INFO - Environment: development
+2025-07-03 13:46:49 - __main__ - INFO - Debug mode: True
+2025-07-03 13:46:49 - werkzeug - WARNING -  * Debugger is active!
+2025-07-03 13:46:49 - werkzeug - INFO -  * Debugger PIN: 752-025-481
+2025-07-03 13:46:54 - werkzeug - INFO - 127.0.0.1 - - [03/Jul/2025 13:46:54] "OPTIONS /api/auth/me HTTP/1.1" 200 -
+2025-07-03 13:46:54 - werkzeug - INFO - 127.0.0.1 - - [03/Jul/2025 13:46:54] "GET /api/auth/me HTTP/1.1" 200 -
+2025-07-03 13:46:56 - werkzeug - INFO - 127.0.0.1 - - [03/Jul/2025 13:46:56] "OPTIONS /api/auth/logout HTTP/1.1" 200 -
+2025-07-03 13:46:56 - werkzeug - INFO - 127.0.0.1 - - [03/Jul/2025 13:46:56] "POST /api/auth/logout HTTP/1.1" 200 -
+2025-07-03 13:47:01 - werkzeug - INFO - 127.0.0.1 - - [03/Jul/2025 13:47:01] "OPTIONS /api/auth/me HTTP/1.1" 200 -
+2025-07-03 13:47:01 - werkzeug - INFO - 127.0.0.1 - - [03/Jul/2025 13:47:01] "[31m[1mGET /api/auth/me HTTP/1.1[0m" 401 -
+2025-07-03 13:47:26 - werkzeug - INFO - 127.0.0.1 - - [03/Jul/2025 13:47:26] "OPTIONS /api/auth/login HTTP/1.1" 200 -
+2025-07-03 13:47:27 - werkzeug - INFO - 127.0.0.1 - - [03/Jul/2025 13:47:27] "POST /api/auth/login HTTP/1.1" 200 -
+2025-07-03 13:51:06 - werkzeug - INFO - 127.0.0.1 - - [03/Jul/2025 13:51:06] "OPTIONS /api/auth/me HTTP/1.1" 200 -
+2025-07-03 13:51:06 - werkzeug - INFO - 127.0.0.1 - - [03/Jul/2025 13:51:06] "GET /api/auth/me HTTP/1.1" 200 -
+2025-07-03 13:55:40 - werkzeug - INFO - 127.0.0.1 - - [03/Jul/2025 13:55:40] "OPTIONS /api/auth/me HTTP/1.1" 200 -
+2025-07-03 13:55:40 - werkzeug - INFO - 127.0.0.1 - - [03/Jul/2025 13:55:40] "GET /api/auth/me HTTP/1.1" 200 -
+2025-07-03 14:00:48 - werkzeug - INFO - 127.0.0.1 - - [03/Jul/2025 14:00:48] "OPTIONS /api/auth/me HTTP/1.1" 200 -
+2025-07-03 14:00:48 - werkzeug - INFO - 127.0.0.1 - - [03/Jul/2025 14:00:48] "GET /api/auth/me HTTP/1.1" 200 -
+2025-07-03 14:10:40 - werkzeug - INFO - 127.0.0.1 - - [03/Jul/2025 14:10:40] "OPTIONS /api/auth/me HTTP/1.1" 200 -
+2025-07-03 14:10:40 - werkzeug - INFO - 127.0.0.1 - - [03/Jul/2025 14:10:40] "GET /api/auth/me HTTP/1.1" 200 -
+2025-07-03 14:18:08 - werkzeug - INFO - 127.0.0.1 - - [03/Jul/2025 14:18:08] "OPTIONS /api/auth/me HTTP/1.1" 200 -
+2025-07-03 14:18:08 - werkzeug - INFO - 127.0.0.1 - - [03/Jul/2025 14:18:08] "[31m[1mGET /api/auth/me HTTP/1.1[0m" 401 -
+2025-07-03 14:30:33 - werkzeug - INFO - 127.0.0.1 - - [03/Jul/2025 14:30:33] "OPTIONS /api/auth/me HTTP/1.1" 200 -
+2025-07-03 14:30:33 - werkzeug - INFO - 127.0.0.1 - - [03/Jul/2025 14:30:33] "[31m[1mGET /api/auth/me HTTP/1.1[0m" 401 -
+2025-07-03 14:48:27 - werkzeug - INFO - 127.0.0.1 - - [03/Jul/2025 14:48:27] "OPTIONS /api/auth/me HTTP/1.1" 200 -
+2025-07-03 14:48:27 - werkzeug - INFO - 127.0.0.1 - - [03/Jul/2025 14:48:27] "[31m[1mGET /api/auth/me HTTP/1.1[0m" 401 -

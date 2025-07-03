@@ -28,11 +28,13 @@ FlowDo is a productivity application combining task management with the Pomodoro
 ## Development Commands
 
 ### Backend
+-always use the .venv in backend/ and activate the venv before running
 ```bash
 cd backend
 # Install dependencies
 pip install -r requirements.txt
-
+# activate venv
+source .venv/bin/activate
 # Run development server
 python run.py
 
