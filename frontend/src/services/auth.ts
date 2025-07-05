@@ -1,4 +1,5 @@
 import { apiClient } from "@/lib/api"
+import { clearAuthCookies } from "@/lib/cookies"
 import { 
   User, 
   LoginRequest, 
@@ -44,7 +45,14 @@ class AuthService {
    * Logout current user - clears HTTP-only cookies
    */
   async logout(): Promise<void> {
-    await apiClient.post(this.endpoints.logout)
+    try {
+      await apiClient.post(this.endpoints.logout)
+    } catch (error) {
+      console.warn('Logout API call failed, but continuing with client-side cleanup:', error)
+    } finally {
+      // Always clear client-side cookies as fallback
+      clearAuthCookies()
+    }
   }
 
   /**
@@ -73,11 +81,13 @@ class AuthService {
       if (typeof error === "object" && error !== null && "status" in error) {
         const status = (error as { status: number }).status
         if (status === 401 || status === 403) {
+          clearAuthCookies()
           return null
         }
       }
       
       // For network errors or other issues, return null (not authenticated)
+      clearAuthCookies()
       return null
     }
   }

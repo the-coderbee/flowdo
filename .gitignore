@@ -10,7 +10,7 @@ __pycache__/
 test_credentials.txt
 
 # Cursor (if you use it)
-.cursor
+.cursor/
 .cursor*
 .cursorignore
 
@@ -48,3 +48,4 @@ yarn-error.log*
 next-env.d.ts
 .next/
 CLAUDE.md
+claude.md

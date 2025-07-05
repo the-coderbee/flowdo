@@ -22,23 +22,38 @@ class TagService:
         try:
             tag_data = tag_create_request.model_dump(exclude_unset=True)
             tag_data["user_id"] = tag_create_request.user_id
-            tag = self.tag_repository.create_tag(tag_data)
-            return True, "Tag created successfully", tag
+            tag = Tag(**tag_data)
+            created_tag = self.tag_repository.create_tag(tag)
+            return True, "Tag created successfully", created_tag
         except Exception as e:
             return False, f"Error creating tag: {e}", None
         
     def update_tag(self, tag_update_request: TagUpdateRequest) -> Tuple[bool, str, Tag]:
         try:
+            # First get the existing tag
+            existing_tag = self.tag_repository.db.query(Tag).filter(Tag.id == tag_update_request.id).first()
+            if not existing_tag:
+                return False, "Tag not found", None
+            
+            # Update the fields
             tag_data = tag_update_request.model_dump(exclude_unset=True)
-            tag_data["user_id"] = tag_update_request.user_id
-            tag = self.tag_repository.update_tag(tag_data)
-            return True, "Tag updated successfully", tag
+            for key, value in tag_data.items():
+                if key != 'id':  # Don't update the ID
+                    setattr(existing_tag, key, value)
+            
+            updated_tag = self.tag_repository.update_tag(existing_tag)
+            return True, "Tag updated successfully", updated_tag
         except Exception as e:
             return False, f"Error updating tag: {e}", None
     
     def delete_tag(self, tag_id: int) -> Tuple[bool, str]:
         try:
-            self.tag_repository.delete_tag(tag_id)
+            # First get the existing tag
+            existing_tag = self.tag_repository.db.query(Tag).filter(Tag.id == tag_id).first()
+            if not existing_tag:
+                return False, "Tag not found"
+            
+            self.tag_repository.delete_tag(existing_tag)
             return True, "Tag deleted successfully"
         except Exception as e:
             return False, f"Error deleting tag: {e}"

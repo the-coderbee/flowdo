@@ -8,6 +8,7 @@ import { Logo } from "@/components/ui/logo"
 import { ThemeToggle } from "@/components/ui/theme-toggle"
 import { useAuth } from "@/contexts/auth-context"
 import { cn } from "@/lib/utils"
+import { clearAuthCookies } from "@/lib/cookies"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -19,7 +20,10 @@ import {
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
   
-  const { user, logout, isLoading } = useAuth()
+  const { user, logout } = useAuth()
+  
+  // Debug logging
+  console.log('[Navbar] Auth state:', { user: !!user, userEmail: user?.email })
 
   const handleLogout = async () => {
     await logout()
@@ -84,20 +88,30 @@ export function Navbar() {
             ) : (
               <div className="flex items-center space-x-2">
                 <Button 
-                  variant="ghost" 
-                  size="sm" 
-                  asChild
-                  disabled={isLoading}
+                  variant="outline" 
+                  size="sm"
+                  onClick={() => {
+                    console.log('Manual cookie clear triggered')
+                    clearAuthCookies()
+                  }}
                 >
-                  <Link href="/auth/login">Sign In</Link>
+                  Clear Cookies
                 </Button>
-                <Button 
-                  size="sm" 
-                  asChild
-                  disabled={isLoading}
-                >
-                  <Link href="/auth/register">Get Started</Link>
-                </Button>
+                <Link href="/auth/login">
+                  <Button 
+                    variant="ghost" 
+                    size="sm"
+                  >
+                    Sign In
+                  </Button>
+                </Link>
+                <Link href="/auth/register">
+                  <Button 
+                    size="sm"
+                  >
+                    Get Started
+                  </Button>
+                </Link>
               </div>
             )}
           </div>
@@ -175,27 +189,23 @@ export function Navbar() {
             </div>
           ) : (
             <div className="space-y-2 pt-2">
-              <Button 
-                variant="ghost" 
-                size="sm" 
-                className="w-full justify-start"
-                asChild
-                disabled={isLoading}
-              >
-                <Link href="/auth/login" onClick={() => setIsOpen(false)}>
+              <Link href="/auth/login" onClick={() => setIsOpen(false)}>
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className="w-full justify-start"
+                >
                   Sign In
-                </Link>
-              </Button>
-              <Button 
-                size="sm" 
-                className="w-full"
-                asChild
-                disabled={isLoading}
-              >
-                <Link href="/auth/register" onClick={() => setIsOpen(false)}>
+                </Button>
+              </Link>
+              <Link href="/auth/register" onClick={() => setIsOpen(false)}>
+                <Button 
+                  size="sm" 
+                  className="w-full"
+                >
                   Get Started
-                </Link>
-              </Button>
+                </Button>
+              </Link>
             </div>
           )}
         </div>

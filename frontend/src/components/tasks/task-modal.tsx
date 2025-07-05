@@ -7,30 +7,30 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Badge } from "@/components/ui/badge"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { Task, TaskPriority, TaskStatus, UpdateTaskRequest } from "@/types/task"
+import { Task, UpdateTaskRequest } from "@/types/task"
 
 interface TaskModalProps {
   task: Task | null
   isOpen: boolean
   onClose: () => void
-  onSave: (taskId: number, updates: UpdateTaskRequest) => void
-  onDelete?: (taskId: number) => void
-  onToggleComplete?: (taskId: number) => void
+  onSave: (taskId: number, updates: UpdateTaskRequest) => Promise<void>
+  onDelete?: (taskId: number) => Promise<void>
+  onToggleComplete?: (taskId: number) => Promise<void>
 }
 
 const priorityOptions = [
-  { value: TaskPriority.LOW, label: "Low", color: "bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400" },
-  { value: TaskPriority.MEDIUM, label: "Medium", color: "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400" },
-  { value: TaskPriority.HIGH, label: "High", color: "bg-orange-100 text-orange-800 dark:bg-orange-900/20 dark:text-orange-400" },
-  { value: TaskPriority.URGENT, label: "Urgent", color: "bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400" }
+  { value: 'low' as const, label: "Low", color: "bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400" },
+  { value: 'medium' as const, label: "Medium", color: "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400" },
+  { value: 'high' as const, label: "High", color: "bg-orange-100 text-orange-800 dark:bg-orange-900/20 dark:text-orange-400" },
+  { value: 'urgent' as const, label: "Urgent", color: "bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400" }
 ]
 
 const statusOptions = [
-  { value: TaskStatus.PENDING, label: "Pending" },
-  { value: TaskStatus.IN_PROGRESS, label: "In Progress" },
-  { value: TaskStatus.COMPLETED, label: "Completed" },
-  { value: TaskStatus.ARCHIVED, label: "Archived" },
-  { value: TaskStatus.CANCELLED, label: "Cancelled" }
+  { value: 'pending' as const, label: "Pending" },
+  { value: 'in_progress' as const, label: "In Progress" },
+  { value: 'completed' as const, label: "Completed" },
+  { value: 'archived' as const, label: "Archived" },
+  { value: 'cancelled' as const, label: "Cancelled" }
 ]
 
 function formatDate(dateString: string): string {
@@ -62,8 +62,8 @@ export function TaskModal({ task, isOpen, onClose, onSave, onDelete, onToggleCom
   
   if (!task) return null
   
-  const handleSave = () => {
-    onSave(task.id, formData)
+  const handleSave = async () => {
+    await onSave(task.id, formData)
     setIsEditing(false)
   }
   
@@ -79,11 +79,11 @@ export function TaskModal({ task, isOpen, onClose, onSave, onDelete, onToggleCom
     setIsEditing(false)
   }
   
-  const handleToggleComplete = () => {
-    onToggleComplete?.(task.id)
+  const handleToggleComplete = async () => {
+    await onToggleComplete?.(task.id)
   }
   
-  const isCompleted = task.status === TaskStatus.COMPLETED
+  const isCompleted = task.status === 'completed'
   
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -270,13 +270,13 @@ export function TaskModal({ task, isOpen, onClose, onSave, onDelete, onToggleCom
             </div>
             
             {/* Group & Tags */}
-            {(task.group || (task.tags && task.tags.length > 0)) && (
+            {(task.group_id || (task.tags && task.tags.length > 0)) && (
               <div className="space-y-4">
-                {task.group && (
+                {task.group_id && (
                   <div>
                     <h3 className="text-sm font-medium text-muted-foreground mb-2">Group</h3>
                     <Badge variant="outline" className="text-sm">
-                      {task.group.name}
+                      Group {task.group_id}
                     </Badge>
                   </div>
                 )}

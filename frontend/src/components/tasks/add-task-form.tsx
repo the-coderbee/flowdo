@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Badge } from "@/components/ui/badge"
-import { CreateTaskRequest, TaskPriority } from "@/types/task"
+import { CreateTaskRequest } from "@/types/task"
 
 interface AddTaskFormProps {
   onAdd: (task: CreateTaskRequest) => void
@@ -16,10 +16,10 @@ interface AddTaskFormProps {
 }
 
 const priorityOptions = [
-  { value: TaskPriority.LOW, label: "Low", color: "bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400" },
-  { value: TaskPriority.MEDIUM, label: "Medium", color: "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400" },
-  { value: TaskPriority.HIGH, label: "High", color: "bg-orange-100 text-orange-800 dark:bg-orange-900/20 dark:text-orange-400" },
-  { value: TaskPriority.URGENT, label: "Urgent", color: "bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400" }
+  { value: 'low' as const, label: "Low", color: "bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400" },
+  { value: 'medium' as const, label: "Medium", color: "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400" },
+  { value: 'high' as const, label: "High", color: "bg-orange-100 text-orange-800 dark:bg-orange-900/20 dark:text-orange-400" },
+  { value: 'urgent' as const, label: "Urgent", color: "bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400" }
 ]
 
 export function AddTaskForm({ onAdd, onCancel, groupId }: AddTaskFormProps) {
@@ -27,10 +27,11 @@ export function AddTaskForm({ onAdd, onCancel, groupId }: AddTaskFormProps) {
   const [formData, setFormData] = useState<CreateTaskRequest>({
     title: "",
     description: "",
-    priority: TaskPriority.MEDIUM,
+    priority: 'low',
     due_date: "",
     estimated_pomodoros: undefined,
-    group_id: groupId
+    group_id: groupId,
+    user_id: 1 // This will be set by the context
   })
   
   const handleSubmit = (e: React.FormEvent) => {
@@ -48,10 +49,11 @@ export function AddTaskForm({ onAdd, onCancel, groupId }: AddTaskFormProps) {
     setFormData({
       title: "",
       description: "",
-      priority: TaskPriority.MEDIUM,
+      priority: 'low',
       due_date: "",
       estimated_pomodoros: undefined,
-      group_id: groupId
+      group_id: groupId,
+      user_id: 1 // This will be set by the context
     })
     setIsExpanded(false)
   }
@@ -60,10 +62,11 @@ export function AddTaskForm({ onAdd, onCancel, groupId }: AddTaskFormProps) {
     setFormData({
       title: "",
       description: "",
-      priority: TaskPriority.MEDIUM,
+      priority: 'low',
       due_date: "",
       estimated_pomodoros: undefined,
-      group_id: groupId
+      group_id: groupId,
+      user_id: 1 // This will be set by the context
     })
     setIsExpanded(false)
     onCancel?.()

@@ -52,7 +52,7 @@ def create_app(config_override: Optional[Dict[str, Any]] = None) -> Flask:
          resources={r"/api/*": {"origins": cors_origins}},
          allow_headers=["Content-Type", "Authorization", "X-CSRF-TOKEN"],
          supports_credentials=True,
-         methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+         methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
         )
     
     # Initialize migrations
@@ -60,11 +60,13 @@ def create_app(config_override: Optional[Dict[str, Any]] = None) -> Flask:
     
     # Register blueprints
     logger.info("Registering blueprints...")
-    from app.routers import auth_bp, task_bp, health_bp
+    from app.routers import auth_bp, task_bp, health_bp, tag_bp, group_bp
     
     app.register_blueprint(auth_bp)
     app.register_blueprint(task_bp)
     app.register_blueprint(health_bp)
+    app.register_blueprint(tag_bp)
+    app.register_blueprint(group_bp)
     
     # Initialize the database
     try:

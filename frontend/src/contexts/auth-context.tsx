@@ -4,6 +4,7 @@ import React, { createContext, useContext, useEffect, useReducer, useCallback } 
 import { AuthState, AuthContextType, User } from "@/types/auth"
 import { authService } from "@/services/auth"
 import { handleApiError } from "@/lib/api"
+import { clearAuthCookies } from "@/lib/cookies"
 
 // Initial state
 const initialState: AuthState = {
@@ -43,6 +44,8 @@ function authReducer(state: AuthState, action: AuthAction): AuthState {
     case "CLEAR_ERROR":
       return { ...state, error: null }
     case "LOGOUT":
+      // Clear authentication cookies when logging out
+      clearAuthCookies()
       return {
         ...state,
         user: null,
@@ -126,12 +129,15 @@ export function AuthProvider({ children }: AuthProviderProps) {
       if (user) {
         dispatch({ type: "SET_USER", payload: user })
       } else {
+        clearAuthCookies()
         dispatch({ type: "LOGOUT" })
       }
-      dispatch({ type: "SET_LOADING", payload: false })
     } catch (error) {
       console.error("Auth refresh error:", error)
+      clearAuthCookies()
       dispatch({ type: "LOGOUT" })
+    } finally {
+      dispatch({ type: "SET_LOADING", payload: false })
     }
   }, [])
 
@@ -180,6 +186,22 @@ export function AuthProvider({ children }: AuthProviderProps) {
     document.addEventListener("visibilitychange", handleVisibilityChange)
     return () => document.removeEventListener("visibilitychange", handleVisibilityChange)
   }, [state.isAuthenticated, refreshAuth])
+
+  // Add this at the beginning of the AuthProvider component:
+  useEffect(() => {
+    // Force recheck auth status immediately on mount
+    refreshAuth()
+    
+    // Also set up a listener for 401 responses anywhere in the app
+    const handle401Error = () => {
+      console.log("Auth token invalid or expired - logging out");
+      clearAuthCookies();
+      dispatch({ type: "LOGOUT" });
+    };
+    
+    window.addEventListener("auth:unauthorized", handle401Error);
+    return () => window.removeEventListener("auth:unauthorized", handle401Error);
+  }, []);
 
   const contextValue: AuthContextType = {
     ...state,

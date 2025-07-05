@@ -1,88 +1,24 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { usePathname } from "next/navigation"
 import { motion } from "framer-motion"
-import { Search, Filter, Menu } from "lucide-react"
+import { Search, Filter, Menu, AlertCircle, Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { Alert, AlertDescription } from "@/components/ui/alert"
 import { TaskItem } from "./task-item"
 import { HorizontalTaskInput } from "./horizontal-task-input"
 import { TaskModal } from "./task-modal"
-import { Task, CreateTaskRequest, UpdateTaskRequest, TaskStatus, TaskPriority } from "@/types/task"
+import { Task, CreateTaskRequest, UpdateTaskRequest } from "@/types/task"
+import { useTask } from "@/contexts/task-context"
 
-// Mock task data with proper typing
-const mockTasks: Task[] = [
-  {
-    id: 1,
-    title: "Review project proposal",
-    description: "Go through the client's project proposal and prepare feedback",
-    priority: TaskPriority.HIGH,
-    status: TaskStatus.PENDING,
-    due_date: new Date().toISOString(),
-    user_id: 1,
-    estimated_pomodoros: 3,
-    completed_pomodoros: 1,
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString(),
-    group: { id: 1, name: "Work", user_id: 1, created_at: "", updated_at: "" },
-    tags: [
-      { id: 1, name: "urgent", user_id: 1, created_at: "", updated_at: "" },
-      { id: 2, name: "client", user_id: 1, created_at: "", updated_at: "" }
-    ]
-  },
-  {
-    id: 2,
-    title: "Buy groceries",
-    description: "Milk, bread, eggs, vegetables",
-    priority: TaskPriority.MEDIUM,
-    status: TaskStatus.PENDING,
-    due_date: new Date(Date.now() + 86400000).toISOString(),
-    user_id: 1,
-    estimated_pomodoros: 1,
-    completed_pomodoros: 0,
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString(),
-    group: { id: 2, name: "Personal", user_id: 1, created_at: "", updated_at: "" }
-  },
-  {
-    id: 3,
-    title: "Complete workout routine",
-    description: "30 minutes cardio + strength training",
-    priority: TaskPriority.LOW,
-    status: TaskStatus.COMPLETED,
-    due_date: new Date().toISOString(),
-    completed_at: new Date().toISOString(),
-    user_id: 1,
-    estimated_pomodoros: 2,
-    completed_pomodoros: 2,
-    created_at: new Date(Date.now() - 86400000).toISOString(),
-    updated_at: new Date().toISOString(),
-    group: { id: 3, name: "Health", user_id: 1, created_at: "", updated_at: "" }
-  },
-  {
-    id: 4,
-    title: "Plan weekend trip",
-    description: "Research destinations and book accommodation",
-    priority: TaskPriority.MEDIUM,
-    status: TaskStatus.IN_PROGRESS,
-    user_id: 1,
-    estimated_pomodoros: 4,
-    completed_pomodoros: 1,
-    created_at: new Date(Date.now() - 172800000).toISOString(),
-    updated_at: new Date().toISOString(),
-    group: { id: 2, name: "Personal", user_id: 1, created_at: "", updated_at: "" },
-    tags: [
-      { id: 3, name: "travel", user_id: 1, created_at: "", updated_at: "" }
-    ]
-  }
-]
 
 function getPageTitle(pathname: string) {
   if (pathname === "/tasks") return "All Tasks"
-  if (pathname === "/tasks/my-day") return "My Day"
-  if (pathname === "/tasks/starred") return "Starred"
-  if (pathname === "/tasks/pomodoro") return "Pomodoro Sessions"
-  if (pathname === "/tasks/settings") return "Configurations"
+  if (pathname === "/my-day") return "My Day"
+  if (pathname === "/starred") return "Starred"
+  if (pathname === "/pomodoro") return "Pomodoro Sessions"
+  if (pathname === "/settings") return "Configurations"
   if (pathname.startsWith("/tasks/groups/")) {
     const groupId = pathname.split("/").pop()
     return `${groupId?.charAt(0).toUpperCase()}${groupId?.slice(1)} Tasks`
@@ -99,41 +35,53 @@ export function TasksContent({ onMobileSidebarToggle }: TasksContentProps) {
   const pathname = usePathname()
   const pageTitle = getPageTitle(pathname)
   
-  // State management
-  const [tasks, setTasks] = useState<Task[]>(mockTasks)
+  // Task context
+  const {
+    tasks,
+    loading,
+    error,
+    createTask,
+    updateTask,
+    deleteTask,
+    toggleTaskCompletion,
+    getTodaysTasks,
+    getStarredTasks,
+    clearError
+  } = useTask()
+  
+  // Local state for UI
   const [selectedTask, setSelectedTask] = useState<Task | null>(null)
   const [isTaskModalOpen, setIsTaskModalOpen] = useState(false)
   
-  // Task operations
-  const handleAddTask = (taskData: CreateTaskRequest) => {
-    const newTask: Task = {
-      id: Math.max(...tasks.map(t => t.id)) + 1,
-      title: taskData.title,
-      description: taskData.description,
-      priority: taskData.priority || TaskPriority.MEDIUM,
-      status: TaskStatus.PENDING,
-      due_date: taskData.due_date,
-      user_id: 1, // TODO: Get from auth context
-      estimated_pomodoros: taskData.estimated_pomodoros,
-      completed_pomodoros: 0,
-      group_id: taskData.group_id,
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString()
+  // Load appropriate tasks based on the current page
+  useEffect(() => {
+    // Only load tasks if the page requires specific filtering
+    if (pathname === "/my-day") {
+      getTodaysTasks()
+    } else if (pathname === "/starred") {
+      getStarredTasks()
     }
-    setTasks(prev => [newTask, ...prev])
+    // For regular /tasks page, let the context handle initial loading
+  }, [pathname, getTodaysTasks, getStarredTasks])
+  
+  // Task operations
+  const handleAddTask = async (taskData: CreateTaskRequest) => {
+    try {
+      await createTask(taskData)
+    } catch (error) {
+      console.error('Error creating task:', error)
+    }
   }
   
-  const handleToggleComplete = (taskId: number) => {
-    setTasks(prev => prev.map(task => 
-      task.id === taskId 
-        ? { 
-            ...task, 
-            status: task.status === TaskStatus.COMPLETED ? TaskStatus.PENDING : TaskStatus.COMPLETED,
-            completed_at: task.status === TaskStatus.COMPLETED ? undefined : new Date().toISOString(),
-            updated_at: new Date().toISOString()
-          }
-        : task
-    ))
+  const handleToggleComplete = async (taskId: number) => {
+    try {
+      const updatedTask = await toggleTaskCompletion(taskId)
+      if (selectedTask?.id === taskId && updatedTask) {
+        setSelectedTask(updatedTask)
+      }
+    } catch (error) {
+      console.error('Error toggling task completion:', error)
+    }
   }
   
   const handleTaskClick = (task: Task) => {
@@ -141,25 +89,30 @@ export function TasksContent({ onMobileSidebarToggle }: TasksContentProps) {
     setIsTaskModalOpen(true)
   }
   
-  const handleUpdateTask = (taskId: number, updates: UpdateTaskRequest) => {
-    setTasks(prev => prev.map(task => 
-      task.id === taskId 
-        ? { ...task, ...updates, updated_at: new Date().toISOString() }
-        : task
-    ))
-    // Update selected task if it's the one being edited
-    if (selectedTask?.id === taskId) {
-      setSelectedTask(prev => prev ? { ...prev, ...updates, updated_at: new Date().toISOString() } : null)
+  const handleUpdateTask = async (taskId: number, updates: UpdateTaskRequest) => {
+    try {
+      const updatedTask = await updateTask(taskId, updates)
+      if (selectedTask?.id === taskId && updatedTask) {
+        setSelectedTask(updatedTask)
+      }
+    } catch (error) {
+      console.error('Error updating task:', error)
     }
   }
   
-  const handleDeleteTask = (taskId: number) => {
-    setTasks(prev => prev.filter(task => task.id !== taskId))
-    setIsTaskModalOpen(false)
-    setSelectedTask(null)
+  const handleDeleteTask = async (taskId: number) => {
+    try {
+      const success = await deleteTask(taskId)
+      if (success) {
+        setIsTaskModalOpen(false)
+        setSelectedTask(null)
+      }
+    } catch (error) {
+      console.error('Error deleting task:', error)
+    }
   }
   
-  const pendingTasksCount = tasks.filter(t => t.status !== TaskStatus.COMPLETED && t.status !== TaskStatus.ARCHIVED).length
+  const pendingTasksCount = tasks.filter(t => t.status !== 'completed' && t.status !== 'archived').length
 
   return (
     <>
@@ -214,45 +167,73 @@ export function TasksContent({ onMobileSidebarToggle }: TasksContentProps) {
           </div>
         </div>
 
+        {/* Error Display */}
+        {error && (
+          <Alert variant="destructive" className="mx-6 mt-4">
+            <AlertCircle className="h-4 w-4" />
+            <AlertDescription className="flex items-center justify-between">
+              {error}
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={clearError}
+                className="ml-2 h-6 px-2"
+              >
+                Dismiss
+              </Button>
+            </AlertDescription>
+          </Alert>
+        )}
+
         {/* Main Content with Sticky Input */}
         <div className="flex-1 flex flex-col overflow-hidden">
+          {/* Loading State */}
+          {loading && (
+            <div className="flex items-center justify-center py-12">
+              <Loader2 className="h-6 w-6 animate-spin mr-2" />
+              <span className="text-muted-foreground">Loading tasks...</span>
+            </div>
+          )}
+          
           {/* Scrollable Task List */}
-          <div className="flex-1 overflow-auto px-6">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="space-y-4 py-6" // Full width, remove max-width constraint
-            >
-              {/* Task List */}
-              {tasks.map((task, index) => (
-                <TaskItem
-                  key={task.id}
-                  task={task}
-                  index={index}
-                  onToggleComplete={handleToggleComplete}
-                  onClick={handleTaskClick}
-                />
-              ))}
+          {!loading && (
+            <div className="flex-1 overflow-auto px-6">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className="space-y-4 py-6"
+              >
+                {/* Task List */}
+                {tasks.map((task, index) => (
+                  <TaskItem
+                    key={task.id}
+                    task={task}
+                    index={index}
+                    onToggleComplete={handleToggleComplete}
+                    onClick={handleTaskClick}
+                  />
+                ))}
 
-              {/* Empty State */}
-              {tasks.length === 0 && (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  className="text-center py-12"
-                >
-                  <div className="text-muted-foreground">
-                    <p className="text-lg font-medium">No tasks yet</p>
-                    <p className="text-sm">Create your first task to get started</p>
-                  </div>
-                </motion.div>
-              )}
-              
-              {/* Spacer for sticky input */}
-              <div className="h-20" />
-            </motion.div>
-          </div>
+                {/* Empty State */}
+                {tasks.length === 0 && (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className="text-center py-12"
+                  >
+                    <div className="text-muted-foreground">
+                      <p className="text-lg font-medium">No tasks yet</p>
+                      <p className="text-sm">Create your first task to get started</p>
+                    </div>
+                  </motion.div>
+                )}
+                
+                {/* Spacer for sticky input */}
+                <div className="h-20" />
+              </motion.div>
+            </div>
+          )}
           
           {/* Sticky Task Input at Bottom */}
           <div className="flex-shrink-0 border-t bg-background/95 backdrop-blur-sm p-6">

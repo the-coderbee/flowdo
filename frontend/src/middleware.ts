@@ -2,7 +2,7 @@ import { NextResponse } from "next/server"
 import type { NextRequest } from "next/server"
 
 // Define protected routes that require authentication
-const protectedRoutes = ["/tasks", "/settings", "/dashboard"]
+const protectedRoutes = ["/tasks", "/settings", "/my-day", "/starred", "/pomodoro", "/groups", "/dashboard"]
 
 // Define public routes that should redirect authenticated users
 const publicRoutes = ["/auth/login", "/auth/register"]
@@ -19,11 +19,23 @@ export function middleware(request: NextRequest) {
   
   // Determine if user appears to be authenticated (has tokens)
   const isAuthenticated = Boolean(accessToken || refreshToken)
+  if (isAuthenticated) {
+    return NextResponse.next()
+  }
+  // Debug logging (temporary)
+  console.log(`[Middleware] ${pathname} - accessToken: ${!!accessToken}, refreshToken: ${!!refreshToken}, isAuthenticated: ${isAuthenticated}`)
+  // console.log(`[Middleware] isProtectedRoute: ${isProtectedRoute}, isPublicRoute: ${isPublicRoute}, isPublicAccessRoute: ${isPublicAccessRoute}`)
 
   // Check if the current path is protected
   const isProtectedRoute = protectedRoutes.some(route => 
     pathname.startsWith(route)
   )
+
+  if (isProtectedRoute && !isAuthenticated) {
+    const loginUrl = new URL("/", request.url)
+    loginUrl.searchParams.set("redirectTo", pathname)
+    return NextResponse.redirect(loginUrl)
+  }
 
   // Check if the current path is a public auth route
   const isPublicRoute = publicRoutes.some(route => 
@@ -52,6 +64,7 @@ export function middleware(request: NextRequest) {
   if (isPublicRoute && isAuthenticated) {
     // Redirect authenticated users away from login/register pages
     const redirectTo = request.nextUrl.searchParams.get("redirectTo") || "/tasks"
+    console.log(`[Middleware] Redirecting authenticated user from ${pathname} to ${redirectTo}`)
     return NextResponse.redirect(new URL(redirectTo, request.url))
   }
 

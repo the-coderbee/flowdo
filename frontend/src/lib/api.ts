@@ -66,16 +66,25 @@ class ApiClient {
       }
 
       if (!response.ok) {
+        // For auth endpoints that return 401/403, trigger a global auth event
+        if (response.status === 401 || response.status === 403) {
+          if (typeof window !== 'undefined') {
+            // Dispatch a custom event that the auth context can listen for
+            window.dispatchEvent(new Event('auth:unauthorized'));
+          }
+        }
+        
+        const responseData = data as Record<string, unknown>
         const error: ApiError = {
-          message: data?.error || data?.message || "An error occurred",
+          message: responseData?.error as string || responseData?.message as string || "An error occurred",
           status: response.status,
-          errors: data?.errors || undefined,
+          errors: responseData?.errors as Record<string, string[]> || undefined,
         }
         
         throw error
       }
 
-      return data
+      return data as T
     } catch (error) {
       // Handle network errors
       if (error instanceof TypeError) {

@@ -62,6 +62,11 @@ export function LoginForm({ onSuccess, redirectTo = "/tasks" }: LoginFormProps) 
       } else {
         router.push(redirectTo)
       }
+    } catch (error) {
+      // Handle authentication errors
+      const errorMessage = error instanceof Error ? error.message : "Failed to sign in. Please try again."
+      setErrors({ general: errorMessage })
+      console.error("Login error:", error)
     } finally {
       setIsLoading(false)
     }
@@ -141,6 +146,13 @@ export function LoginForm({ onSuccess, redirectTo = "/tasks" }: LoginFormProps) 
                 <p className="text-sm text-red-600">{errors.password}</p>
               )}
             </div>
+
+            {/* General Error Message */}
+            {errors.general && (
+              <div className="p-3 bg-red-50 border border-red-200 rounded-md">
+                <p className="text-sm text-red-600">{errors.general}</p>
+              </div>
+            )}
 
             {/* Submit Button */}
             <Button

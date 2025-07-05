@@ -188,7 +188,7 @@ def logout():
         user_id = get_jwt_identity()
         jti = get_jwt()['jti']
         
-        auth_service.logout_user(user_id, jti)
+        auth_service.logout_user(int(user_id), jti)
         
         response = make_response(jsonify({'message': 'Successfully logged out'}), 200)
         
@@ -258,7 +258,7 @@ def get_current_user():
         auth_service = AuthService(db_session)
         # Get current user
         user_id = get_jwt_identity()
-        user = auth_service.user_repo.get_user_by_id(user_id)
+        user = auth_service.user_repo.get_user_by_id(int(user_id))
 
         user_dto = UserResponse.model_validate(user)
         

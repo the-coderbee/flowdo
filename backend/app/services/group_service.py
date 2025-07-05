@@ -22,23 +22,38 @@ class GroupService:
         try:
             group_data = group_create_request.model_dump(exclude_unset=True)
             group_data["user_id"] = group_create_request.user_id
-            group = self.group_repository.create_group(group_data)
-            return True, "Group created successfully", group
+            group = Group(**group_data)
+            created_group = self.group_repository.create_group(group)
+            return True, "Group created successfully", created_group
         except Exception as e:
             return False, f"Error creating group: {e}", None
         
     def update_group(self, group_update_request: GroupUpdateRequest) -> Tuple[bool, str, Group]:
         try:
+            # First get the existing group
+            existing_group = self.group_repository.db.query(Group).filter(Group.id == group_update_request.id).first()
+            if not existing_group:
+                return False, "Group not found", None
+            
+            # Update the fields
             group_data = group_update_request.model_dump(exclude_unset=True)
-            group_data["user_id"] = group_update_request.user_id
-            group = self.group_repository.update_group(group_data)
-            return True, "Group updated successfully", group
+            for key, value in group_data.items():
+                if key != 'id':  # Don't update the ID
+                    setattr(existing_group, key, value)
+            
+            updated_group = self.group_repository.update_group(existing_group)
+            return True, "Group updated successfully", updated_group
         except Exception as e:
             return False, f"Error updating group: {e}", None
         
     def delete_group(self, group_id: int) -> Tuple[bool, str]:
         try:
-            self.group_repository.delete_group(group_id)
+            # First get the existing group
+            existing_group = self.group_repository.db.query(Group).filter(Group.id == group_id).first()
+            if not existing_group:
+                return False, "Group not found"
+            
+            self.group_repository.delete_group(existing_group)
             return True, "Group deleted successfully"
         except Exception as e:
             return False, f"Error deleting group: {e}"

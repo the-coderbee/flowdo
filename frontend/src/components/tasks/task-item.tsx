@@ -15,13 +15,13 @@ interface TaskItemProps {
 
 function getPriorityColor(priority: TaskPriority) {
   switch (priority) {
-    case TaskPriority.URGENT:
+    case 'urgent':
       return "bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400"
-    case TaskPriority.HIGH:
+    case 'high':
       return "bg-orange-100 text-orange-800 dark:bg-orange-900/20 dark:text-orange-400"
-    case TaskPriority.MEDIUM:
+    case 'medium':
       return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400"
-    case TaskPriority.LOW:
+    case 'low':
       return "bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400"
     default:
       return "bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400"
@@ -51,7 +51,7 @@ function formatDueDate(dueDate: string | undefined): string {
 }
 
 export function TaskItem({ task, index, onToggleComplete, onClick }: TaskItemProps) {
-  const isCompleted = task.status === 'COMPLETED'
+  const isCompleted = task.status === 'completed'
   
   const handleCheckboxClick = (e: React.MouseEvent) => {
     e.stopPropagation()
@@ -142,9 +142,9 @@ export function TaskItem({ task, index, onToggleComplete, onClick }: TaskItemPro
                     </span>
                   )}
                   
-                  {task.group?.name && (
+                  {task.group_id && (
                     <span className="text-xs text-muted-foreground">
-                      {task.group.name}
+                      Group {task.group_id}
                     </span>
                   )}
                   

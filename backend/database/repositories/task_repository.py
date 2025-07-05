@@ -1,3 +1,4 @@
+from datetime import datetime, UTC
 from typing import List
 
 from database.repositories.base_repository import BaseRepository
@@ -17,6 +18,10 @@ class TaskRepository(BaseRepository[Task]):
         """Initialize the repository with the Task model."""
         super().__init__(Task)
         self.db = db_session
+    
+    def get_task_by_id(self, task_id: int) -> Task:
+        """Get a task by its ID."""
+        return self.db.query(Task).filter(Task.id == task_id).first()
 
     def get_all_tasks_for_user(self, user_id: int) -> List[Task]:
         """Get all tasks for a user."""
@@ -28,22 +33,23 @@ class TaskRepository(BaseRepository[Task]):
             self.db.add(task)
             self.db.commit()
             self.db.refresh(task)
+            return task
         except Exception as e:
             self.db.rollback()
             logger.error(f"Error creating task: {e}")
             raise e
-        return task
     
     def update_task(self, task: Task) -> Task:
         """Update a task."""
         try:
+            task.updated_at = datetime.now(UTC)
             self.db.commit()
             self.db.refresh(task)
+            return task
         except Exception as e:
             self.db.rollback()
             logger.error(f"Error updating task: {e}")
             raise e
-        return task
     
     def delete_task(self, task: Task) -> None:
         """Delete a task."""

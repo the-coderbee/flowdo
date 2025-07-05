@@ -81,6 +81,11 @@ export function RegisterForm({ onSuccess, redirectTo = "/tasks" }: RegisterFormP
       } else {
         router.push(redirectTo)
       }
+    } catch (error) {
+      // Handle authentication errors
+      const errorMessage = error instanceof Error ? error.message : "Failed to create account. Please try again."
+      setErrors({ general: errorMessage })
+      console.error("Registration error:", error)
     } finally {
       setIsLoading(false)
     }
@@ -212,6 +217,13 @@ export function RegisterForm({ onSuccess, redirectTo = "/tasks" }: RegisterFormP
                 <p className="text-sm text-red-600">{errors.confirmPassword}</p>
               )}
             </div>
+
+            {/* General Error Message */}
+            {errors.general && (
+              <div className="p-3 bg-red-50 border border-red-200 rounded-md">
+                <p className="text-sm text-red-600">{errors.general}</p>
+              </div>
+            )}
 
             {/* Submit Button */}
             <Button

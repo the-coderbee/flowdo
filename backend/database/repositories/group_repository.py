@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 
 class GroupRepository(BaseRepository[Group]):
     def __init__(self, db_session: Session):
-        super().__init__()
+        super().__init__(Group)
         self.db = db_session
 
     def get_all_groups_for_user(self, user_id: int) -> List[Group]:
