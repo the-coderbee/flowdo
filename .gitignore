@@ -49,3 +49,5 @@ next-env.d.ts
 .next/
 CLAUDE.md
 claude.md
+
+backend/logs/
