@@ -1,15 +1,14 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { usePathname } from "next/navigation"
 import { motion } from "framer-motion"
-import { Search, Filter, Menu, AlertCircle, Loader2 } from "lucide-react"
+import { Filter, Menu, AlertCircle, Loader2, Plus } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { TaskItem } from "./task-item"
-import { HorizontalTaskInput } from "./horizontal-task-input"
-import { TaskModal } from "./task-modal"
-import { Task, CreateTaskRequest, UpdateTaskRequest } from "@/types/task"
+import { TaskDetailsPanel } from "./task-details-panel"
+import { Task } from "@/types/task"
 import { useTask } from "@/contexts/task-context"
 
 
@@ -40,8 +39,7 @@ export function TasksContent({ onMobileSidebarToggle }: TasksContentProps) {
     tasks,
     loading,
     error,
-    createTask,
-    updateTask,
+    filters,
     deleteTask,
     toggleTaskCompletion,
     getTodaysTasks,
@@ -50,65 +48,87 @@ export function TasksContent({ onMobileSidebarToggle }: TasksContentProps) {
   } = useTask()
   
   // Local state for UI
-  const [selectedTask, setSelectedTask] = useState<Task | null>(null)
-  const [isTaskModalOpen, setIsTaskModalOpen] = useState(false)
+  const [selectedTaskId, setSelectedTaskId] = useState<number | null>(null)
+  const [isPanelCollapsed, setIsPanelCollapsed] = useState(false)
+  const taskListRef = useRef<HTMLDivElement>(null)
+  
+  // Get selected task
+  const selectedTask = selectedTaskId ? tasks.find(t => t.id === selectedTaskId) || null : null
   
   // Load appropriate tasks based on the current page
   useEffect(() => {
-    // Only load tasks if the page requires specific filtering
+    // Don't make additional calls if already loading
+    if (loading) return
+    
+    // Only load specific data if not already loaded for this page
     if (pathname === "/my-day") {
-      getTodaysTasks()
+      // Check if we already have today's tasks loaded
+      const today = new Date().toISOString().split('T')[0]
+      const hasCurrentFilters = filters.due_date_from === today
+      if (!hasCurrentFilters) {
+        getTodaysTasks()
+      }
     } else if (pathname === "/starred") {
-      getStarredTasks()
+      // Check if we already have starred tasks loaded
+      const hasStarredFilters = filters.priority && 
+        Array.isArray(filters.priority) && 
+        filters.priority.includes('high') && 
+        filters.priority.includes('urgent')
+      if (!hasStarredFilters) {
+        getStarredTasks()
+      }
     }
     // For regular /tasks page, let the context handle initial loading
-  }, [pathname, getTodaysTasks, getStarredTasks])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname, loading, filters]) // Remove function deps to prevent unnecessary re-renders
   
   // Task operations
-  const handleAddTask = async (taskData: CreateTaskRequest) => {
-    try {
-      await createTask(taskData)
-    } catch (error) {
-      console.error('Error creating task:', error)
-    }
-  }
   
   const handleToggleComplete = async (taskId: number) => {
     try {
-      const updatedTask = await toggleTaskCompletion(taskId)
-      if (selectedTask?.id === taskId && updatedTask) {
-        setSelectedTask(updatedTask)
-      }
+      await toggleTaskCompletion(taskId)
     } catch (error) {
       console.error('Error toggling task completion:', error)
     }
   }
   
   const handleTaskClick = (task: Task) => {
-    setSelectedTask(task)
-    setIsTaskModalOpen(true)
+    setSelectedTaskId(task.id)
   }
   
-  const handleUpdateTask = async (taskId: number, updates: UpdateTaskRequest) => {
-    try {
-      const updatedTask = await updateTask(taskId, updates)
-      if (selectedTask?.id === taskId && updatedTask) {
-        setSelectedTask(updatedTask)
-      }
-    } catch (error) {
-      console.error('Error updating task:', error)
-    }
-  }
   
   const handleDeleteTask = async (taskId: number) => {
     try {
       const success = await deleteTask(taskId)
-      if (success) {
-        setIsTaskModalOpen(false)
-        setSelectedTask(null)
+      if (success && selectedTaskId === taskId) {
+        setSelectedTaskId(null)
       }
     } catch (error) {
       console.error('Error deleting task:', error)
+    }
+  }
+  
+  // Subtask handlers
+  const handleToggleSubtask = async (taskId: number, subtaskId: number) => {
+    // TODO: Implement subtask toggle logic
+    console.log('Toggle subtask:', taskId, subtaskId)
+  }
+  
+  const handleUpdateSubtask = async (taskId: number, subtaskId: number, title: string) => {
+    // TODO: Implement subtask update logic
+    console.log('Update subtask:', taskId, subtaskId, title)
+  }
+  
+  const handleDeleteSubtask = async (taskId: number, subtaskId: number) => {
+    // TODO: Implement subtask delete logic
+    console.log('Delete subtask:', taskId, subtaskId)
+  }
+  
+  // Click outside to deselect
+  const handleTaskListClick = (e: React.MouseEvent) => {
+    // Only deselect if clicking directly on the task list container, not on tasks
+    if (e.target === taskListRef.current) {
+      setSelectedTaskId(null)
     }
   }
   
@@ -117,9 +137,8 @@ export function TasksContent({ onMobileSidebarToggle }: TasksContentProps) {
   return (
     <>
       <div className="flex flex-col h-full">
-        {/* Header - Remove Add Task Button */}
         <div className="border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-          <div className="flex items-center justify-between p-6">
+          <div className="flex items-center justify-between p-4">
             <div className="flex items-center gap-4">
               {/* Mobile Menu Button */}
               <Button
@@ -145,24 +164,6 @@ export function TasksContent({ onMobileSidebarToggle }: TasksContentProps) {
                   {pendingTasksCount} pending tasks
                 </p>
               </div>
-            </div>
-            
-            <div className="flex items-center gap-2">
-              <Button variant="outline" size="sm" className="hidden sm:flex">
-                <Search className="h-4 w-4 mr-2" />
-                Search
-              </Button>
-              <Button variant="outline" size="sm" className="hidden sm:flex">
-                <Filter className="h-4 w-4 mr-2" />
-                Filter
-              </Button>
-              {/* Mobile: Icon only buttons */}
-              <Button variant="outline" size="sm" className="sm:hidden h-8 w-8 p-0">
-                <Search className="h-4 w-4" />
-              </Button>
-              <Button variant="outline" size="sm" className="sm:hidden h-8 w-8 p-0">
-                <Filter className="h-4 w-4" />
-              </Button>
             </div>
           </div>
         </div>
@@ -197,23 +198,41 @@ export function TasksContent({ onMobileSidebarToggle }: TasksContentProps) {
           
           {/* Scrollable Task List */}
           {!loading && (
-            <div className="flex-1 overflow-auto px-6">
+            <div className="flex gap-8 overflow-auto px-6">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
-                className="space-y-4 py-6"
+                className="pt-6 w-full"
               >
+                <div className="flex items-center gap-4 p-4">
+                  <Button variant="default" size="lg" className="hidden sm:flex text-foreground bg-primary/70 hover:bg-primary/50 cursor-pointer">
+                    <Plus className="h-4 w-4 mr-1" />
+                    Add Task
+                  </Button>
+                  <Button variant="outline" size="lg" className="hidden sm:flex cursor-pointer hover:text-foreground">
+                    <Filter className="h-4 w-4 mr-1" />
+                    Filter
+                  </Button>
+                  {/* Mobile: Icon only buttons */}
+                  {/* TODO: Add mobile search and filter buttons */}
+                </div>
                 {/* Task List */}
-                {tasks.map((task, index) => (
-                  <TaskItem
-                    key={task.id}
-                    task={task}
-                    index={index}
-                    onToggleComplete={handleToggleComplete}
-                    onClick={handleTaskClick}
-                  />
-                ))}
+                <div ref={taskListRef} onClick={handleTaskListClick} className="space-y-1">
+                  {tasks.map((task, index) => (
+                    <TaskItem
+                      key={task.id}
+                      task={task}
+                      index={index}
+                      isSelected={selectedTaskId === task.id}
+                      onToggleComplete={handleToggleComplete}
+                      onClick={handleTaskClick}
+                      onToggleSubtask={handleToggleSubtask}
+                      onUpdateSubtask={handleUpdateSubtask}
+                      onDeleteSubtask={handleDeleteSubtask}
+                    />
+                  ))}
+                </div>
 
                 {/* Empty State */}
                 {tasks.length === 0 && (
@@ -232,30 +251,33 @@ export function TasksContent({ onMobileSidebarToggle }: TasksContentProps) {
                 {/* Spacer for sticky input */}
                 <div className="h-20" />
               </motion.div>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ 
+                  opacity: 1, 
+                  y: 0,
+                  width: isPanelCollapsed ? "48px" : "576px"
+                }}
+                transition={{ duration: 0.3, ease: 'easeInOut' }}
+                className="flex-shrink-0"
+              >
+                <TaskDetailsPanel
+                  task={selectedTask}
+                  isCollapsed={isPanelCollapsed}
+                  onCollapse={() => setIsPanelCollapsed(!isPanelCollapsed)}
+                  onEdit={(task) => {
+                    // TODO: Implement edit functionality
+                    console.log('Edit task:', task)
+                  }}
+                  onDelete={handleDeleteTask}
+                />
+              </motion.div>
             </div>
           )}
           
-          {/* Sticky Task Input at Bottom */}
-          <div className="flex-shrink-0 border-t bg-background/95 backdrop-blur-sm p-6">
-            <div className="pl-6"> {/* Same left padding as task items */}
-              <HorizontalTaskInput onAdd={handleAddTask} />
-            </div>
-          </div>
         </div>
       </div>
 
-      {/* Task Details Modal */}
-      <TaskModal
-        task={selectedTask}
-        isOpen={isTaskModalOpen}
-        onClose={() => {
-          setIsTaskModalOpen(false)
-          setSelectedTask(null)
-        }}
-        onSave={handleUpdateTask}
-        onDelete={handleDeleteTask}
-        onToggleComplete={handleToggleComplete}
-      />
     </>
   )
 }

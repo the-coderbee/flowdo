@@ -9,12 +9,14 @@ export interface User {
 export interface LoginRequest {
   email: string
   password: string
+  remember_me?: boolean
 }
 
 export interface RegisterRequest {
   email: string
   password: string
   display_name: string
+  remember_me?: boolean
 }
 
 export interface TokenResponse {
@@ -37,10 +39,11 @@ export interface AuthState {
 }
 
 export interface AuthContextType extends AuthState {
-  login: (email: string, password: string) => Promise<void>
-  register: (email: string, password: string, displayName: string) => Promise<void>
+  login: (email: string, password: string, rememberMe?: boolean) => Promise<boolean>
+  register: (email: string, password: string, displayName: string, rememberMe?: boolean) => Promise<void>
   logout: () => Promise<void>
-  refreshAuth: () => Promise<void>
+  refreshAuth: () => Promise<boolean>
+  refreshTokens: () => Promise<boolean>
   clearError: () => void
 }
 

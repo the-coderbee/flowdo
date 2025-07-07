@@ -1,10 +1,11 @@
 "use client"
 
 import React, { createContext, useContext, useEffect, useReducer, useCallback } from "react"
+import { useRouter } from "next/navigation"
 import { AuthState, AuthContextType, User } from "@/types/auth"
 import { authService } from "@/services/auth"
 import { handleApiError } from "@/lib/api"
-import { clearAuthCookies } from "@/lib/cookies"
+import { clearAuthCookies, hasRefreshToken } from "@/lib/cookies"
 
 // Initial state
 const initialState: AuthState = {
@@ -68,6 +69,7 @@ interface AuthProviderProps {
 
 export function AuthProvider({ children }: AuthProviderProps) {
   const [state, dispatch] = useReducer(authReducer, initialState)
+  const router = useRouter()
 
   // Clear error function
   const clearError = useCallback(() => {
@@ -75,14 +77,15 @@ export function AuthProvider({ children }: AuthProviderProps) {
   }, [])
 
   // Login function
-  const login = useCallback(async (email: string, password: string) => {
+  const login = useCallback(async (email: string, password: string, rememberMe: boolean = false): Promise<boolean> => {
     try {
       dispatch({ type: "SET_LOADING", payload: true })
       dispatch({ type: "CLEAR_ERROR" })
       
-      const response = await authService.login(email, password)
+      const response = await authService.login(email, password, rememberMe)
       dispatch({ type: "SET_USER", payload: response.user })
       dispatch({ type: "SET_LOADING", payload: false })
+      return true
     } catch (error) {
       const errorMessage = handleApiError(error)
       dispatch({ type: "SET_ERROR", payload: errorMessage })
@@ -92,12 +95,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
   }, [])
 
   // Register function
-  const register = useCallback(async (email: string, password: string, displayName: string) => {
+  const register = useCallback(async (email: string, password: string, displayName: string, rememberMe: boolean = false) => {
     try {
       dispatch({ type: "SET_LOADING", payload: true })
       dispatch({ type: "CLEAR_ERROR" })
       
-      const response = await authService.register(email, password, displayName)
+      const response = await authService.register(email, password, displayName, rememberMe)
       dispatch({ type: "SET_USER", payload: response.user })
       dispatch({ type: "SET_LOADING", payload: false })
     } catch (error) {
@@ -116,6 +119,27 @@ export function AuthProvider({ children }: AuthProviderProps) {
     } catch {
       // Even if logout fails on server, clear local state
       dispatch({ type: "LOGOUT" })
+    } finally {
+      // Always redirect to login page after logout
+      router.push('/auth/login')
+    }
+  }, [router])
+
+  // Manual token refresh function
+  const refreshTokens = useCallback(async (): Promise<boolean> => {
+    try {
+      if (!hasRefreshToken()) {
+        console.log("No refresh token available for manual refresh")
+        return false
+      }
+      
+      console.log("Manual token refresh requested...")
+      await authService.refreshToken()
+      console.log("Manual token refresh successful")
+      return true
+    } catch (error) {
+      console.error("Manual token refresh failed:", error)
+      return false
     }
   }, [])
 
@@ -125,36 +149,74 @@ export function AuthProvider({ children }: AuthProviderProps) {
       dispatch({ type: "SET_LOADING", payload: true })
       dispatch({ type: "CLEAR_ERROR" })
       
-      const user = await authService.checkAuth()
-      if (user) {
-        dispatch({ type: "SET_USER", payload: user })
-      } else {
+      // Check if we have any auth cookies first
+      if (typeof window !== 'undefined') {
+        const cookies = document.cookie
+        const hasAccessToken = cookies.includes('access_token')
+        const hasRefreshToken = cookies.includes('refresh_token')
+        
+        // If no tokens at all, don't bother making API call
+        if (!hasAccessToken && !hasRefreshToken) {
+          console.log("No auth cookies found, skipping auth check")
+          clearAuthCookies()
+          dispatch({ type: "LOGOUT" })
+          return false
+        }
+      }
+      
+      try {
+        const user = await authService.checkAuth()
+        if (user) {
+          dispatch({ type: "SET_USER", payload: user })
+          return true
+        } else {
+          console.log("Auth check returned null user, logging out")
+          clearAuthCookies()
+          dispatch({ type: "LOGOUT" })
+          return false
+        }
+      } catch (error) {
+        console.error("Auth check error:", error)
         clearAuthCookies()
         dispatch({ type: "LOGOUT" })
+        return false
       }
     } catch (error) {
       console.error("Auth refresh error:", error)
       clearAuthCookies()
       dispatch({ type: "LOGOUT" })
+      return false
     } finally {
       dispatch({ type: "SET_LOADING", payload: false })
     }
   }, [])
 
-  // Check auth status on mount only, with a small delay for cookies to be available
+  // Initialize auth state on mount
   useEffect(() => {
-    const timer = setTimeout(() => {
-      refreshAuth()
-    }, 100)
+    let isMounted = true
     
-    return () => clearTimeout(timer)
-  }, [refreshAuth])
+    const initializeAuth = async () => {
+      // Small delay to ensure cookies are available
+      await new Promise(resolve => setTimeout(resolve, 100))
+      
+      if (isMounted) {
+        refreshAuth()
+      }
+    }
+    
+    initializeAuth()
+    
+    return () => {
+      isMounted = false
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []) // Remove refreshAuth dependency to avoid infinite loops
 
-  // Set up periodic auth check (every 15 minutes) only if authenticated
+  // Set up periodic auth check (every 10 minutes) only if authenticated
   useEffect(() => {
     if (!state.isAuthenticated) return
 
-    const interval = setInterval(refreshAuth, 15 * 60 * 1000)
+    const interval = setInterval(refreshAuth, 10 * 60 * 1000)
     return () => clearInterval(interval)
   }, [state.isAuthenticated, refreshAuth])
 
@@ -162,15 +224,65 @@ export function AuthProvider({ children }: AuthProviderProps) {
   useEffect(() => {
     if (!state.isAuthenticated) return
 
-    // Refresh token every 45 minutes (assuming 1-hour token expiry)
+    // Refresh token every 12 minutes (tokens expire in 15 minutes)
     const refreshInterval = setInterval(async () => {
       try {
-        await authService.refreshToken()
-      } catch {
+        // Check if we have a refresh token before attempting refresh
+        if (!hasRefreshToken()) {
+          console.log("No refresh token found, skipping token refresh")
+          dispatch({ type: "LOGOUT" })
+          return
+        }
+        
+        console.log("Attempting to refresh token...")
+        
+        // Retry logic for network failures (but not 401 errors)
+        let retryCount = 0
+        const maxRetries = 3
+        
+        while (retryCount <= maxRetries) {
+          try {
+            await authService.refreshToken()
+            console.log("Token refresh successful")
+            return // Success, exit the retry loop
+          } catch (error) {
+            // If it's a 401, don't retry - token is expired
+            if (typeof error === "object" && error !== null && "status" in error) {
+              const status = (error as { status: number }).status
+              if (status === 401) {
+                throw error // Don't retry on 401, re-throw immediately
+              }
+            }
+            
+            retryCount++
+            if (retryCount > maxRetries) {
+              throw error // Re-throw after max retries
+            }
+            
+            console.log(`Token refresh attempt ${retryCount} failed, retrying...`)
+            // Wait 1 second before retry
+            await new Promise(resolve => setTimeout(resolve, 1000))
+          }
+        }
+      } catch (error) {
+        console.error("Token refresh failed:", error)
+        
+        // Check if it's a 401 (token expired) vs other errors
+        if (typeof error === "object" && error !== null && "status" in error) {
+          const status = (error as { status: number }).status
+          if (status === 401) {
+            console.log("Refresh token expired, logging out user")
+          } else {
+            console.log(`Token refresh failed with status ${status}, logging out user`)
+          }
+        } else {
+          console.log("Token refresh failed with network/unknown error, logging out user")
+        }
+        
         // If refresh fails, logout user
         dispatch({ type: "LOGOUT" })
       }
-    }, 45 * 60 * 1000)
+    }, 12 * 60 * 1000)
 
     return () => clearInterval(refreshInterval)
   }, [state.isAuthenticated])
@@ -187,21 +299,18 @@ export function AuthProvider({ children }: AuthProviderProps) {
     return () => document.removeEventListener("visibilitychange", handleVisibilityChange)
   }, [state.isAuthenticated, refreshAuth])
 
-  // Add this at the beginning of the AuthProvider component:
+  // Set up listener for 401 responses anywhere in the app
   useEffect(() => {
-    // Force recheck auth status immediately on mount
-    refreshAuth()
-    
-    // Also set up a listener for 401 responses anywhere in the app
     const handle401Error = () => {
       console.log("Auth token invalid or expired - logging out");
       clearAuthCookies();
       dispatch({ type: "LOGOUT" });
+      router.push('/auth/login');
     };
     
     window.addEventListener("auth:unauthorized", handle401Error);
     return () => window.removeEventListener("auth:unauthorized", handle401Error);
-  }, []);
+  }, [router]);
 
   const contextValue: AuthContextType = {
     ...state,
@@ -209,6 +318,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     register,
     logout,
     refreshAuth,
+    refreshTokens,
     clearError,
   }
 

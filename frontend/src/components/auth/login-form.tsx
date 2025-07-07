@@ -16,10 +16,11 @@ interface LoginFormProps {
   redirectTo?: string
 }
 
-export function LoginForm({ onSuccess, redirectTo = "/tasks" }: LoginFormProps) {
+export function LoginForm({ onSuccess, redirectTo = "/dashboard" }: LoginFormProps) {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
+    rememberMe: false,
   })
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
@@ -54,7 +55,12 @@ export function LoginForm({ onSuccess, redirectTo = "/tasks" }: LoginFormProps) 
     setErrors({})
 
     try {
-      await login(formData.email, formData.password)
+      const success = await login(formData.email, formData.password, formData.rememberMe)
+      
+      if (!success) {
+        setErrors({ general: "Authentication failed. Please check your credentials." })
+        return
+      }
       
       // Call success callback or redirect
       if (onSuccess) {
@@ -72,7 +78,7 @@ export function LoginForm({ onSuccess, redirectTo = "/tasks" }: LoginFormProps) 
     }
   }
 
-  const handleInputChange = (field: string, value: string) => {
+  const handleInputChange = (field: string, value: string | boolean) => {
     setFormData(prev => ({ ...prev, [field]: value }))
     // Clear error when user starts typing
     if (errors[field]) {
@@ -145,6 +151,21 @@ export function LoginForm({ onSuccess, redirectTo = "/tasks" }: LoginFormProps) 
               {errors.password && (
                 <p className="text-sm text-red-600">{errors.password}</p>
               )}
+            </div>
+
+            {/* Remember Me Checkbox */}
+            <div className="flex items-center space-x-2">
+              <input
+                id="rememberMe"
+                type="checkbox"
+                checked={formData.rememberMe}
+                onChange={(e) => handleInputChange("rememberMe", e.target.checked)}
+                className="w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary focus:ring-2"
+                disabled={isLoading}
+              />
+              <Label htmlFor="rememberMe" className="text-sm text-muted-foreground cursor-pointer">
+                Remember me
+              </Label>
             </div>
 
             {/* General Error Message */}

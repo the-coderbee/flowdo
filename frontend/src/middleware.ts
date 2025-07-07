@@ -18,23 +18,25 @@ export function middleware(request: NextRequest) {
   const refreshToken = request.cookies.get("refresh_token")?.value
   
   // Determine if user appears to be authenticated (has tokens)
-  const isAuthenticated = Boolean(accessToken || refreshToken)
-  if (isAuthenticated) {
-    return NextResponse.next()
-  }
+  const isAuthenticated = Boolean(accessToken && refreshToken)
   // Debug logging (temporary)
   console.log(`[Middleware] ${pathname} - accessToken: ${!!accessToken}, refreshToken: ${!!refreshToken}, isAuthenticated: ${isAuthenticated}`)
-  // console.log(`[Middleware] isProtectedRoute: ${isProtectedRoute}, isPublicRoute: ${isPublicRoute}, isPublicAccessRoute: ${isPublicAccessRoute}`)
 
-  // Check if the current path is protected
-  const isProtectedRoute = protectedRoutes.some(route => 
-    pathname.startsWith(route)
+  // Check if the current path is always accessible (highest priority)
+  const isPublicAccessRoute = publicAccessRoutes.some(route => 
+    pathname === route || pathname.startsWith(`${route}/`)
   )
 
-  if (isProtectedRoute && !isAuthenticated) {
-    const loginUrl = new URL("/", request.url)
-    loginUrl.searchParams.set("redirectTo", pathname)
-    return NextResponse.redirect(loginUrl)
+  // Handle authenticated users on home page - redirect to dashboard
+  // Only redirect if we have both tokens (more confident of valid auth)
+  if (pathname === "/" && accessToken && refreshToken) {
+    console.log(`[Middleware] Redirecting authenticated user from home to dashboard`)
+    return NextResponse.redirect(new URL("/dashboard", request.url))
+  }
+
+  // Allow access to always accessible routes (like onboarding page for unauthenticated users)
+  if (isPublicAccessRoute) {
+    return NextResponse.next()
   }
 
   // Check if the current path is a public auth route
@@ -42,30 +44,22 @@ export function middleware(request: NextRequest) {
     pathname.startsWith(route)
   )
 
-  // Check if the current path is always accessible
-  const isPublicAccessRoute = publicAccessRoutes.some(route => 
-    pathname === route || pathname.startsWith(`${route}/`)
-  )
-
-  // Allow access to always accessible routes
-  if (isPublicAccessRoute) {
+  // Don't redirect on login/register pages even if we have tokens
+  // This allows the auth pages to handle their own validation
+  if (isPublicRoute) {
     return NextResponse.next()
   }
 
-  // Handle protected routes
+  // Check if the current path is protected
+  const isProtectedRoute = protectedRoutes.some(route => 
+    pathname.startsWith(route)
+  )
+
+  // For protected routes, redirect to login page if no tokens
   if (isProtectedRoute && !isAuthenticated) {
-    // Redirect to login with the intended destination
-    const loginUrl = new URL("/", request.url)
+    const loginUrl = new URL("/auth/login", request.url)
     loginUrl.searchParams.set("redirectTo", pathname)
     return NextResponse.redirect(loginUrl)
-  }
-
-  // Handle public auth routes (login/register)
-  if (isPublicRoute && isAuthenticated) {
-    // Redirect authenticated users away from login/register pages
-    const redirectTo = request.nextUrl.searchParams.get("redirectTo") || "/tasks"
-    console.log(`[Middleware] Redirecting authenticated user from ${pathname} to ${redirectTo}`)
-    return NextResponse.redirect(new URL(redirectTo, request.url))
   }
 
   // Allow the request to continue

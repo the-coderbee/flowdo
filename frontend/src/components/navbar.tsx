@@ -8,7 +8,6 @@ import { Logo } from "@/components/ui/logo"
 import { ThemeToggle } from "@/components/ui/theme-toggle"
 import { useAuth } from "@/contexts/auth-context"
 import { cn } from "@/lib/utils"
-import { clearAuthCookies } from "@/lib/cookies"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -87,16 +86,6 @@ export function Navbar() {
               </DropdownMenu>
             ) : (
               <div className="flex items-center space-x-2">
-                <Button 
-                  variant="outline" 
-                  size="sm"
-                  onClick={() => {
-                    console.log('Manual cookie clear triggered')
-                    clearAuthCookies()
-                  }}
-                >
-                  Clear Cookies
-                </Button>
                 <Link href="/auth/login">
                   <Button 
                     variant="ghost" 

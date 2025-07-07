@@ -41,7 +41,7 @@ class Config:
     
     # JWT settings
     JWT_SECRET_KEY = os.environ.get("JWT_SECRET_KEY", SECRET_KEY)
-    JWT_ACCESS_TOKEN_EXPIRES = int(os.environ.get("JWT_ACCESS_TOKEN_EXPIRES", 60))  # 60 minutes
+    JWT_ACCESS_TOKEN_EXPIRES = int(os.environ.get("JWT_ACCESS_TOKEN_EXPIRES", 15))  # 15 minutes
     JWT_REFRESH_TOKEN_EXPIRES = int(os.environ.get("JWT_REFRESH_TOKEN_EXPIRES", 30 * 24 * 60))  # 30 days in minutes
     JWT_ALGORITHM = "HS256"
     JWT_TOKEN_LOCATION = ['cookies', 'headers']

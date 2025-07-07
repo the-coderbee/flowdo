@@ -5,9 +5,16 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"
 
 class ApiClient {
   private baseURL: string
+  private ongoingRequests: Map<string, Promise<unknown>> = new Map()
 
   constructor(baseURL: string = API_BASE_URL) {
     this.baseURL = baseURL
+  }
+
+  private generateRequestKey(endpoint: string, options: RequestInit = {}): string {
+    const method = options.method || 'GET'
+    const body = options.body ? JSON.stringify(options.body) : ''
+    return `${method}:${endpoint}:${body}`
   }
 
   private async request<T>(
@@ -15,6 +22,16 @@ class ApiClient {
     options: RequestInit = {}
   ): Promise<T> {
     const url = `${this.baseURL}${endpoint}`
+    
+    // Generate request key for deduplication
+    const requestKey = this.generateRequestKey(endpoint, options)
+    
+    // Check if this exact request is already in progress
+    const ongoingRequest = this.ongoingRequests.get(requestKey)
+    if (ongoingRequest) {
+      console.log(`Request deduplication: Using cached request for ${requestKey}`)
+      return ongoingRequest as Promise<T>
+    }
     
     // Get CSRF token from cookie for authenticated requests
     const getCsrfToken = (tokenType: 'access' | 'refresh' = 'access') => {
@@ -52,6 +69,22 @@ class ApiClient {
       ...options,
     }
 
+    // Create the request promise and cache it
+    const requestPromise = this.executeRequest<T>(url, config)
+    this.ongoingRequests.set(requestKey, requestPromise)
+
+    try {
+      const result = await requestPromise
+      return result
+    } catch (error) {
+      throw error
+    } finally {
+      // Always clean up the cache when request completes (success or failure)
+      this.ongoingRequests.delete(requestKey)
+    }
+  }
+
+  private async executeRequest<T>(url: string, config: RequestInit): Promise<T> {
     try {
       const response = await fetch(url, config)
       

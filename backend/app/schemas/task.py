@@ -21,13 +21,32 @@ class TaskCreateRequest(BaseModel):
         if value is None or value == "":
             return None
         if isinstance(value, str):
-            # Handle various date formats
+            # Handle ISO date format (YYYY-MM-DD) from HTML date inputs
+            if len(value) == 10 and value.count('-') == 2:
+                try:
+                    return datetime.fromisoformat(value)
+                except ValueError:
+                    pass
+            
+            # Handle ISO datetime format with Z suffix
+            if value.endswith('Z'):
+                try:
+                    return datetime.fromisoformat(value.replace('Z', '+00:00'))
+                except ValueError:
+                    pass
+            
+            # Handle other ISO datetime formats
+            try:
+                return datetime.fromisoformat(value)
+            except ValueError:
+                pass
+            
+            # Only use dateutil parser as last resort with explicit timezone handling
             from dateutil import parser
             try:
-                return parser.parse(value)
+                return parser.parse(value, tzinfos={'GM': None})  # Ignore unknown timezones
             except Exception:
-                # If all else fails, try to parse as ISO format
-                return datetime.fromisoformat(value.replace('Z', '+00:00'))
+                raise ValueError(f"Unable to parse date: {value}")
         return value
 
     model_config = {
@@ -81,13 +100,32 @@ class TaskUpdateRequest(BaseModel):
         if value is None or value == "":
             return None
         if isinstance(value, str):
-            # Handle various date formats
+            # Handle ISO date format (YYYY-MM-DD) from HTML date inputs
+            if len(value) == 10 and value.count('-') == 2:
+                try:
+                    return datetime.fromisoformat(value)
+                except ValueError:
+                    pass
+            
+            # Handle ISO datetime format with Z suffix
+            if value.endswith('Z'):
+                try:
+                    return datetime.fromisoformat(value.replace('Z', '+00:00'))
+                except ValueError:
+                    pass
+            
+            # Handle other ISO datetime formats
+            try:
+                return datetime.fromisoformat(value)
+            except ValueError:
+                pass
+            
+            # Only use dateutil parser as last resort with explicit timezone handling
             from dateutil import parser
             try:
-                return parser.parse(value)
+                return parser.parse(value, tzinfos={'GM': None})  # Ignore unknown timezones
             except Exception:
-                # If all else fails, try to parse as ISO format
-                return datetime.fromisoformat(value.replace('Z', '+00:00'))
+                raise ValueError(f"Unable to parse date: {value}")
         return value
 
     model_config = {

@@ -16,7 +16,7 @@ interface RegisterFormProps {
   redirectTo?: string
 }
 
-export function RegisterForm({ onSuccess, redirectTo = "/tasks" }: RegisterFormProps) {
+export function RegisterForm({ onSuccess, redirectTo = "/dashboard" }: RegisterFormProps) {
   const [formData, setFormData] = useState({
     email: "",
     password: "",

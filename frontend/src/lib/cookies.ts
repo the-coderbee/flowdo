@@ -107,6 +107,16 @@ export function hasAuthCookies(): boolean {
 }
 
 /**
+ * Check if refresh token cookie is present
+ */
+export function hasRefreshToken(): boolean {
+  if (typeof document === 'undefined') return false
+  
+  const cookies = getAllCookies()
+  return Boolean(cookies['refresh_token'])
+}
+
+/**
  * Debug: Log current authentication cookies
  */
 export function debugAuthCookies(): void {

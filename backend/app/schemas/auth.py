@@ -11,6 +11,7 @@ class UserRegisterRequest(BaseModel):
     email: EmailStr
     password: str = Field(..., min_length=8)
     display_name: str = Field(..., min_length=1, max_length=30)
+    remember_me: bool = False
     
     @validator('password')
     def password_strength(cls, v):
@@ -22,6 +23,7 @@ class UserLoginRequest(BaseModel):
     """Schema for user login request."""
     email: EmailStr
     password: str
+    remember_me: bool = False
 
 
 class TokenResponse(BaseModel):

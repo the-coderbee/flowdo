@@ -4,6 +4,7 @@ import { createContext, useContext, useEffect, useState, ReactNode, useCallback 
 import { Task, CreateTaskRequest, UpdateTaskRequest, TaskFilters, ApiError } from '@/types/task'
 import { taskService } from '@/services/task'
 import { useAuth } from '@/contexts/auth-context'
+import { useLoading } from '@/contexts/loading-context'
 
 interface TaskContextType {
   // State
@@ -46,6 +47,7 @@ interface TaskProviderProps {
 
 export function TaskProvider({ children }: TaskProviderProps) {
   const { user } = useAuth()
+  const globalLoading = useLoading()
   const [tasks, setTasks] = useState<Task[]>([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -61,14 +63,43 @@ export function TaskProvider({ children }: TaskProviderProps) {
     }
   }
 
+  // Helper to check if an operation can proceed (prevents race conditions)
+  const canStartOperation = (operationName: string): boolean => {
+    const taskKey = `task-${operationName}`
+    if (loading || globalLoading.isLoading(taskKey)) {
+      console.warn(`Cannot start ${operationName}: already loading`)
+      return false
+    }
+    // Also check if any other critical operations are running
+    if (globalLoading.isAnyLoading()) {
+      const activeOps = globalLoading.getActiveOperations()
+      console.warn(`Deferring ${operationName}: other operations active:`, activeOps)
+      return false
+    }
+    return true
+  }
+
+  // Helper to start an operation
+  const startOperation = (operationName: string) => {
+    const taskKey = `task-${operationName}`
+    globalLoading.startLoading(taskKey)
+    setLoading(true)
+    setError(null)
+  }
+
+  // Helper to end an operation
+  const endOperation = (operationName: string) => {
+    const taskKey = `task-${operationName}`
+    globalLoading.stopLoading(taskKey)
+    setLoading(false)
+  }
+
   const getTasks = useCallback(async (newFilters?: TaskFilters) => {
     if (!user) return
     
-    setLoading(prev => {
-      if (prev) return prev // Don't start if already loading
-      return true
-    })
-    setError(null)
+    if (!canStartOperation('getTasks')) return
+    
+    startOperation('getTasks')
     
     try {
       const filtersToUse = newFilters || filters
@@ -81,9 +112,10 @@ export function TaskProvider({ children }: TaskProviderProps) {
     } catch (error) {
       handleError(error)
     } finally {
-      setLoading(false)
+      endOperation('getTasks')
     }
-  }, [user, filters])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user, filters]) // Helper functions are stable and don't need to be in deps
 
   const getTask = async (taskId: number): Promise<Task | null> => {
     if (!user) return null
@@ -210,11 +242,9 @@ export function TaskProvider({ children }: TaskProviderProps) {
   const getTodaysTasks = useCallback(async () => {
     if (!user) return
     
-    setLoading(prev => {
-      if (prev) return prev // Don't start if already loading
-      return true
-    })
-    setError(null)
+    if (!canStartOperation('getTodaysTasks')) return
+    
+    startOperation('getTodaysTasks')
     
     try {
       const todaysTasks = await taskService.getTodaysTasks(user.id)
@@ -223,18 +253,17 @@ export function TaskProvider({ children }: TaskProviderProps) {
     } catch (error) {
       handleError(error)
     } finally {
-      setLoading(false)
+      endOperation('getTodaysTasks')
     }
-  }, [user])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]) // Helper functions are stable and don't need to be in deps
 
   const getStarredTasks = useCallback(async () => {
     if (!user) return
     
-    setLoading(prev => {
-      if (prev) return prev // Don't start if already loading
-      return true
-    })
-    setError(null)
+    if (!canStartOperation('getStarredTasks')) return
+    
+    startOperation('getStarredTasks')
     
     try {
       const starredTasks = await taskService.getStarredTasks(user.id)
@@ -243,15 +272,17 @@ export function TaskProvider({ children }: TaskProviderProps) {
     } catch (error) {
       handleError(error)
     } finally {
-      setLoading(false)
+      endOperation('getStarredTasks')
     }
-  }, [user])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]) // Helper functions are stable and don't need to be in deps
 
   const getCompletedTasks = useCallback(async () => {
     if (!user) return
     
-    setLoading(true)
-    setError(null)
+    if (!canStartOperation('getCompletedTasks')) return
+    
+    startOperation('getCompletedTasks')
     
     try {
       const completedTasks = await taskService.getCompletedTasks(user.id)
@@ -260,15 +291,17 @@ export function TaskProvider({ children }: TaskProviderProps) {
     } catch (error) {
       handleError(error)
     } finally {
-      setLoading(false)
+      endOperation('getCompletedTasks')
     }
-  }, [user])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]) // Helper functions are stable and don't need to be in deps
 
   const getTasksByGroup = useCallback(async (groupId: number) => {
     if (!user) return
     
-    setLoading(true)
-    setError(null)
+    if (!canStartOperation('getTasksByGroup')) return
+    
+    startOperation('getTasksByGroup')
     
     try {
       const groupTasks = await taskService.getTasksByGroup(user.id, groupId)
@@ -277,15 +310,17 @@ export function TaskProvider({ children }: TaskProviderProps) {
     } catch (error) {
       handleError(error)
     } finally {
-      setLoading(false)
+      endOperation('getTasksByGroup')
     }
-  }, [user])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]) // Helper functions are stable and don't need to be in deps
 
   const searchTasks = useCallback(async (query: string) => {
     if (!user) return
     
-    setLoading(true)
-    setError(null)
+    if (!canStartOperation('searchTasks')) return
+    
+    startOperation('searchTasks')
     
     try {
       const searchResults = await taskService.searchTasks(user.id, query)
@@ -294,9 +329,10 @@ export function TaskProvider({ children }: TaskProviderProps) {
     } catch (error) {
       handleError(error)
     } finally {
-      setLoading(false)
+      endOperation('searchTasks')
     }
-  }, [user])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]) // Helper functions are stable and don't need to be in deps
 
   const clearError = () => {
     setError(null)
@@ -311,7 +347,8 @@ export function TaskProvider({ children }: TaskProviderProps) {
     if (user && !isInitialized) {
       getTasks()
     }
-  }, [user, isInitialized, getTasks])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user, isInitialized]) // Remove getTasks from deps to prevent unnecessary re-renders
 
   const value: TaskContextType = {
     // State

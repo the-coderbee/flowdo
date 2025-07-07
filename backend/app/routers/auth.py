@@ -70,9 +70,24 @@ def register():
 
         response = make_response(jsonify(auth_response.model_dump()), 201)
         
-        # Set HTTP-only cookies
+        # Set HTTP-only cookies with conditional expiration
         set_access_cookies(response, data['access_token'])
-        set_refresh_cookies(response, data['refresh_token'])
+        
+        # Set refresh cookie based on remember_me preference
+        if register_data.remember_me:
+            # Remember Me ON: Set persistent refresh cookie (30 days)
+            set_refresh_cookies(response, data['refresh_token'])
+        else:
+            # Remember Me OFF: Set session refresh cookie (expires when browser closes)
+            response.set_cookie(
+                current_app.config['JWT_REFRESH_COOKIE_NAME'],
+                value=data['refresh_token'],
+                httponly=True,
+                secure=current_app.config.get('JWT_COOKIE_SECURE', False),
+                samesite=current_app.config.get('JWT_COOKIE_SAMESITE', 'Strict'),
+                path='/'
+                # No max_age set = session cookie
+            )
         
         return response
 
@@ -119,9 +134,24 @@ def login():
 
         response = make_response(jsonify(auth_response.model_dump()), 200)
         
-        # Set HTTP-only cookies
+        # Set HTTP-only cookies with conditional expiration
         set_access_cookies(response, data['access_token'])
-        set_refresh_cookies(response, data['refresh_token'])
+        
+        # Set refresh cookie based on remember_me preference
+        if login_data.remember_me:
+            # Remember Me ON: Set persistent refresh cookie (30 days)
+            set_refresh_cookies(response, data['refresh_token'])
+        else:
+            # Remember Me OFF: Set session refresh cookie (expires when browser closes)
+            response.set_cookie(
+                current_app.config['JWT_REFRESH_COOKIE_NAME'],
+                value=data['refresh_token'],
+                httponly=True,
+                secure=current_app.config.get('JWT_COOKIE_SECURE', False),
+                samesite=current_app.config.get('JWT_COOKIE_SAMESITE', 'Strict'),
+                path='/'
+                # No max_age set = session cookie
+            )
         
         return response
         

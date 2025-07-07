@@ -24,19 +24,20 @@ class AuthService {
   /**
    * Login user with email and password
    */
-  async login(email: string, password: string): Promise<AuthResponse> {
-    const loginData: LoginRequest = { email, password }
+  async login(email: string, password: string, rememberMe: boolean = false): Promise<AuthResponse> {
+    const loginData: LoginRequest = { email, password, remember_me: rememberMe }
     return apiClient.post<AuthResponse>(this.endpoints.login, loginData)
   }
 
   /**
    * Register new user
    */
-  async register(email: string, password: string, displayName: string): Promise<AuthResponse> {
+  async register(email: string, password: string, displayName: string, rememberMe: boolean = false): Promise<AuthResponse> {
     const registerData: RegisterRequest = { 
       email, 
       password, 
-      display_name: displayName 
+      display_name: displayName,
+      remember_me: rememberMe
     }
     return apiClient.post<AuthResponse>(this.endpoints.register, registerData)
   }
@@ -59,7 +60,15 @@ class AuthService {
    * Refresh access token using refresh token from HTTP-only cookie
    */
   async refreshToken(): Promise<void> {
-    await apiClient.post(this.endpoints.refresh)
+    try {
+      await apiClient.post(this.endpoints.refresh)
+    } catch (error) {
+      // Log the specific error for debugging
+      console.error("RefreshToken API call failed:", error)
+      
+      // Re-throw the error so calling code can handle it
+      throw error
+    }
   }
 
   /**
