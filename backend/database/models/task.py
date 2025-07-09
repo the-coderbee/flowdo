@@ -1,7 +1,7 @@
 from typing import Optional, List
 from enum import Enum
 from datetime import datetime
-from sqlalchemy import String, Integer, DateTime, ForeignKey, Enum as SqlEnum
+from sqlalchemy import String, Integer, DateTime, ForeignKey, Enum as SqlEnum, Boolean
 from sqlalchemy.orm import mapped_column, relationship, Mapped
 from .base import BaseModel
 from .user import User
@@ -41,6 +41,9 @@ class Task(BaseModel):
     estimated_pomodoros: Mapped[int] = mapped_column(Integer, nullable=True, default=0)
     completed_pomodoros: Mapped[int] = mapped_column(Integer, nullable=True, default=0)
 
+    is_in_my_day: Mapped[bool] = mapped_column(Boolean, nullable=True, default=False)
+    starred: Mapped[bool] = mapped_column(Boolean, nullable=True, default=False)
+
     user_id: Mapped[int] = mapped_column(Integer, ForeignKey("users.id"))
     group_id: Mapped[Optional[int]] = mapped_column(Integer, ForeignKey("groups.id"), nullable=True)
 
@@ -52,3 +55,22 @@ class Task(BaseModel):
 
     def __repr__(self) -> str:
         return f"<Task {self.title}>"
+    
+    def to_dict(self) -> dict:
+        return {
+            'id': self.id,
+            'title': self.title,
+            'description': self.description,
+            'priority': self.priority.value if self.priority else None,
+            'status': self.status.value if self.status else None,
+            'due_date': self.due_date.isoformat() if self.due_date else None,
+            'completed_at': self.completed_at.isoformat() if self.completed_at else None,
+            'estimated_pomodoros': self.estimated_pomodoros,
+            'completed_pomodoros': self.completed_pomodoros,
+            'is_in_my_day': self.is_in_my_day,
+            'starred': self.starred,
+            'user_id': self.user_id,
+            'group_id': self.group_id,
+            'created_at': self.created_at.isoformat() if self.created_at else None,
+            'updated_at': self.updated_at.isoformat() if self.updated_at else None
+        }

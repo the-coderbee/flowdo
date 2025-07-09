@@ -6,7 +6,7 @@ import { Menu, X, User, LogOut, Settings } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Logo } from "@/components/ui/logo"
 import { ThemeToggle } from "@/components/ui/theme-toggle"
-import { useAuth } from "@/contexts/auth-context"
+import { useAuth } from "@/lib/providers/auth-provider"
 import { cn } from "@/lib/utils"
 import {
   DropdownMenu,
@@ -86,7 +86,7 @@ export function Navbar() {
               </DropdownMenu>
             ) : (
               <div className="flex items-center space-x-2">
-                <Link href="/auth/login">
+                <Link href="/login">
                   <Button 
                     variant="ghost" 
                     size="sm"
@@ -94,7 +94,7 @@ export function Navbar() {
                     Sign In
                   </Button>
                 </Link>
-                <Link href="/auth/register">
+                <Link href="/register">
                   <Button 
                     size="sm"
                   >
@@ -178,7 +178,7 @@ export function Navbar() {
             </div>
           ) : (
             <div className="space-y-2 pt-2">
-              <Link href="/auth/login" onClick={() => setIsOpen(false)}>
+              <Link href="/login" onClick={() => setIsOpen(false)}>
                 <Button 
                   variant="ghost" 
                   size="sm" 
@@ -187,7 +187,7 @@ export function Navbar() {
                   Sign In
                 </Button>
               </Link>
-              <Link href="/auth/register" onClick={() => setIsOpen(false)}>
+              <Link href="/register" onClick={() => setIsOpen(false)}>
                 <Button 
                   size="sm" 
                   className="w-full"

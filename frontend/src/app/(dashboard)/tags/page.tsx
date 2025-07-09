@@ -1,4 +1,4 @@
-import { TagsContent } from "@/components/tags/tags-content"
+import { TagsContent } from "@/components/features/tags/tags-content"
 
 // Force dynamic rendering for authentication
 export const dynamic = 'force-dynamic'

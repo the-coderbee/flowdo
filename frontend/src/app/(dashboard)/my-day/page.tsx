@@ -1,4 +1,4 @@
-import { TasksContent } from "@/components/tasks/tasks-content"
+import { TasksContent } from "@/components/features/tasks/tasks-content"
 
 // Force dynamic rendering for authentication
 export const dynamic = 'force-dynamic'

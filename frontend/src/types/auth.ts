@@ -40,10 +40,9 @@ export interface AuthState {
 
 export interface AuthContextType extends AuthState {
   login: (email: string, password: string, rememberMe?: boolean) => Promise<boolean>
-  register: (email: string, password: string, displayName: string, rememberMe?: boolean) => Promise<void>
+  register: (email: string, password: string, displayName: string, rememberMe?: boolean) => Promise<boolean>
   logout: () => Promise<void>
   refreshAuth: () => Promise<boolean>
-  refreshTokens: () => Promise<boolean>
   clearError: () => void
 }
 

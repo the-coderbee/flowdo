@@ -2,9 +2,12 @@ from database.models.user import User
 from typing import Tuple, Optional, Dict
 import bcrypt
 from sqlalchemy.orm import Session
-
+import logging
 from database.repositories.user_repository import UserRepository
 from database.repositories.user_token_repository import UserTokenRepository
+# Set up logging
+logger = logging.getLogger(__name__)
+
 
 class AuthService:
 
@@ -75,83 +78,91 @@ class AuthService:
     def login_user(self, email: str, password: str) -> Tuple[bool, str, Optional[Dict]]:
         """Login a user."""
         try:
+            # TODO: add rate limiting
             user = self.user_repo.get_user_by_email(email)
             if not user:
+                logger.warning(f"Login attempt with non-existent email: {email}")
                 return False, "Invalid email or password", None
             
+            # verifying password
             if not bcrypt.checkpw(password.encode('utf-8'), user.psw_hash.encode('utf-8')):
+                logger.warning(f"Login failed for user: {email}")
                 return False, "Invalid email or password", None
             
-            self.token_repo.revoke_all_tokens(user.id, "access")
-            self.token_repo.revoke_all_tokens(user.id, "refresh")
-
+            # cleanup existing tokens (single session)
+            try:
+                self.token_repo.revoke_all_tokens(user.id, "access")
+                self.token_repo.revoke_all_tokens(user.id, "refresh")
+            except Exception as e:
+                logger.warning(f"Failed to revoke tokens for user: {email}: {str(e)}")
+            
+            # create new tokens
             access_token = self.token_repo.create_access_token(user.id, 30)
             refresh_token = self.token_repo.create_refresh_token(user.id, 60)
             
+            logger.info(f"User {email} logged in successfully")
+
             return True, "Login successful", {
                 'user': user,
                 'access_token': access_token,
                 'refresh_token': refresh_token
             }
         except Exception as e:
+            logger.error(f"Login failed for user: {email}: {str(e)}")
             return False, f"Login failed: {str(e)}", None
 
-    def logout_user(self, user_id: int, token: str) -> Tuple[bool, str]:
+    def logout_user(self, user_id: int, token_jti: str) -> Tuple[bool, str]:
+        """Logout user and revoke all tokens."""
         try:
             user = self.user_repo.get_user_by_id(user_id)
             if not user:
+                logger.warning(f"User not found during logout: {user_id}")
                 return False, "User not found"
             
-            if not self.token_repo.revoke_token(token):
-                return False, "Failed to revoke token"
-            
-            return True, "Logout successful"
-        except Exception as e:
-            return False, f"Logout failed: {str(e)}"
-    
-    def refresh_token(self, refresh_token: str) -> str:
-        """Refresh a token."""
-        try:
-            token = self.token_repo.get_user_token(refresh_token)
-            if not token or not token.is_valid():
-                return None
-            
-            user = self.user_repo.get_user_by_id(token.user_id)
-            
-            if not user:
-                return None
-            
-            new_access_token = self.token_repo.create_access_token(user.id, AuthService.token_expire_minutes)
-            
-            return new_access_token
-        except Exception as e:
-            return None
+            # revoke all tokens
+            revoked_access = self.token_repo.revoke_all_tokens(user_id, "access")
+            revoked_refresh = self.token_repo.revoke_all_tokens(user_id, "refresh")
 
-    def refresh_access_token(self, user_id: int, refresh_jti: str) -> str:
+            logger.info(f"User {user_id} logged out successfully (revoked {revoked_access} access, and {revoked_refresh} refresh tokens)")
+            return True, "Logout successful"
+        
+        except Exception as e:
+            logger.error(f"Logout failed for user: {user_id}: {str(e)}")
+            return False, f"Logout failed: {str(e)}"
+
+    def refresh_access_token(self, user_id: int, refresh_jti: str) -> Optional[str]:
         """Refresh access token using refresh token JTI."""
         try:
             # Check if refresh token is valid
             if self.token_repo.is_token_revoked(refresh_jti):
+                logger.warning(f"Refresh token is revoked: {refresh_jti}")
                 return None
             
+            # get user
             user = self.user_repo.get_user_by_id(user_id)
             if not user:
+                logger.warning(f"User not found during token refresh: {user_id}")
                 return None
             
             # Create new access token
-            new_access_token = self.token_repo.create_access_token(user.id, AuthService.token_expire_minutes)
+            new_access_token = self.token_repo.create_access_token(user.id, AuthService.access_token_expire_minutes)
+            logger.info(f"Access token refreshed successfully for user: {user.id}")
             
             return new_access_token
         except Exception as e:
+            logger.error(f"Failed to refresh access token for user: {user_id}: {str(e)}")
             return None
         
-    def verify_access_token(self, token: str) -> Tuple[bool, str, Optional[User]]:
-        """Verify an access token."""
+    def verify_user_session(self, user_id: int) -> Tuple[bool, Optional[User]]:
+        """Verify user session."""
         try:
-            token = self.token_repo.get_access_token(token)
-            if not token or not token.is_valid():
-                return False, "Invalid access token", None
-            
-            return True, "Access token is valid", None
+            user = self.user_repo.get_user_by_id(user_id)
+            if not user:
+                logger.warning(f"User not found during session verification: {user_id}")
+                return False, None
+
+            return True, user
+
         except Exception as e:
-            return False, f"Access token verification failed: {str(e)}", None
+            logger.error(f"Failed to verify user session for user: {user_id}: {str(e)}")
+            return False, None

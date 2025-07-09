@@ -1,97 +1,59 @@
-import { apiClient } from "@/lib/api"
-
-export interface Tag {
-  id: number
-  name: string
-  color: string
-  user_id: number
-  task_count?: number
-}
+import { apiClient } from "@/lib/api/client"
+import { Tag } from "@/types/task"
 
 export interface CreateTagRequest {
   name: string
-  color: string
-  user_id: number
+  color?: string
+  user_id?: number
 }
 
 export interface UpdateTagRequest {
-  id: number
-  name: string
-  color: string
-  user_id: number
+  id?: number
+  name?: string
+  color?: string
+  user_id?: number
 }
 
-class TagService {
-  private readonly endpoints = {
-    tags: "/api/tags",
-    userTags: (userId: number) => `/api/tags/${userId}`,
-    tag: (tagId: number) => `/api/tags/${tagId}`,
+export class TagService {
+  static async getAllTags(): Promise<Tag[]> {
+    return apiClient.get<Tag[]>('/api/tags')
   }
 
-  /**
-   * Get all tags for a user
-   */
-  async getTagsForUser(userId: number): Promise<Tag[]> {
-    return apiClient.get<Tag[]>(this.endpoints.userTags(userId))
+  static async getTagsForUser(userId: number): Promise<(Tag & { task_count?: number })[]> {
+    return apiClient.get<(Tag & { task_count?: number })[]>(`/api/users/${userId}/tags`)
   }
 
-  /**
-   * Create a new tag
-   */
-  async createTag(tagData: CreateTagRequest): Promise<Tag> {
-    return apiClient.post<Tag>(this.endpoints.tags, tagData)
+  static async createTag(tag: CreateTagRequest): Promise<Tag & { task_count?: number }> {
+    return apiClient.post<Tag & { task_count?: number }>('/api/tags', tag)
   }
 
-  /**
-   * Update an existing tag
-   */
-  async updateTag(tagId: number, tagData: Partial<UpdateTagRequest>): Promise<Tag> {
-    return apiClient.put<Tag>(this.endpoints.tag(tagId), tagData)
+  static async updateTag(id: number, updates: UpdateTagRequest): Promise<Tag> {
+    return apiClient.put<Tag>(`/api/tags/${id}`, updates)
   }
 
-  /**
-   * Delete a tag
-   */
-  async deleteTag(tagId: number): Promise<void> {
-    await apiClient.delete(this.endpoints.tag(tagId))
+  static async deleteTag(id: number): Promise<void> {
+    return apiClient.delete(`/api/tags/${id}`)
   }
 
-  /**
-   * Validate tag name
-   */
-  validateTagName(name: string): { valid: boolean; errors: string[] } {
-    const errors: string[] = []
-    
-    if (!name || name.trim().length === 0) {
-      errors.push("Tag name is required")
-    }
-    
-    if (name.length > 30) {
-      errors.push("Tag name must be 30 characters or less")
-    }
-
-    return {
-      valid: errors.length === 0,
-      errors
-    }
+  static async getTagById(id: number): Promise<Tag> {
+    return apiClient.get<Tag>(`/api/tags/${id}`)
   }
 
-  /**
-   * Get predefined color options
-   */
-  getColorOptions(): string[] {
+  static getColorOptions(): string[] {
     return [
-      "#3b82f6", // blue
-      "#10b981", // green
-      "#ef4444", // red
-      "#f59e0b", // yellow
-      "#8b5cf6", // purple
-      "#ec4899", // pink
-      "#06b6d4", // cyan
-      "#84cc16", // lime
+      "#3b82f6", // Blue
+      "#ef4444", // Red
+      "#10b981", // Green
+      "#f59e0b", // Yellow
+      "#8b5cf6", // Purple
+      "#f97316", // Orange
+      "#06b6d4", // Cyan
+      "#84cc16", // Lime
+      "#ec4899", // Pink
+      "#6b7280"  // Gray
     ]
   }
 }
 
-// Export singleton instance
-export const tagService = new TagService()
+export const tagService = TagService
+export type { Tag as TagType }

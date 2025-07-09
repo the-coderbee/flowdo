@@ -1,11 +1,11 @@
 "use client"
 
 import { useState } from "react"
-import { Sidebar } from "@/components/tasks/sidebar"
-import { TaskProvider } from "@/contexts/task-context"
-import { GroupProvider } from "@/contexts/group-context"
-import { LoadingProvider } from "@/contexts/loading-context"
-import { ProfileHeader } from "@/components/dashboard/profile-header"
+import { Sidebar } from "@/components/layout/sidebar"
+import { TaskProvider } from "@/lib/providers/task-provider"
+import { GroupProvider } from "@/lib/providers/group-provider"
+import { DashboardProvider } from "@/lib/providers/dashboard-provider"
+import { ProfileHeader } from "@/components/features/dashboard/profile-header"
 
 export default function DashboardLayout({
   children,
@@ -15,9 +15,9 @@ export default function DashboardLayout({
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false)
 
   return (
-    <LoadingProvider>
-      <TaskProvider>
-        <GroupProvider>
+    <TaskProvider>
+      <GroupProvider>
+        <DashboardProvider>
           <div className="min-h-screen bg-background">
             <div className="flex h-screen bg-background">
               {/* Desktop Sidebar */}
@@ -47,8 +47,8 @@ export default function DashboardLayout({
               </div>
             </div>
           </div>
-        </GroupProvider>
-      </TaskProvider>
-    </LoadingProvider>
+        </DashboardProvider>
+      </GroupProvider>
+    </TaskProvider>
   )
 }

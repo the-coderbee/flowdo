@@ -12,6 +12,8 @@ class TaskCreateRequest(BaseModel):
     due_date: Optional[Union[datetime, str]] = None
     estimated_pomodoros: Optional[int] = None
     completed_pomodoros: Optional[int] = None
+    is_in_my_day: Optional[bool] = False
+    starred: Optional[bool] = False
     user_id: int
     group_id: Optional[int] = None
 
@@ -74,6 +76,8 @@ class TaskResponse(BaseModel):
     completed_at: Optional[datetime] = None
     estimated_pomodoros: Optional[int] = None
     completed_pomodoros: Optional[int] = None
+    is_in_my_day: Optional[bool] = False
+    starred: Optional[bool] = False
     user_id: int
     group_id: Optional[int] = None
     tags: Optional[List[str]] = None
@@ -91,6 +95,8 @@ class TaskUpdateRequest(BaseModel):
     due_date: Optional[Union[datetime, str]] = None
     estimated_pomodoros: Optional[int] = None
     completed_pomodoros: Optional[int] = None
+    is_in_my_day: Optional[bool] = None
+    starred: Optional[bool] = None
     group_id: Optional[int] = None
     tags: Optional[List[int]] = None
 
