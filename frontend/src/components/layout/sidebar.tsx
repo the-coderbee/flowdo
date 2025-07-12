@@ -10,6 +10,7 @@ import { SidebarNavigation } from "./sidebar/sidebar-navigation"
 import { SidebarGroups } from "./sidebar/sidebar-groups"
 import { SidebarProfile } from "./sidebar/sidebar-profile"
 import { sidebarVariants } from "./sidebar/sidebar-config"
+import { CreateGroupDialog } from "@/components/features/groups/create-group-dialog"
 
 interface SidebarProps {
   className?: string
@@ -19,6 +20,7 @@ export function Sidebar({ className }: SidebarProps) {
   const [isCollapsed, setIsCollapsed] = useState(false)
   const [isGroupsExpanded, setIsGroupsExpanded] = useState(true)
   const [isProfileExpanded, setIsProfileExpanded] = useState(false)
+  const [isCreateGroupDialogOpen, setIsCreateGroupDialogOpen] = useState(false)
   const { groups } = useGroup()
   const { user, logout } = useAuth()
 
@@ -31,8 +33,7 @@ export function Sidebar({ className }: SidebarProps) {
   }
 
   const handleAddGroup = () => {
-    console.log("Add group clicked")
-    // TODO: Open add group dialog
+    setIsCreateGroupDialogOpen(true)
   }
 
   return (
@@ -74,6 +75,12 @@ export function Sidebar({ className }: SidebarProps) {
         isExpanded={isProfileExpanded}
         onToggleExpanded={() => setIsProfileExpanded(!isProfileExpanded)}
         onLogout={handleLogout}
+      />
+
+      {/* Create Group Dialog */}
+      <CreateGroupDialog
+        open={isCreateGroupDialogOpen}
+        onOpenChange={setIsCreateGroupDialogOpen}
       />
     </motion.div>
   )

@@ -19,19 +19,63 @@ export interface Task {
   group_id?: number
   tags?: Tag[]
   subtasks?: Subtask[]
+  // Subtask metadata (from backend)
+  has_subtasks: boolean
+  subtask_count: number
+  completed_subtask_count: number
+  subtask_completion_percentage: number
 }
 
 export interface Tag {
   id: number
   name: string
+  color?: string
   user_id: number
 }
 
 export interface Subtask {
   id: number
   title: string
-  is_completed: boolean
+  description?: string
+  position: number
   task_id: number
+  is_completed: boolean
+  created_at: string
+  updated_at: string
+}
+
+export interface CreateSubtaskRequest {
+  title: string
+  description?: string
+  position: number
+  task_id: number
+}
+
+export interface UpdateSubtaskRequest {
+  title?: string
+  description?: string
+  position?: number
+  is_completed?: boolean
+}
+
+export interface SubtaskListResponse {
+  subtasks: Subtask[]
+  count: number
+  task_id: number
+}
+
+export interface SubtaskStats {
+  total: number
+  completed: number
+  pending: number
+  completion_percentage: number
+  task_id: number
+}
+
+export interface SubtaskFilters {
+  completed?: boolean
+  task_id?: number
+  search?: string
 }
 
 export interface TaskGroup {
@@ -53,6 +97,7 @@ export interface CreateTaskRequest {
   is_in_my_day?: boolean
   starred?: boolean
   group_id?: number
+  tag_ids?: number[]
   user_id: number
 }
 
@@ -67,6 +112,7 @@ export interface UpdateTaskRequest {
   is_in_my_day?: boolean
   starred?: boolean
   group_id?: number
+  tag_ids?: number[]
 }
 
 export interface TaskFilters {

@@ -24,3 +24,15 @@ class Subtask(BaseModel):
 
     def __repr__(self):
         return f"<Subtask(id={self.id}, title={self.title}, description={self.description}, is_completed={self.is_completed}, position={self.position})>"
+    
+    def to_dict(self) -> dict:
+        return {
+            'id': self.id,
+            'title': self.title,
+            'description': self.description,
+            'is_completed': self.is_completed,
+            'position': self.position,
+            'task_id': self.task_id,
+            'created_at': self.created_at.isoformat() if self.created_at else None,
+            'updated_at': self.updated_at.isoformat() if self.updated_at else None
+        }

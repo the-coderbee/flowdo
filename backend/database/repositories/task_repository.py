@@ -5,12 +5,13 @@ from sqlalchemy import asc, desc, or_, and_
 
 from database.repositories.base_repository import BaseRepository
 from database.models.task import Task
+from database.models.tasktag import TaskTag
 
-from sqlalchemy.orm import Session, Query
+from sqlalchemy.orm import Session, Query, joinedload
 
-import logging
+from logger import get_logger
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class TaskRepository(BaseRepository[Task]):
@@ -162,7 +163,14 @@ class TaskRepository(BaseRepository[Task]):
 
     def get_task_by_id(self, task_id: int) -> Task:
         """Get a task by its ID."""
-        return self.db.query(Task).filter(Task.id == task_id).first()
+        return (
+            self.db.query(Task)
+            .options(
+                joinedload(Task.tags).joinedload(TaskTag.tag), joinedload(Task.subtasks)
+            )
+            .filter(Task.id == task_id)
+            .first()
+        )
 
     def get_today_tasks(self, user_id: int) -> List[Task]:
         """Get all tasks for a user that are due today."""
@@ -192,7 +200,7 @@ class TaskRepository(BaseRepository[Task]):
         results = self.get_all_tasks_for_user(user_id, filters, page_size=1000)
         return results["tasks"]
 
-    def get_completed_tasks(self, user_id: int, limit: int = 10) -> List[Task]:
+    def get_completed_tasks(self, user_id: int) -> List[Task]:
         """Get all tasks for a user that are completed."""
         filters = {
             "completed": True,
@@ -256,15 +264,20 @@ class TaskRepository(BaseRepository[Task]):
         """Get all tasks for a user."""
         try:
             query = self.db.query(Task).filter(Task.user_id == user_id)
-            
+
             # Apply filters first
             if filters:
                 query = self._apply_filters(query, filters)
-            
+
             total_count = query.count()
 
             # Apply sorting
             query = self._apply_sorting(query, sort_by, sort_order)
+
+            # Add eager loading for tags and their related tag objects
+            query = query.options(
+                joinedload(Task.tags).joinedload(TaskTag.tag), joinedload(Task.subtasks)
+            )
 
             # Apply pagination
             offset = (page - 1) * page_size
@@ -289,7 +302,7 @@ class TaskRepository(BaseRepository[Task]):
         """Create a new task."""
         try:
             self.db.add(task)
-            self.db.commit()
+            self.db.flush()  # Use flush instead of commit to keep transaction open
             self.db.refresh(task)
             return task
         except Exception as e:
@@ -301,7 +314,7 @@ class TaskRepository(BaseRepository[Task]):
         """Update a task."""
         try:
             task.updated_at = datetime.now(UTC)
-            self.db.commit()
+            self.db.flush()  # Use flush instead of commit to keep transaction open
             self.db.refresh(task)
             return task
         except Exception as e:
@@ -313,108 +326,146 @@ class TaskRepository(BaseRepository[Task]):
         """Delete a task."""
         try:
             self.db.delete(task)
-            self.db.commit()
+            self.db.flush()  # Use flush instead of commit to keep transaction open
         except Exception as e:
             self.db.rollback()
             logger.error(f"Error deleting task: {e}")
             raise e
-    
+
     def count_tasks_by_date(self, user_id: int, target_date: date) -> int:
         """Count tasks created on a specific date."""
         try:
             start_datetime = datetime.combine(target_date, datetime.min.time())
             end_datetime = datetime.combine(target_date, datetime.max.time())
-            
-            count = self.db.query(Task).filter(
-                Task.user_id == user_id,
-                Task.created_at >= start_datetime,
-                Task.created_at <= end_datetime
-            ).count()
-            
+
+            count = (
+                self.db.query(Task)
+                .filter(
+                    Task.user_id == user_id,
+                    Task.created_at >= start_datetime,
+                    Task.created_at <= end_datetime,
+                )
+                .count()
+            )
+
             return count
         except Exception as e:
             logger.error(f"Error counting tasks by date for user {user_id}: {str(e)}")
             return 0
-    
+
     def count_completed_tasks_by_date(self, user_id: int, target_date: date) -> int:
         """Count completed tasks on a specific date."""
         try:
             start_datetime = datetime.combine(target_date, datetime.min.time())
             end_datetime = datetime.combine(target_date, datetime.max.time())
-            
-            count = self.db.query(Task).filter(
-                Task.user_id == user_id,
-                Task.status == "completed",
-                Task.completed_at >= start_datetime,
-                Task.completed_at <= end_datetime
-            ).count()
-            
+
+            count = (
+                self.db.query(Task)
+                .filter(
+                    Task.user_id == user_id,
+                    Task.status == "completed",
+                    Task.completed_at >= start_datetime,
+                    Task.completed_at <= end_datetime,
+                )
+                .count()
+            )
+
             return count
         except Exception as e:
-            logger.error(f"Error counting completed tasks by date for user {user_id}: {str(e)}")
+            logger.error(
+                f"Error counting completed tasks by date for user {user_id}: {str(e)}"
+            )
             return 0
-    
-    def count_tasks_by_date_range(self, user_id: int, start_date: date, end_date: date) -> int:
+
+    def count_tasks_by_date_range(
+        self, user_id: int, start_date: date, end_date: date
+    ) -> int:
         """Count tasks created within a date range."""
         try:
             start_datetime = datetime.combine(start_date, datetime.min.time())
             end_datetime = datetime.combine(end_date, datetime.max.time())
-            
-            count = self.db.query(Task).filter(
-                Task.user_id == user_id,
-                Task.created_at >= start_datetime,
-                Task.created_at <= end_datetime
-            ).count()
-            
+
+            count = (
+                self.db.query(Task)
+                .filter(
+                    Task.user_id == user_id,
+                    Task.created_at >= start_datetime,
+                    Task.created_at <= end_datetime,
+                )
+                .count()
+            )
+
             return count
         except Exception as e:
-            logger.error(f"Error counting tasks by date range for user {user_id}: {str(e)}")
+            logger.error(
+                f"Error counting tasks by date range for user {user_id}: {str(e)}"
+            )
             return 0
-    
-    def count_completed_tasks_by_date_range(self, user_id: int, start_date: date, end_date: date) -> int:
+
+    def count_completed_tasks_by_date_range(
+        self, user_id: int, start_date: date, end_date: date
+    ) -> int:
         """Count completed tasks within a date range."""
         try:
             start_datetime = datetime.combine(start_date, datetime.min.time())
             end_datetime = datetime.combine(end_date, datetime.max.time())
-            
-            count = self.db.query(Task).filter(
-                Task.user_id == user_id,
-                Task.status == "completed",
-                Task.completed_at >= start_datetime,
-                Task.completed_at <= end_datetime
-            ).count()
-            
+
+            count = (
+                self.db.query(Task)
+                .filter(
+                    Task.user_id == user_id,
+                    Task.status == "completed",
+                    Task.completed_at >= start_datetime,
+                    Task.completed_at <= end_datetime,
+                )
+                .count()
+            )
+
             return count
         except Exception as e:
-            logger.error(f"Error counting completed tasks by date range for user {user_id}: {str(e)}")
+            logger.error(
+                f"Error counting completed tasks by date range for user {user_id}: {str(e)}"
+            )
             return 0
-    
+
     def get_recent_completed_tasks(self, user_id: int, limit: int = 5) -> List[Task]:
         """Get recently completed tasks."""
         try:
-            tasks = self.db.query(Task).filter(
-                Task.user_id == user_id,
-                Task.status == "completed"
-            ).order_by(desc(Task.completed_at)).limit(limit).all()
-            
+            tasks = (
+                self.db.query(Task)
+                .filter(Task.user_id == user_id, Task.status == "completed")
+                .order_by(desc(Task.completed_at))
+                .limit(limit)
+                .all()
+            )
+
             return tasks
         except Exception as e:
-            logger.error(f"Error getting recent completed tasks for user {user_id}: {str(e)}")
+            logger.error(
+                f"Error getting recent completed tasks for user {user_id}: {str(e)}"
+            )
             return []
-    
+
     def get_tasks_with_deadlines(self, user_id: int, end_date: date) -> List[Task]:
         """Get tasks with deadlines before the end_date."""
         try:
             end_datetime = datetime.combine(end_date, datetime.max.time())
-            
-            tasks = self.db.query(Task).filter(
-                Task.user_id == user_id,
-                Task.due_date.isnot(None),
-                Task.due_date <= end_datetime,
-                Task.status != "completed"
-            ).order_by(asc(Task.due_date)).all()
-            
+
+            tasks = (
+                self.db.query(Task)
+                .filter(
+                    Task.user_id == user_id,
+                    Task.due_date.isnot(None),
+                    Task.due_date <= end_datetime,
+                    Task.status != "completed",
+                )
+                .order_by(asc(Task.due_date))
+                .all()
+            )
+
             return tasks
         except Exception as e:
-            logger.error(f"Error getting tasks with deadlines for user {user_id}: {str(e)}")
+            logger.error(
+                f"Error getting tasks with deadlines for user {user_id}: {str(e)}"
+            )
             return []

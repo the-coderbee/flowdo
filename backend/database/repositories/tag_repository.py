@@ -5,9 +5,9 @@ from sqlalchemy.orm import Session
 
 from database.models.tag import Tag
 
-import logging
+from logger import get_logger
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class TagRepository(BaseRepository[Tag]):

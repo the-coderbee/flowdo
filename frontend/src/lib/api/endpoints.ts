@@ -18,6 +18,7 @@ export const API_ENDPOINTS = {
     update: (id: string) => `/api/tasks/${id}`,
     delete: (id: string) => `/api/tasks/${id}`,
     toggle: (id: string) => `/api/tasks/${id}/toggle`,
+    star: (id: string) => `/api/tasks/${id}/star`,
     bulkUpdate: '/api/tasks/bulk',
     markComplete: (id: string) => `/api/tasks/${id}/complete`,
     markIncomplete: (id: string) => `/api/tasks/${id}/incomplete`,
@@ -32,14 +33,18 @@ export const API_ENDPOINTS = {
     byGroup: '/api/tasks/by-group'
   },
 
-  // Subtasks
+  // Subtasks (matching backend implementation)
   subtasks: {
-    list: (taskId: string) => `/api/tasks/${taskId}/subtasks`,
-    create: (taskId: string) => `/api/tasks/${taskId}/subtasks`,
-    get: (taskId: string, subtaskId: string) => `/api/tasks/${taskId}/subtasks/${subtaskId}`,
-    update: (taskId: string, subtaskId: string) => `/api/tasks/${taskId}/subtasks/${subtaskId}`,
-    delete: (taskId: string, subtaskId: string) => `/api/tasks/${taskId}/subtasks/${subtaskId}`,
-    toggle: (taskId: string, subtaskId: string) => `/api/tasks/${taskId}/subtasks/${subtaskId}/toggle`
+    list: (taskId: number) => `/api/subtasks/task/${taskId}`,
+    create: '/api/subtasks',
+    get: (subtaskId: number) => `/api/subtasks/${subtaskId}`,
+    update: (subtaskId: number) => `/api/subtasks/${subtaskId}`,
+    delete: (subtaskId: number) => `/api/subtasks/${subtaskId}`,
+    toggle: (subtaskId: number) => `/api/subtasks/${subtaskId}`,
+    completionStats: (taskId: number) => `/api/subtasks/tasks/${taskId}/completion-count`,
+    bulkToggle: (taskId: number) => `/api/subtasks/tasks/${taskId}/bulk-toggle`,
+    reorder: (taskId: number) => `/api/subtasks/tasks/${taskId}/reorder`,
+    bulkDelete: (taskId: number) => `/api/subtasks/tasks/${taskId}/delete`
   },
 
   // Tags

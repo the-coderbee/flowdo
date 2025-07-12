@@ -1,33 +1,33 @@
-import { ChevronRight, Edit2, Trash2, MoreVertical } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Task } from "@/types/task"
-import { TaskStatusBadges } from "./task-status-badges"
+import { ChevronRight, Edit2, Trash2, MoreVertical } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Task } from "@/types/task";
+import { TaskStatusBadges } from "./task-status-badges";
 
 interface TaskDetailsPanelHeaderProps {
-  task: Task
-  onCollapse?: () => void
-  onEdit?: (task: Task) => void
-  onDelete?: (taskId: number) => void
-  className?: string
+  task: Task;
+  onCollapse?: () => void;
+  onEdit?: (task: Task) => void;
+  onDelete?: (taskId: number) => void;
+  className?: string;
 }
 
-export function TaskDetailsPanelHeader({ 
-  task, 
-  onCollapse, 
-  onEdit, 
+export function TaskDetailsPanelHeader({
+  task,
+  onCollapse,
+  onEdit,
   onDelete,
-  className 
+  className,
 }: TaskDetailsPanelHeaderProps) {
   const handleEdit = () => {
-    onEdit?.(task)
-  }
+    onEdit?.(task);
+  };
 
   const handleDelete = () => {
-    onDelete?.(task.id)
-  }
+    onDelete?.(task.id);
+  };
 
   return (
-    <div className={`p-4 border-b border-border space-y-4 ${className}`}>
+    <div className={`p-4 space-y-4 ${className}`}>
       {/* Header with actions */}
       <div className="flex items-center justify-between">
         <h2 className="text-lg font-semibold">Task Details</h2>
@@ -52,11 +52,7 @@ export function TaskDetailsPanelHeader({
               <Trash2 className="h-4 w-4" />
             </Button>
           )}
-          <Button
-            variant="ghost"
-            size="sm"
-            className="h-8 w-8 p-0"
-          >
+          <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
             <MoreVertical className="h-4 w-4" />
           </Button>
           {onCollapse && (
@@ -74,7 +70,13 @@ export function TaskDetailsPanelHeader({
 
       {/* Task title */}
       <div>
-        <h3 className={`text-xl font-semibold ${task.status === 'completed' ? 'line-through text-muted-foreground' : ''}`}>
+        <h3
+          className={`text-xl font-semibold ${
+            task.status === "completed"
+              ? "line-through text-muted-foreground"
+              : ""
+          }`}
+        >
           {task.title}
         </h3>
       </div>
@@ -82,7 +84,7 @@ export function TaskDetailsPanelHeader({
       {/* Status badges */}
       <TaskStatusBadges task={task} />
     </div>
-  )
+  );
 }
 
-export default TaskDetailsPanelHeader
+export default TaskDetailsPanelHeader;

@@ -19,12 +19,12 @@ export class TagService {
     return apiClient.get<Tag[]>('/api/tags')
   }
 
-  static async getTagsForUser(userId: number): Promise<(Tag & { task_count?: number })[]> {
-    return apiClient.get<(Tag & { task_count?: number })[]>(`/api/users/${userId}/tags`)
+  static async getTagsForUser(): Promise<(Tag & { task_count?: number })[]> {
+    return apiClient.get<(Tag & { task_count?: number })[]>(`/api/tags`)
   }
 
   static async createTag(tag: CreateTagRequest): Promise<Tag & { task_count?: number }> {
-    return apiClient.post<Tag & { task_count?: number }>('/api/tags', tag)
+    return apiClient.post<Tag & { task_count?: number }>('/api/tags/create', tag)
   }
 
   static async updateTag(id: number, updates: UpdateTagRequest): Promise<Tag> {

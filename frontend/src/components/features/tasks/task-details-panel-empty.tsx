@@ -1,24 +1,27 @@
-import { motion } from "framer-motion"
-import { CheckSquare, ChevronRight } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { motion } from "framer-motion";
+import { CheckSquare, ChevronRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 interface TaskDetailsPanelEmptyProps {
-  onCollapse?: () => void
-  className?: string
+  onCollapse?: () => void;
+  className?: string;
 }
 
-export function TaskDetailsPanelEmpty({ onCollapse, className }: TaskDetailsPanelEmptyProps) {
+export function TaskDetailsPanelEmpty({
+  onCollapse,
+  className,
+}: TaskDetailsPanelEmptyProps) {
   return (
     <motion.div
       initial={{ width: 50 }}
       animate={{ width: 400 }}
       transition={{ duration: 0.3, ease: "easeInOut" }}
-      className={`flex flex-col border-l border-border bg-card ${className}`}
+      className={`flex flex-col ${className}`}
     >
       {/* Header */}
-      <div className="p-4 border-b border-border flex items-center justify-between">
-        <h2 className="text-lg font-semibold">Task Details</h2>
-        {onCollapse && (
+      <div className="p-4 flex items-center justify-between">
+        {/* <h2 className="text-lg font-semibold">Task Details</h2> */}
+        {/* {onCollapse && (
           <Button
             variant="ghost"
             size="sm"
@@ -27,7 +30,7 @@ export function TaskDetailsPanelEmpty({ onCollapse, className }: TaskDetailsPane
           >
             <ChevronRight className="h-4 w-4" />
           </Button>
-        )}
+        )} */}
       </div>
 
       {/* Empty State */}
@@ -37,15 +40,18 @@ export function TaskDetailsPanelEmpty({ onCollapse, className }: TaskDetailsPane
             <CheckSquare className="w-8 h-8 text-muted-foreground" />
           </div>
           <div className="space-y-2">
-            <h3 className="text-lg font-medium text-foreground">No task selected</h3>
+            <h3 className="text-lg font-medium text-foreground">
+              No task selected
+            </h3>
             <p className="text-sm text-muted-foreground max-w-sm">
-              Select a task from the list to view its details, edit properties, or manage subtasks.
+              Select a task from the list to view its details, edit properties,
+              or manage subtasks.
             </p>
           </div>
         </div>
       </div>
     </motion.div>
-  )
+  );
 }
 
-export default TaskDetailsPanelEmpty
+export default TaskDetailsPanelEmpty;

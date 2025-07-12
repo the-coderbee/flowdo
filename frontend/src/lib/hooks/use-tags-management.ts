@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react"
-import { tagService, Tag as TagType, CreateTagRequest } from "@/services/tag"
+import { tagService, TagType, CreateTagRequest } from "@/services/tag"
 import { useAuth } from "@/lib/providers/auth-provider"
 
 export interface UseTagsManagementReturn {
@@ -34,7 +34,7 @@ export function useTagsManagement(): UseTagsManagementReturn {
     setError(null)
 
     try {
-      const fetchedTags = await tagService.getTagsForUser(user.id)
+      const fetchedTags = await tagService.getTagsForUser()
       setTags(fetchedTags)
     } catch (error) {
       console.error('Error loading tags:', error)

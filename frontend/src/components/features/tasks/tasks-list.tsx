@@ -7,6 +7,7 @@ interface TasksListProps {
   selectedTaskId: number | null
   onToggleComplete: (taskId: number) => void
   onTaskClick: (task: Task) => void
+  onStarTask: (taskId: number) => void
   onToggleSubtask: (taskId: number, subtaskId: number) => void
   onUpdateSubtask: (taskId: number, subtaskId: number, title: string) => void
   onDeleteSubtask: (taskId: number, subtaskId: number) => void
@@ -20,6 +21,7 @@ export const TasksList = forwardRef<HTMLDivElement, TasksListProps>(
     selectedTaskId, 
     onToggleComplete, 
     onTaskClick, 
+    onStarTask,
     onToggleSubtask, 
     onUpdateSubtask, 
     onDeleteSubtask, 
@@ -40,6 +42,7 @@ export const TasksList = forwardRef<HTMLDivElement, TasksListProps>(
             isSelected={selectedTaskId === task.id}
             onToggleComplete={onToggleComplete}
             onClick={onTaskClick}
+            onStarTask={onStarTask}
             onToggleSubtask={onToggleSubtask}
             onUpdateSubtask={onUpdateSubtask}
             onDeleteSubtask={onDeleteSubtask}

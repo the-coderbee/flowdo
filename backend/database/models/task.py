@@ -51,12 +51,35 @@ class Task(BaseModel):
     group: Mapped["Group"] = relationship("Group", back_populates="tasks")
     tags: Mapped[List["TaskTag"]] = relationship("TaskTag", back_populates="task")
     pomodoro_sessions: Mapped[List["PomodoroSession"]] = relationship("PomodoroSession", back_populates="task")
-    subtasks: Mapped[List["Subtask"]] = relationship("Subtask", back_populates="task")
+    subtasks: Mapped[List["Subtask"]] = relationship("Subtask", back_populates="task", cascade="all, delete-orphan")
 
     def __repr__(self) -> str:
         return f"<Task {self.title}>"
     
     def to_dict(self) -> dict:
+        # Calculate subtask metadata
+        subtask_count = len(self.subtasks) if self.subtasks else 0
+        completed_subtasks = 0
+        if hasattr(self, 'subtasks') and self.subtasks:
+            completed_subtasks = sum(1 for subtask in self.subtasks if subtask.is_completed)
+        
+        has_subtasks = subtask_count > 0
+        
+        # Serialize tags for json safety
+        tags_data = []
+        
+        try:
+            if hasattr(self, 'tags') and self.tags:
+                for task_tag in self.tags:
+                    if hasattr(task_tag, 'tag') and task_tag.tag:
+                        tags_data.append({
+                            'id': task_tag.tag.id,
+                            'name': task_tag.tag.name,
+                            'color': task_tag.tag.color
+                        })
+        except Exception as e:
+            tags_data = []
+        
         return {
             'id': self.id,
             'title': self.title,
@@ -72,5 +95,12 @@ class Task(BaseModel):
             'user_id': self.user_id,
             'group_id': self.group_id,
             'created_at': self.created_at.isoformat() if self.created_at else None,
-            'updated_at': self.updated_at.isoformat() if self.updated_at else None
+            'updated_at': self.updated_at.isoformat() if self.updated_at else None,
+            # Tags
+            'tags': tags_data,
+            # Subtask metadata
+            'has_subtasks': has_subtasks,
+            'subtask_count': subtask_count,
+            'completed_subtask_count': completed_subtasks,
+            'subtask_completion_percentage': round((completed_subtasks / subtask_count) * 100) if subtask_count > 0 else 0
         }

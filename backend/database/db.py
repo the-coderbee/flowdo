@@ -1,7 +1,7 @@
 """
 Core database setup module following Flask-SQLAlchemy best practices.
 """
-import logging
+from logger import get_logger
 import subprocess
 from typing import Dict, Any, List
 from sqlalchemy import create_engine, inspect, text, event
@@ -13,7 +13,7 @@ from contextlib import contextmanager
 from config.config import get_config
 
 # Set up logging
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 # Get config
 config = get_config()
@@ -27,10 +27,11 @@ def create_db_engine():
         'pool_pre_ping': True,
         'pool_recycle': 3600,
         'echo': False,
-        'echo_pool': False,
+        'echo_pool': config.DEBUG,  # Enable pool logging in debug mode
         'poolclass': QueuePool,
-        'pool_size': 5,
-        'max_overflow': 10,
+        'pool_size': 10,  # Increased from 5
+        'max_overflow': 15,  # Increased from 10
+        'pool_timeout': 20,  # Reduced from 30
         'connect_args': {
             'connect_timeout': 10
         }
@@ -45,6 +46,32 @@ def create_db_engine():
         cursor = dbapi_connection.cursor()
         cursor.execute("SET timezone='UTC';")
         cursor.close()
+    
+    # Add connection pool monitoring
+    @event.listens_for(engine, "connect")
+    def log_connection_created(dbapi_connection, connection_record):
+        """Log when a new connection is created."""
+        logger.info(f"Connection created: {id(dbapi_connection)}")
+    
+    @event.listens_for(engine, "checkout")
+    def log_connection_checkout(dbapi_connection, connection_record, connection_proxy):
+        """Log when a connection is checked out from the pool."""
+        logger.debug(f"Connection checkout: {id(dbapi_connection)}")
+    
+    @event.listens_for(engine, "checkin")
+    def log_connection_checkin(dbapi_connection, connection_record):
+        """Log when a connection is checked back into the pool."""
+        logger.debug(f"Connection checkin: {id(dbapi_connection)}")
+    
+    @event.listens_for(engine, "close")
+    def log_connection_close(dbapi_connection, connection_record):
+        """Log when a connection is closed."""
+        logger.info(f"Connection closed: {id(dbapi_connection)}")
+    
+    @event.listens_for(engine, "invalidate")
+    def log_connection_invalidate(dbapi_connection, connection_record, exception):
+        """Log when a connection is invalidated."""
+        logger.warning(f"Connection invalidated: {id(dbapi_connection)} | Exception: {exception}")
     
     return engine
 
@@ -77,12 +104,12 @@ def init_db():
     from database.models.base import BaseModel
     # Import all models here
     import database.models.user
-    import backend.database.models.task
+    import database.models.task
     import database.models.group
-    import backend.database.models.pomodoro_session
-    import backend.database.models.subtask
-    import backend.database.models.tag
-    import backend.database.models.tasktag
+    import database.models.pomodoro_session
+    import database.models.subtask
+    import database.models.tag
+    import database.models.tasktag
     import database.models.user_token
     
     # Create tables
@@ -97,6 +124,39 @@ def check_db_connection():
     except Exception as e:
         logger.error(f"Database connection check failed: {str(e)}")
         return False
+
+def get_pool_status():
+    """Get current connection pool status."""
+    try:
+        pool = engine.pool
+        
+        # Get basic pool metrics
+        size = pool.size()
+        checked_out = pool.checkedout()
+        overflow = pool.overflow()
+        checked_in = pool.checkedin()
+        
+        return {
+            "size": size,
+            "checked_out": checked_out,
+            "overflow": overflow,
+            "checked_in": checked_in,
+            "total_connections": size + overflow,
+            "available_connections": size - checked_out,
+            "pool_limit_reached": checked_out >= (size + overflow)
+        }
+    except Exception as e:
+        logger.error(f"Failed to get pool status: {str(e)}")
+        return {
+            "size": 0,
+            "checked_out": 0,
+            "overflow": 0,
+            "checked_in": 0,
+            "total_connections": 0,
+            "available_connections": 0,
+            "pool_limit_reached": False,
+            "error": str(e)
+        }
 
 def get_table_names() -> List[str]:
     """Get a list of all tables in the database."""
@@ -152,7 +212,24 @@ def init_app(app):
     """Initialize the Flask app with the database."""
     @app.teardown_appcontext
     def shutdown_session(exception=None):
-        db_session.remove()
+        """Clean up database session after each request."""
+        try:
+            db_session.remove()
+            # Log pool status periodically in debug mode
+            if app.config.get('DEBUG', False):
+                pool_info = get_pool_status()
+                if pool_info and pool_info['checked_out'] > 0:
+                    logger.debug(f"Sessions cleaned up. Pool status: {pool_info}")
+        except Exception as e:
+            logger.error(f"Error during session cleanup: {str(e)}")
+            
+    @app.before_request
+    def log_pool_status():
+        """Log pool status before each request in debug mode."""
+        if app.config.get('DEBUG', False):
+            pool_info = get_pool_status()
+            if pool_info and pool_info['checked_out'] > pool_info['size'] * 0.7:
+                logger.warning(f"High pool utilization detected: {pool_info}")
         
     # Initialize database
     if not check_db_connection():

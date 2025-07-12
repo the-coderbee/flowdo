@@ -4,16 +4,15 @@ Task API endpoints.
 This module contains routes for task management.
 """
 
-import logging
-
 from flask import Blueprint, jsonify, request
 from app.schemas.task import TaskCreateRequest, TaskResponse, TaskUpdateRequest
 from app.services.task_service import TaskService
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from database.db import db_session
+from logger import get_logger
 
 # Set up logging
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 # Create Blueprint
 task_bp = Blueprint("task", __name__, url_prefix="/api/tasks")
@@ -82,6 +81,9 @@ def get_tasks():
             page=page,
             page_size=page_size,
         )
+        # print(result["tasks"][0].to_dict())
+        
+        # tasks = TaskResponse(**result["tasks"])
 
         return (
             jsonify(
@@ -276,7 +278,7 @@ def create_task():
     except Exception as e:
         logger.exception("Error creating task")
         return jsonify({"error": str(e)}), 400
-    return jsonify(data), 201
+    return jsonify(data.to_dict()), 201
 
 
 @task_bp.route("/<int:task_id>", methods=["PATCH"])
@@ -297,7 +299,7 @@ def update_task(task_id: int):
     except Exception as e:
         logger.exception("Error updating task")
         return jsonify({"error": str(e)}), 400
-    return jsonify(data), 200
+    return jsonify(data.to_dict()), 200
 
 
 @task_bp.route("/<int:task_id>/toggle", methods=["PATCH"])
@@ -314,7 +316,22 @@ def toggle_task_completion(task_id: int):
     except Exception as e:
         logger.exception("Error toggling task completion")
         return jsonify({"error": str(e)}), 400
-    return jsonify(data), 200
+    return jsonify(data.to_dict()), 200
+
+
+@task_bp.route("/<int:task_id>/star", methods=["PATCH"])
+@jwt_required()
+def toggle_task_star(task_id: int):
+    try:
+        user_id = int(get_jwt_identity())
+        task_service = TaskService(db_session)
+        success, message, data = task_service.toggle_task_star(task_id, int(user_id))
+        if not success:
+            return jsonify({"error": message}), 400
+    except Exception as e:
+        logger.exception("Error toggling task star")
+        return jsonify({"error": str(e)}), 400
+    return jsonify(data.to_dict()), 200
 
 
 @task_bp.route("/<int:task_id>", methods=["DELETE"])

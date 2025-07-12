@@ -8,10 +8,13 @@ from .auth_service import AuthService
 from .task_service import TaskService
 from .tag_service import TagService
 from .group_service import GroupService
+from .subtask_service import SubtaskService
+
 
 __all__ = [
     "AuthService",
     "TaskService",
     "TagService",
-    "GroupService"
+    "GroupService",
+    "SubtaskService",
 ]

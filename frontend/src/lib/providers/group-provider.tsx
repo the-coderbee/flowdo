@@ -91,7 +91,7 @@ interface GroupProviderProps {
 
 export const GroupProvider = ({ children }: GroupProviderProps) => {
   const [state, dispatch] = useReducer(groupReducer, initialState)
-  const { isAuthenticated } = useAuth()
+  const { isAuthenticated, user } = useAuth()
 
   const fetchGroups = useCallback(async (): Promise<void> => {
     if (!isAuthenticated) return
@@ -109,13 +109,18 @@ export const GroupProvider = ({ children }: GroupProviderProps) => {
   }, [isAuthenticated])
 
   const createGroup = useCallback(async (group: { name: string, description?: string, color?: string }): Promise<boolean> => {
-    if (!isAuthenticated) return false
+    if (!isAuthenticated || !user) return false
 
     try {
       dispatch({ type: "SET_LOADING", payload: true })
       dispatch({ type: "CLEAR_ERROR" })
 
-      const newGroup = await apiClient.post<TaskGroup & { task_count?: number }>('/api/groups', group)
+      const payload = {
+        ...group,
+        user_id: user.id
+      }
+
+      const newGroup = await apiClient.post<TaskGroup & { task_count?: number }>('/api/groups/create', payload)
       dispatch({ type: "ADD_GROUP", payload: newGroup })
       return true
     } catch (error) {
@@ -123,7 +128,7 @@ export const GroupProvider = ({ children }: GroupProviderProps) => {
       dispatch({ type: "SET_ERROR", payload: errorMessage })
       return false
     }
-  }, [isAuthenticated])
+  }, [isAuthenticated, user])
 
   const updateGroup = useCallback(async (id: number, updates: { name?: string, description?: string, color?: string }): Promise<boolean> => {
     if (!isAuthenticated) return false

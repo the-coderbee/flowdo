@@ -2,14 +2,17 @@ from database.models.user import User
 from typing import Tuple, Optional, Dict
 import bcrypt
 from sqlalchemy.orm import Session
-import logging
+from logger import get_logger
 from database.repositories.user_repository import UserRepository
 from database.repositories.user_token_repository import UserTokenRepository
 # Set up logging
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class AuthService:
+    # Class constants
+    access_token_expire_minutes = 30
+    refresh_token_expire_minutes = 60
 
     def __init__(self, db_session: Session):
         self.db = db_session
@@ -67,12 +70,17 @@ class AuthService:
             access_token = self.token_repo.create_access_token(user.id, 30)
             refresh_token = self.token_repo.create_refresh_token(user.id, 60)
             
+            # Explicitly commit the transaction
+            self.db.commit()
+            
             return True, "User created successfully", {
                 'user': user,
                 'access_token': access_token,
                 'refresh_token': refresh_token
             }
         except Exception as e:
+            # Ensure rollback on error
+            self.db.rollback()
             return False, f"Failed to create user: {str(e)}", None
     
     def login_user(self, email: str, password: str) -> Tuple[bool, str, Optional[Dict]]:
@@ -100,6 +108,9 @@ class AuthService:
             access_token = self.token_repo.create_access_token(user.id, 30)
             refresh_token = self.token_repo.create_refresh_token(user.id, 60)
             
+            # Explicitly commit the transaction
+            self.db.commit()
+            
             logger.info(f"User {email} logged in successfully")
 
             return True, "Login successful", {
@@ -108,6 +119,8 @@ class AuthService:
                 'refresh_token': refresh_token
             }
         except Exception as e:
+            # Ensure rollback on error
+            self.db.rollback()
             logger.error(f"Login failed for user: {email}: {str(e)}")
             return False, f"Login failed: {str(e)}", None
 
@@ -123,10 +136,15 @@ class AuthService:
             revoked_access = self.token_repo.revoke_all_tokens(user_id, "access")
             revoked_refresh = self.token_repo.revoke_all_tokens(user_id, "refresh")
 
+            # Explicitly commit the transaction
+            self.db.commit()
+
             logger.info(f"User {user_id} logged out successfully (revoked {revoked_access} access, and {revoked_refresh} refresh tokens)")
             return True, "Logout successful"
         
         except Exception as e:
+            # Ensure rollback on error
+            self.db.rollback()
             logger.error(f"Logout failed for user: {user_id}: {str(e)}")
             return False, f"Logout failed: {str(e)}"
 
@@ -146,10 +164,16 @@ class AuthService:
             
             # Create new access token
             new_access_token = self.token_repo.create_access_token(user.id, AuthService.access_token_expire_minutes)
+            
+            # Explicitly commit the transaction
+            self.db.commit()
+            
             logger.info(f"Access token refreshed successfully for user: {user.id}")
             
             return new_access_token
         except Exception as e:
+            # Ensure rollback on error
+            self.db.rollback()
             logger.error(f"Failed to refresh access token for user: {user_id}: {str(e)}")
             return None
         

@@ -31,6 +31,7 @@ export class TaskService {
     if (filters.completed !== undefined) params.append('completed', filters.completed.toString())
     if (filters.starred !== undefined) params.append('starred', filters.starred.toString())
     if (filters.overdue !== undefined) params.append('overdue', filters.overdue.toString())
+    if (filters.is_in_my_day !== undefined) params.append('is_in_my_day', filters.is_in_my_day.toString())
     if (filters.tags?.length) params.append('tags', filters.tags.join(','))
     
     // Add pagination and sorting
@@ -205,6 +206,16 @@ export class TaskService {
       return response
     } catch (error) {
       console.error('Task toggle error:', error)
+      throw error
+    }
+  }
+
+  static async toggleTaskStar(id: number): Promise<Task> {
+    try {
+      const response = await apiClient.patch<Task>(API_ENDPOINTS.tasks.star(id.toString()))
+      return response
+    } catch (error) {
+      console.error('Task star toggle error:', error)
       throw error
     }
   }

@@ -5,9 +5,9 @@ from sqlalchemy.orm import Session
 
 from database.models.group import Group
 
-import logging
+from logger import get_logger
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 class GroupRepository(BaseRepository[Group]):

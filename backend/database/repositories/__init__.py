@@ -11,6 +11,7 @@ from .user_token_repository import UserTokenRepository
 from .task_repository import TaskRepository
 from .tag_repository import TagRepository
 from .group_repository import GroupRepository
+from .subtask_repository import SubtaskRepository
 
 __all__ = [
     "BaseRepository",
@@ -18,5 +19,6 @@ __all__ = [
     "UserTokenRepository",
     "TaskRepository",
     "TagRepository",
-    "GroupRepository"
-] 
+    "GroupRepository",
+    "SubtaskRepository",
+]

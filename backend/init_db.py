@@ -5,7 +5,7 @@ Database Initialization Script
 This script creates all tables in the database based on SQLAlchemy models.
 Run this script when setting up a new database or after schema changes.
 """
-import logging
+from logger import get_logger
 from sqlalchemy_utils import database_exists, create_database
 from sqlalchemy.exc import SQLAlchemyError
 
@@ -14,8 +14,9 @@ from database.models import *  # Import all models to ensure they're registered 
 from config.config import get_config
 
 # Configure logging
+import logging
 logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 def init_db():
     """Initialize the database."""

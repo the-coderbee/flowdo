@@ -1,27 +1,26 @@
-import { Plus, Filter } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { Filter } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { TaskCreationDialog } from "./task-creation-dialog";
 
 interface TasksToolbarProps {
-  onAddTask?: () => void
-  onFilter?: () => void
-  className?: string
+  onAddTask?: () => void;
+  onFilter?: () => void;
+  className?: string;
 }
 
-export function TasksToolbar({ onAddTask, onFilter, className }: TasksToolbarProps) {
+export function TasksToolbar({
+  onAddTask,
+  onFilter,
+  className,
+}: TasksToolbarProps) {
   return (
-    <div className={`flex items-center gap-4 p-4 ${className}`}>
-      <Button 
-        variant="default" 
-        size="lg" 
-        className="hidden sm:flex text-foreground bg-primary/70 hover:bg-primary/50 cursor-pointer"
-        onClick={onAddTask}
-      >
-        <Plus className="h-4 w-4 mr-1" />
-        Add Task
-      </Button>
-      <Button 
-        variant="outline" 
-        size="lg" 
+    <div className={`flex items-center gap-4 py-6 mb-2 ${className}`}>
+      <div className="hidden sm:flex">
+        <TaskCreationDialog onTaskCreated={onAddTask} />
+      </div>
+      <Button
+        variant="outline"
+        size="lg"
         className="hidden sm:flex cursor-pointer hover:text-foreground"
         onClick={onFilter}
       >
@@ -31,7 +30,7 @@ export function TasksToolbar({ onAddTask, onFilter, className }: TasksToolbarPro
       {/* Mobile: Icon only buttons */}
       {/* TODO: Add mobile search and filter buttons */}
     </div>
-  )
+  );
 }
 
-export default TasksToolbar
+export default TasksToolbar;

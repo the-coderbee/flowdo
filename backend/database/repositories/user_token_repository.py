@@ -30,7 +30,7 @@ class UserTokenRepository(BaseRepository[UserToken]):
 
         new_user_token = UserToken(user_id=user_id, jti=jti, token_type="access", expires_at=expires_at)
         self.db_session.add(new_user_token)
-        self.db_session.commit()
+        self.db_session.flush()  # Use flush instead of commit
         self.db_session.refresh(new_user_token)
 
         return token
@@ -45,7 +45,7 @@ class UserTokenRepository(BaseRepository[UserToken]):
 
         new_user_token = UserToken(user_id=user_id, jti=jti, token_type="refresh", expires_at=expires_at)
         self.db_session.add(new_user_token)
-        self.db_session.commit()
+        self.db_session.flush()  # Use flush instead of commit
         self.db_session.refresh(new_user_token)
 
         return token
@@ -56,17 +56,20 @@ class UserTokenRepository(BaseRepository[UserToken]):
         user_token = self.db_session.query(UserToken).filter(UserToken.jti == jti).one_or_none()
         if user_token:
             user_token.revoked = True
-            self.db_session.commit()
+            self.db_session.flush()  # Use flush instead of commit
             return True
         return False
     
-    def revoke_all_tokens(self, user_id: int, token_type: str) -> None:
-        """Revoke all tokens for a user."""
+    def revoke_all_tokens(self, user_id: int, token_type: str) -> int:
+        """Revoke all tokens for a user. Returns count of revoked tokens."""
         user_tokens = self.db_session.query(UserToken).filter(UserToken.user_id == user_id).all()
+        revoked_count = 0
         for user_token in user_tokens:
             if user_token.token_type == token_type:
                 user_token.revoked = True
-        self.db_session.commit()
+                revoked_count += 1
+        self.db_session.flush()  # Use flush instead of commit
+        return revoked_count
     
     def is_token_revoked(self, jti: str) -> bool:
         """Check if a token is revoked."""
@@ -97,7 +100,7 @@ class UserTokenRepository(BaseRepository[UserToken]):
         """Delete a token by user ID."""
         try:
             self.db_session.query(UserToken).filter(UserToken.user_id == user_id).delete()
-            self.db_session.commit()
+            self.db_session.flush()  # Use flush instead of commit
         except Exception as e:
             self.db_session.rollback()
             print(f"Failed to delete token by user ID: {str(e)}")
