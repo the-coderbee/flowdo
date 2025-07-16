@@ -45,6 +45,8 @@ class JsonFormatter(_logging.Formatter):
             'module': record.module,
             'function': record.funcName,
             'line': record.lineno,
+            'file': record.filename,
+            'path': record.pathname,
         }
         
         # Add exception information if present
@@ -110,7 +112,7 @@ def setup_logging() -> _logging.Logger:
     if HAS_COLORLOG and not config.TESTING:
         # Use colorlog for colored output
         color_formatter = colorlog.ColoredFormatter(
-            '%(log_color)s%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+            '%(log_color)s%(asctime)s - %(name)s - %(levelname)s - %(filename)s:%(lineno)d - %(message)s',
             datefmt='%Y-%m-%d %H:%M:%S',
             log_colors={
                 'DEBUG': 'cyan',
@@ -262,6 +264,39 @@ def log_security_event(event_type: str, details: Dict[str, Any], logger_name: st
             'security_event': True,
             **details
         }
+    )
+
+def log_import_error(error: ImportError, attempted_import: str, logger_name: str = 'flowdo.imports'):
+    """
+    Log import errors with enhanced context for debugging.
+    
+    Args:
+        error: The ImportError exception
+        attempted_import: The module/package that failed to import
+        logger_name: Logger name to use
+    """
+    import traceback
+    logger = get_logger(logger_name)
+    
+    # Get the current frame to identify the calling file
+    import inspect
+    frame = inspect.currentframe()
+    caller_frame = frame.f_back if frame else None
+    caller_file = caller_frame.f_code.co_filename if caller_frame else "unknown"
+    caller_line = caller_frame.f_lineno if caller_frame else 0
+    
+    logger.error(
+        f"Import failed: {attempted_import} - {str(error)}",
+        extra={
+            'event_type': 'import_error',
+            'attempted_import': attempted_import,
+            'error_message': str(error),
+            'caller_file': caller_file,
+            'caller_line': caller_line,
+            'traceback': traceback.format_exc(),
+            'import_error': True
+        },
+        exc_info=True
     )
 
 @contextmanager

@@ -5,10 +5,16 @@ This module contains routes for task management.
 """
 
 from flask import Blueprint, jsonify, request
-from app.schemas.task import TaskCreateRequest, TaskResponse, TaskUpdateRequest
+from pydantic import ValidationError
+from app.schemas.task import (
+    TaskCreateRequest,
+    TaskFilterRequest,
+    TaskResponse,
+    TaskUpdateRequest,
+)
 from app.services.task_service import TaskService
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from database.db import db_session
+from database.db import get_db_session
 from logger import get_logger
 
 # Set up logging
@@ -22,90 +28,60 @@ task_bp = Blueprint("task", __name__, url_prefix="/api/tasks")
 @task_bp.route("", methods=["GET"])
 @jwt_required()
 def get_tasks():
+    """Get user's tasks with filtering, sorting, and pagination."""
     try:
         user_id = int(get_jwt_identity())
-        task_service = TaskService(db_session)
+        request_params = request.args.to_dict()
+        filter_params = {
+            "user_id": user_id,
+            **request_params,
+        }
+        filter_request = TaskFilterRequest(**filter_params)
 
-        # parse pagination params
-        page = int(request.args.get("page", 1))
-        page_size = min(int(request.args.get("page_size", 10)), 20)
+        with get_db_session() as session:
+            task_service = TaskService(session)
 
-        # parse sorting params
-        sort_by = request.args.get("sort_by", "created_at")
-        sort_order = request.args.get("sort_order", "desc")
-
-        # filters dict
-        filters = {}
-
-        # status filter
-        if request.args.get("status"):
-            status_list = [s.strip() for s in request.args.get("status").split(",")]
-            filters["status"] = status_list if len(status_list) > 1 else status_list[0]
-
-        # priority filter
-        if request.args.get("priority"):
-            priority_list = [p.strip() for p in request.args.get("priority").split(",")]
-            filters["priority"] = (
-                priority_list if len(priority_list) > 1 else priority_list[0]
+            # Get tasks with validated filters
+            result = task_service.get_all_tasks_for_user(
+                user_id=user_id,
+                filters=filter_request.to_service_filters(),
+                sort_by=filter_request.sort_by,
+                sort_order=filter_request.sort_order,
+                page=filter_request.page,
+                page_size=filter_request.page_size,
             )
 
-        # boolean filters
-        if request.args.get("starred"):
-            filters["starred"] = request.args.get("starred").lower() == "true"
+            return (
+                jsonify(
+                    {
+                        "tasks": [task.to_dict() for task in result["tasks"]],
+                        "pagination": {
+                            "total_count": result["total_count"],
+                            "page": result["page"],
+                            "page_size": result["page_size"],
+                            "total_pages": result["total_pages"],
+                            "has_next": result["has_next"],
+                            "has_prev": result["has_prev"],
+                        },
+                        "filters_applied": filter_request.to_service_filters(),
+                        "sort": {
+                            "sort_by": filter_request.sort_by,
+                            "sort_order": filter_request.sort_order,
+                        },
+                    }
+                ),
+                200,
+            )
 
-        if request.args.get("completed"):
-            filters["completed"] = request.args.get("completed").lower() == "true"
-
-        if request.args.get("overdue"):
-            filters["overdue"] = request.args.get("overdue").lower() == "true"
-
-        # search filter
-        if request.args.get("search"):
-            filters["search"] = request.args.get("search").strip()
-
-        # date filters
-        if request.args.get("due_date_from") or request.args.get("due_date_to"):
-            due_date_filter = {}
-            if request.args.get("due_date_from"):
-                due_date_filter["from"] = request.args.get("due_date_from").strip()
-            if request.args.get("due_date_to"):
-                due_date_filter["to"] = request.args.get("due_date_to").strip()
-            filters["due_date"] = due_date_filter
-
-        # get tasks with filters
-        result = task_service.get_all_tasks_for_user(
-            user_id=user_id,
-            filters=filters,
-            sort_by=sort_by,
-            sort_order=sort_order,
-            page=page,
-            page_size=page_size,
-        )
-        # print(result["tasks"][0].to_dict())
-        
-        # tasks = TaskResponse(**result["tasks"])
-
+    except ValidationError as e:
+        logger.warning(f"Validation error getting tasks: {e}")
         return (
-            jsonify(
-                {
-                    "tasks": [task.to_dict() for task in result["tasks"]],
-                    "pagination": {
-                        "total_count": result["total_count"],
-                        "page": result["page"],
-                        "page_size": result["page_size"],
-                        "total_pages": result["total_pages"],
-                        "has_next": result["has_next"],
-                        "has_prev": result["has_prev"],
-                    },
-                    "filters_applied": filters,
-                    "sort": {"sort_by": sort_by, "sort_order": sort_order},
-                }
-            ),
-            200,
+            jsonify({"error": "Invalid filter parameters", "details": e.errors()}),
+            400,
         )
     except Exception as e:
-        logger.warning(f"Error getting tasks: {str(e)}")
-        return jsonify({"error": str(e)}), 500
+        logger.exception("Error getting tasks")
+        return jsonify({"error": "Internal server error"}), 500
 
 
 @task_bp.route("/today", methods=["GET"])
@@ -113,14 +89,17 @@ def get_tasks():
 def get_today_tasks():
     try:
         user_id = int(get_jwt_identity())
-        task_service = TaskService(db_session)
 
-        tasks = task_service.get_today_tasks(user_id)
+        with get_db_session() as session:
+            task_service = TaskService(session)
+            tasks = task_service.get_today_tasks(user_id)
 
-        return (
-            jsonify({"tasks": [task.to_dict() for task in tasks], "count": len(tasks)}),
-            200,
-        )
+            return (
+                jsonify(
+                    {"tasks": [task.to_dict() for task in tasks], "count": len(tasks)}
+                ),
+                200,
+            )
     except Exception as e:
         logger.warning(f"Error getting today's tasks: {str(e)}")
         return jsonify({"error": "Failed to retrieve today's tasks"}), 500
@@ -131,14 +110,16 @@ def get_today_tasks():
 def get_overdue_tasks():
     try:
         user_id = int(get_jwt_identity())
-        task_service = TaskService(db_session)
+        with get_db_session() as session:
+            task_service = TaskService(session)
+            tasks = task_service.get_overdue_tasks(user_id)
 
-        tasks = task_service.get_overdue_tasks(user_id)
-
-        return (
-            jsonify({"tasks": [task.to_dict() for task in tasks], "count": len(tasks)}),
-            200,
-        )
+            return (
+                jsonify(
+                    {"tasks": [task.to_dict() for task in tasks], "count": len(tasks)}
+                ),
+                200,
+            )
     except Exception as e:
         logger.warning(f"Error getting overdue tasks: {str(e)}")
         return jsonify({"error": "Failed to retrieve overdue tasks"}), 500
@@ -149,14 +130,18 @@ def get_overdue_tasks():
 def get_starred_tasks():
     try:
         user_id = int(get_jwt_identity())
-        task_service = TaskService(db_session)
 
-        tasks = task_service.get_starred_tasks(user_id)
+        with get_db_session() as session:
+            task_service = TaskService(session)
 
-        return (
-            jsonify({"tasks": [task.to_dict() for task in tasks], "count": len(tasks)}),
-            200,
-        )
+            tasks = task_service.get_starred_tasks(user_id)
+
+            return (
+                jsonify(
+                    {"tasks": [task.to_dict() for task in tasks], "count": len(tasks)}
+                ),
+                200,
+            )
     except Exception as e:
         logger.warning(f"Error getting starred tasks: {str(e)}")
         return jsonify({"error": "Failed to retrieve starred tasks"}), 500
@@ -167,24 +152,26 @@ def get_starred_tasks():
 def search_tasks():
     try:
         user_id = int(get_jwt_identity())
-        task_service = TaskService(db_session)
 
-        search_query = request.args.get("q", "").strip()
-        if not search_query:
-            return jsonify({"error": "Search query is required"}), 400
+        with get_db_session() as session:
+            task_service = TaskService(session)
 
-        tasks = task_service.search_tasks(user_id, search_query)
+            search_query = request.args.get("q", "").strip()
+            if not search_query:
+                return jsonify({"error": "Search query is required"}), 400
 
-        return (
-            jsonify(
-                {
-                    "tasks": [task.to_dict() for task in tasks],
-                    "count": len(tasks),
-                    "query": search_query,
-                }
-            ),
-            200,
-        )
+            tasks = task_service.search_tasks(user_id, search_query)
+
+            return (
+                jsonify(
+                    {
+                        "tasks": [task.to_dict() for task in tasks],
+                        "count": len(tasks),
+                        "query": search_query,
+                    }
+                ),
+                200,
+            )
 
     except Exception as e:
         logger.warning(f"Error searching tasks: {str(e)}")
@@ -196,14 +183,22 @@ def search_tasks():
 def get_tasks_by_priorities():
     try:
         user_id = int(get_jwt_identity())
-        task_service = TaskService(db_session)
-        priority_list = [p.strip() for p in request.args.get("priority").split(",")]
-        tasks = task_service.get_tasks_by_priorities(user_id, priority_list)
+        priority_params = request.args.get("priority")
+        if not priority_params:
+            return jsonify({"error": "Priority list cannot be empty"}), 400
 
-        return (
-            jsonify({"tasks": [task.to_dict() for task in tasks], "count": len(tasks)}),
-            200,
-        )
+        priority_list = [p.strip() for p in priority_params.split(",")]
+
+        with get_db_session() as session:
+            task_service = TaskService(session)
+            tasks = task_service.get_tasks_by_priorities(user_id, priority_list)
+
+            return (
+                jsonify(
+                    {"tasks": [task.to_dict() for task in tasks], "count": len(tasks)}
+                ),
+                200,
+            )
     except Exception as e:
         logger.warning(f"Error getting tasks by priority: {str(e)}")
         return jsonify({"error": "Failed to get tasks by priority"}), 500
@@ -214,14 +209,22 @@ def get_tasks_by_priorities():
 def get_tasks_by_statuses():
     try:
         user_id = int(get_jwt_identity())
-        task_service = TaskService(db_session)
-        status_list = [s.strip() for s in request.args.get("status").split(",")]
-        tasks = task_service.get_tasks_by_statuses(user_id, status_list)
+        status_param = request.args.get("status")
+        if not status_param:
+            return jsonify({"error": "Status list cannot be empty"}), 400
 
-        return (
-            jsonify({"tasks": [task.to_dict() for task in tasks], "count": len(tasks)}),
-            200,
-        )
+        status_list = [s.strip() for s in status_param.split(",")]
+
+        with get_db_session() as session:
+            task_service = TaskService(session)
+            tasks = task_service.get_tasks_by_statuses(user_id, status_list)
+
+            return (
+                jsonify(
+                    {"tasks": [task.to_dict() for task in tasks], "count": len(tasks)}
+                ),
+                200,
+            )
     except Exception as e:
         logger.warning(f"Error getting tasks by status: {str(e)}")
         return jsonify({"error": "Failed to get tasks by status"}), 500
@@ -232,14 +235,22 @@ def get_tasks_by_statuses():
 def get_tasks_by_tags():
     try:
         user_id = int(get_jwt_identity())
-        task_service = TaskService(db_session)
-        tags_list = [t.strip() for t in request.args.get("tag").split(",")]
-        tasks = task_service.get_tasks_by_tags(user_id, tags_list)
+        tags_param = request.args.get("tag")
+        if not tags_param:
+            return jsonify({"error": "Tag list cannot be empty"}), 400
 
-        return (
-            jsonify({"tasks": [task.to_dict() for task in tasks], "count": len(tasks)}),
-            200,
-        )
+        tags_list = [t.strip() for t in tags_param.split(",")]
+
+        with get_db_session() as session:
+            task_service = TaskService(session)
+            tasks = task_service.get_tasks_by_tags(user_id, tags_list)
+
+            return (
+                jsonify(
+                    {"tasks": [task.to_dict() for task in tasks], "count": len(tasks)}
+                ),
+                200,
+            )
     except Exception as e:
         logger.warning(f"Error getting tasks by tag: {str(e)}")
         return jsonify({"error": "Failed to get tasks by tag"}), 500
@@ -250,14 +261,22 @@ def get_tasks_by_tags():
 def get_tasks_by_group():
     try:
         user_id = int(get_jwt_identity())
-        task_service = TaskService(db_session)
-        group_id = int(request.args.get("group_id"))
-        tasks = task_service.get_tasks_by_group(user_id, group_id)
+        group_param = request.args.get("group_id")
 
-        return (
-            jsonify({"tasks": [task.to_dict() for task in tasks], "count": len(tasks)}),
-            200,
-        )
+        if not group_param:
+            return jsonify({"error": "Group ID is required"}), 400
+
+        with get_db_session() as session:
+            task_service = TaskService(session)
+            group_id = int(group_param)
+            tasks = task_service.get_tasks_by_group(user_id, group_id)
+
+            return (
+                jsonify(
+                    {"tasks": [task.to_dict() for task in tasks], "count": len(tasks)}
+                ),
+                200,
+            )
     except Exception as e:
         logger.warning(f"Error getting tasks by group: {str(e)}")
         return jsonify({"error": "Failed to get tasks by group"}), 500
@@ -267,18 +286,22 @@ def get_tasks_by_group():
 @jwt_required()
 def create_task():
     try:
-        task_service = TaskService(db_session)
         payload = request.get_json(force=True)
         if not payload:
             return jsonify({"error": "Invalid request"}), 400
         task_payload = TaskCreateRequest(**payload)
-        success, message, data = task_service.create_task(task_payload)
-        if not success:
-            return jsonify({"error": message}), 400
+
+        with get_db_session() as session:
+            task_service = TaskService(session)
+            success, message, data = task_service.create_task(task_payload)
+            if not success:
+                return jsonify({"error": message}), 400
+            # Convert to dict while session is still active
+            result = data.to_dict()
+            return jsonify(result), 201
     except Exception as e:
         logger.exception("Error creating task")
         return jsonify({"error": str(e)}), 400
-    return jsonify(data.to_dict()), 201
 
 
 @task_bp.route("/<int:task_id>", methods=["PATCH"])
@@ -286,20 +309,26 @@ def create_task():
 def update_task(task_id: int):
     try:
         user_id = int(get_jwt_identity())
-        task_service = TaskService(db_session)
         payload = request.get_json(force=True)
         if not payload:
             return jsonify({"error": "Invalid request"}), 400
         task_payload = TaskUpdateRequest(**payload)
-        success, message, data = task_service.update_task(
-            task_id, int(user_id), task_payload
-        )
-        if not success:
-            return jsonify({"error": message}), 400
+        with get_db_session() as session:
+            task_service = TaskService(session)
+
+            success, message, data = task_service.update_task(
+                task_id, int(user_id), task_payload
+            )
+            if not success:
+                return jsonify({"error": message}), 400
+            if not data:
+                return jsonify({"error": "Task not found"}), 404
+            # Convert to dict while session is still active
+            result = data.to_dict()
+            return jsonify(result), 200
     except Exception as e:
         logger.exception("Error updating task")
         return jsonify({"error": str(e)}), 400
-    return jsonify(data.to_dict()), 200
 
 
 @task_bp.route("/<int:task_id>/toggle", methods=["PATCH"])
@@ -307,16 +336,23 @@ def update_task(task_id: int):
 def toggle_task_completion(task_id: int):
     try:
         user_id = int(get_jwt_identity())
-        task_service = TaskService(db_session)
-        success, message, data = task_service.toggle_task_completion(
-            task_id, int(user_id)
-        )
-        if not success:
-            return jsonify({"error": message}), 400
+
+        with get_db_session() as session:
+            task_service = TaskService(session)
+            success, message, data = task_service.toggle_task_completion(
+                task_id, int(user_id)
+            )
+            if not success:
+                return jsonify({"error": message}), 400
+
+            if not data:
+                return jsonify({"error": "Task not found"}), 404
+            # Convert to dict while session is still active
+            result = data.to_dict()
+            return jsonify(result), 200
     except Exception as e:
         logger.exception("Error toggling task completion")
         return jsonify({"error": str(e)}), 400
-    return jsonify(data.to_dict()), 200
 
 
 @task_bp.route("/<int:task_id>/star", methods=["PATCH"])
@@ -324,14 +360,24 @@ def toggle_task_completion(task_id: int):
 def toggle_task_star(task_id: int):
     try:
         user_id = int(get_jwt_identity())
-        task_service = TaskService(db_session)
-        success, message, data = task_service.toggle_task_star(task_id, int(user_id))
-        if not success:
-            return jsonify({"error": message}), 400
+
+        with get_db_session() as session:
+            task_service = TaskService(session)
+            success, message, data = task_service.toggle_task_star(
+                task_id, int(user_id)
+            )
+            if not success:
+                return jsonify({"error": message}), 400
+
+            if not data:
+                return jsonify({"error": "Task not found"}), 404
+            # Convert to dict while session is still active
+            result = data.to_dict()
+            return jsonify(result), 200
+
     except Exception as e:
         logger.exception("Error toggling task star")
         return jsonify({"error": str(e)}), 400
-    return jsonify(data.to_dict()), 200
 
 
 @task_bp.route("/<int:task_id>", methods=["DELETE"])
@@ -339,11 +385,12 @@ def toggle_task_star(task_id: int):
 def delete_task(task_id: int):
     try:
         user_id = int(get_jwt_identity())
-        task_service = TaskService(db_session)
-        success, message = task_service.delete_task(task_id, int(user_id))
-        if not success:
-            return jsonify({"error": message}), 400
+        with get_db_session() as session:
+            task_service = TaskService(session)
+            success, message = task_service.delete_task(task_id, int(user_id))
+            if not success:
+                return jsonify({"error": message}), 400
+            return jsonify({"message": message}), 200
     except Exception as e:
         logger.exception("Error deleting task")
         return jsonify({"error": str(e)}), 400
-    return jsonify({"message": message}), 200

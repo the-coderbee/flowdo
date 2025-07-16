@@ -21,6 +21,27 @@ from .group import GroupCreateRequest, GroupUpdateRequest, GroupResponse
 
 from .subtask import SubtaskCreateRequest, SubtaskUpdateRequest, SubtaskResponse
 
+from .dashboard import DashboardFilterRequest
+
+from .pomodoro import (
+    FocusSessionCreateRequest,
+    FocusSessionUpdateRequest,
+    FocusSessionResponse,
+    InterruptionLogRequest,
+    FocusSessionCreateRequest,
+    FocusSessionUpdateRequest,
+    FocusSessionResponse,
+    FocusInterruptionRequest,
+    PomodoroStatsResponse,
+    DailySummaryResponse,
+    SessionRecommendationResponse,
+    ProductivityPatternsResponse,
+    FocusStatsResponse,
+    FocusModeAnalysisResponse,
+    FocusRecommendationResponse,
+    SessionFilterRequest,
+    FocusFilterRequest,
+)
 
 __all__ = [
     "UserRegisterRequest",
@@ -43,4 +64,22 @@ __all__ = [
     "SubtaskCreateRequest",
     "SubtaskUpdateRequest",
     "SubtaskResponse",
+    "FocusSessionCreateRequest",
+    "FocusSessionUpdateRequest",
+    "FocusSessionResponse",
+    "InterruptionLogRequest",
+    "FocusSessionCreateRequest",
+    "FocusSessionUpdateRequest",
+    "FocusSessionResponse",
+    "FocusInterruptionRequest",
+    "PomodoroStatsResponse",
+    "DailySummaryResponse",
+    "SessionRecommendationResponse",
+    "ProductivityPatternsResponse",
+    "FocusStatsResponse",
+    "FocusModeAnalysisResponse",
+    "FocusRecommendationResponse",
+    "SessionFilterRequest",
+    "FocusFilterRequest",
+    "DashboardFilterRequest",
 ]

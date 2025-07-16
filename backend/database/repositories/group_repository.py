@@ -1,3 +1,4 @@
+from datetime import datetime, UTC
 from typing import List
 from .base_repository import BaseRepository
 
@@ -11,39 +12,23 @@ logger = get_logger(__name__)
 
 
 class GroupRepository(BaseRepository[Group]):
-    def __init__(self, db_session: Session):
-        super().__init__(Group)
-        self.db = db_session
+    def __init__(self, session: Session):
+        super().__init__(Group, session)
 
     def get_all_groups_for_user(self, user_id: int) -> List[Group]:
-        return self.db.query(Group).filter(Group.user_id == user_id).all()
-    
+        return self.session.query(Group).filter(Group.user_id == user_id).all()
+
     def create_group(self, group: Group) -> Group:
-        try:
-            self.db.add(group)
-            self.db.commit()
-            self.db.refresh(group)
-        except Exception as e:
-            self.db.rollback()
-            logger.error(f"Error creating group: {e}")
-            raise e
+        self.session.add(group)
+        self.session.flush()
+        self.session.refresh(group)
         return group
-    
+
     def update_group(self, group: Group) -> Group:
-        try:
-            self.db.commit()
-            self.db.refresh(group)
-        except Exception as e:
-            self.db.rollback()
-            logger.error(f"Error updating group: {e}")
-            raise e
+        group.updated_at = datetime.now(UTC)
+        self.session.flush()
+        self.session.refresh(group)
         return group
-    
+
     def delete_group(self, group: Group) -> None:
-        try:
-            self.db.delete(group)
-            self.db.commit()
-        except Exception as e:
-            self.db.rollback()
-            logger.error(f"Error deleting group: {e}")
-            raise e
+        self.session.delete(group)

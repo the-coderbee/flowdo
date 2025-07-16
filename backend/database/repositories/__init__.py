@@ -12,6 +12,10 @@ from .task_repository import TaskRepository
 from .tag_repository import TagRepository
 from .group_repository import GroupRepository
 from .subtask_repository import SubtaskRepository
+from .pomodoro_session_repository import PomodoroSessionRepository
+from .focus_session_repository import FocusSessionRepository
+from .pomodoro_stats_repository import PomodoroStatsRepository
+
 
 __all__ = [
     "BaseRepository",
@@ -21,4 +25,7 @@ __all__ = [
     "TagRepository",
     "GroupRepository",
     "SubtaskRepository",
+    "PomodoroSessionRepository",
+    "FocusSessionRepository",
+    "PomodoroStatsRepository",
 ]

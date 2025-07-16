@@ -93,23 +93,22 @@ def setup_jwt_handlers(jwt):
         """Check if token has been revoked."""
         try:
             from database.models.user_token import UserToken
-            from database.db import db_session
+            from database.db import get_db_session
 
             jti = jwt_payload["jti"]
 
-            # Query directly using the scoped session - no repository needed for simple check
-            user_token = (
-                db_session.query(UserToken).filter(UserToken.jti == jti).first()
-            )
-            is_revoked = bool(user_token and getattr(user_token, "revoked", False))
+            with get_db_session() as session:
+                user_token = (
+                    session.query(UserToken).filter(UserToken.jti == jti).first()
+                )
+                is_revoked = bool(user_token and getattr(user_token, "revoked", False))
 
-            if is_revoked:
-                logger.info(f"Revoked token attempted access: {jti[:8]}...")
+                if is_revoked:
+                    logger.info(f"Revoked token attempted access: {jti[:8]}...")
 
-            return is_revoked
+                return is_revoked
         except Exception as e:
             logger.error(f"Error checking token revocation: {e}")
-            # On error, assume token is valid to avoid blocking legitimate users
             return False
 
     @jwt.revoked_token_loader
@@ -165,7 +164,20 @@ def register_blueprints(app):
         app.register_blueprint(subtask_bp)
         logger.info("Subtask blueprint registered")
 
+        # New Pomodoro and Focus blueprints
+        from app.routers.pomodoro import pomodoro_bp
+
+        app.register_blueprint(pomodoro_bp)
+        logger.info("Pomodoro blueprint registered")
+
+        from app.routers.focus import focus_bp
+
+        app.register_blueprint(focus_bp)
+        logger.info("Focus blueprint registered")
+
     except ImportError as e:
+        from logger import log_import_error
+        log_import_error(e, "blueprint modules (auth, dashboard, task, subtask, tag, group, analytics, pomodoro, focus)")
         logger.error(f"Failed to import blueprint: {e}")
         raise
     except Exception as e:

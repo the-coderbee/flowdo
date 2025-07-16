@@ -11,8 +11,10 @@ class Group(BaseModel):
 
     # Base class already defines id
     name: Mapped[str] = mapped_column(String(255))
-    color: Mapped[Optional[str]] = mapped_column(String(7), default="#3b82f6", nullable=True)
+    color: Mapped[Optional[str]] = mapped_column(
+        String(7), default="#3b82f6", nullable=True
+    )
     user_id: Mapped[int] = mapped_column(Integer, ForeignKey("users.id"))
 
-    tasks: Mapped[List["Task"]] = relationship("Task", back_populates="group")
+    tasks: Mapped[List["Task"]] = relationship("Task", back_populates="group")  # type: ignore
     user: Mapped["User"] = relationship("User", back_populates="groups")

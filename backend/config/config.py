@@ -93,7 +93,7 @@ class Config:
     
     # Logging settings
     LOG_LEVEL = os.environ.get("LOG_LEVEL", "INFO")
-    LOG_FORMAT = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    LOG_FORMAT = '%(asctime)s - %(name)s - %(levelname)s - [%(filename)s:%(lineno)d] - %(message)s'
     LOG_DATE_FORMAT = '%Y-%m-%d %H:%M:%S'
     LOG_FILE = LOGS_DIR / 'app.log'
     

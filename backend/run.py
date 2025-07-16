@@ -64,6 +64,8 @@ def main():
         logger.info("Application shutdown requested by user")
         sys.exit(0)
     except ImportError as e:
+        from logger import log_import_error
+        log_import_error(e, "application dependencies")
         logger.error(f"Import error: {e}")
         logger.error("Make sure all dependencies are installed: pip install -r requirements.txt")
         sys.exit(1)

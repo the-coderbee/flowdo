@@ -1,5 +1,3 @@
-
-
 from pydantic import BaseModel
 
 
@@ -15,8 +13,9 @@ class TagUpdateRequest(BaseModel):
     color: str
     user_id: int
 
+
 class TagResponse(BaseModel):
-    
+
     id: int
     name: str
     color: str

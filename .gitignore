@@ -52,3 +52,5 @@ claude.md
 
 backend/logs/
 *.txt
+.vscode/
+*/**/db_reset.py
